@@ -1,0 +1,121 @@
+@import url('https://fonts.googleapis.com/css2?family=Encode+Sans&family=Nunito+Sans:opsz,wght@6..12,300&display=swap');
+
+.signup-root {
+    padding: 0;
+    margin: 0;
+    font-family: 'Encode Sans', sans-serif;
+    /* font-family: 'Nunito Sans', sans-serif; */
+    box-sizing: border-box;
+    color:red;
+}
+
+input {
+    height: 40px;
+    width: 400px;
+    text-align: left;
+    padding-left: 10px;
+    font-size: 1rem;
+    border: solid #ccc 1px;
+    border-radius: 10px;
+}
+
+input:focus {
+    outline: none;
+}
+
+.signup-btn {
+    margin-top: 10px;
+    width: 400px;
+    /* Set the width to 100% to occupy the container's full width */
+    /* Add a maximum width to prevent excessive stretching */
+    height: 40px;
+    font-size: 1rem;
+    border-radius: 10px;
+    background-color: rgb(15, 12, 20);
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+
+.signup-mainbody {
+    height: 100vh;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    flex-direction: row;
+    gap: 100px;
+}
+
+.signup-image-container {
+    height: 100vh;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.signup-image-container img {
+    width: 400px;
+}
+
+.signup-title {
+    text-align: center;
+    font-size: 1.8rem;
+}
+
+.signup-form {
+    margin-top: 15px;
+}
+.login-form {
+    flex-direction: column;
+    margin-top :30px;
+    gap: 20px;
+}
+.signup-form form {
+    flex-direction: column;
+    gap: 10px;
+}
+
+.form-el {
+    /* padding: 5px 10px; */
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-weight: 600;
+    text-align: left;
+    margin-bottom: 0px;
+}
+
+p {
+    margin: 10px;
+    text-align: left;
+}
+
+.google-btn button {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    min-width: 400px;
+    height: 40px;
+    font-weight: 700;
+    font-size: 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    gap: 0.75rem;
+    color: rgb(65, 63, 63);
+    background-color: #fff;
+    cursor: pointer;
+}
+  
+.google-btn svg {
+    height: 4px;
+}
+
+.or{
+    margin: 8px;
+    text-align: center;
+    font-weight: 800;
+    text-transform: uppercase;
+}

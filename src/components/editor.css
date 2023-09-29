@@ -1,0 +1,37 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+.flex{
+    display:flex
+}
+.editor-options{
+    background-color: var(--primary-bg-color);
+}
+.editor-container{
+    left:36vw;
+    position:absolute;
+    width: 62vw;
+    top:0;
+    margin-top:10vh;
+    list-style: none;
+}
+.select{
+    color: blue;
+    width: 200px;
+}
+.problem-container{
+    background-color: var(--primary-bg-color);
+    color: white;
+    border: solid;
+    width:35vw;
+    /* margin-top:10vh; */
+    margin: 0;
+    height: 90vh;
+    font-size: 1rem;
+    text-align: justify;
+}
+
+.editor-container .lang-list{
+    flex-direction: column;
+}
