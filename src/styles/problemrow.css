@@ -1,0 +1,12 @@
+.problemrow{
+    width:900px;
+    border:solid black 0.1px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 50px;
+    margin:10px;
+    /* padding-inline: 50px; */
+}
+.problem-right{
+    gap:50px;
+}

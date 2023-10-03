@@ -15,8 +15,8 @@ export default function Navbar() {
                 <div>
                     <ul>
                         <li class="list"><a class="lista">Practice</a></li>
-                        <li class="list"><a class="lista">Tournments</a></li>
-                        <li class="list"><a class="lista">Tests</a></li>
+                        {/* <li class="list"><a class="lista">Tournments</a></li>
+                        <li class="list"><a class="lista">Tests</a></li> */}
                         <li class="list">
                             <div className="dropdown listb">
                                 <i class="fa-solid fa-user fa-lg"></i><div class="dropdown-content">

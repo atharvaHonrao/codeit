@@ -1,4 +1,4 @@
-import React, { useState, onChange } from "react";
+import React, { useState, onChange, useEffect } from "react";
 import CodeMirror from "@uiw/react-codemirror";
 import { vscodeDark } from "@uiw/codemirror-theme-vscode";
 import { pythonLanguage } from "@codemirror/lang-python";
@@ -6,12 +6,33 @@ import { cppLanguage } from "@codemirror/lang-cpp";
 import { javaLanguage } from "@codemirror/lang-java";
 import "./editor.css"
 import Select from 'react-select';
+import { signOut } from "firebase/auth";
+import Problem from "./problem";
+import Navbar from "./navbar/navbar";
+import { useParams } from "react-router-dom";
+import { db } from '../utilities/firebase'
+import { collection, getDocs, getDoc, doc } from "firebase/firestore";
 
 
 
-function Editor() {
+function Editor({title, description}) {
+  const {id} = useParams()
   const [langcode, setLangCode] = useState(54)
   const [langextension, setLangExtension] = useState(cppLanguage)
+  const [problem, setProblem] = useState({})
+
+  useEffect(() => {
+      // get doc from firebase
+      const fetchQuestions = async () => {
+        const docRef = doc(db, "problems", id);
+        const docSnap = await getDoc(docRef);
+        console.log(docSnap) //
+        console.log('afhuwshfu')
+        // debugger
+        setProblem(docSnap.data())
+    }
+    fetchQuestions()
+  }, [])
 
   const langs = [
     { value: 50, label: "C" },
@@ -101,8 +122,13 @@ function Editor() {
         }
       })
   }
-
+  console.log(title)
   return (
+    <>
+    <Navbar/>
+    <Problem title={problem.title} description={problem.description} 
+    // expOutput={props.expOutput} input={props.input}
+    />
     <div className="editor-container">
       <div>
         <div className="editor-options">
@@ -121,7 +147,16 @@ function Editor() {
         <h3>Output</h3>
         <span style={{ "whiteSpace": "pre-wrap" }}>{output}</span>
       </div>
-    </div>
+      <button onClick={
+        async () => {
+          signOut(auth).then(() => {
+            console.log("Signed out")
+          }).catch((error) => {
+            // An error happened.
+          });
+      }}>Signout</button>
+      {/* <p>{props.title}</p> */}
+    </div></>
   );
 }
 

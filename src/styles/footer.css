@@ -1,0 +1,74 @@
+*{
+    font-family: 'Poppins', sans-serif;
+    margin:0; padding:0;
+    box-sizing: border-box;
+    outline: none; border: none;
+    text-decoration: none;
+    text-transform: capitalize;
+    transition: all .2s linear;
+    transition: width none;
+}
+
+.footer .box-container{
+    display: flex;
+    /* display: grid; */
+    justify-content: center;
+    align-items: start;
+    /* grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr)); */
+    gap: 15rem;
+    text-align: left;
+}
+
+.footer .box-container .box h3{
+    font-size: 1.375rem;
+    color: #444;
+    padding: 1rem 0;
+    overflow-x: hidden;
+    scroll-padding-top: 5rem;
+    scroll-behavior: smooth;
+}
+
+.footer .box-container .box a{
+    display: block;
+    font-size: 0.875rem;
+    color: #666;
+    padding: 1rem 0;
+    overflow-x: hidden;
+    scroll-padding-top: 5rem;
+    scroll-behavior: smooth;
+}
+
+.footer .box-container .box a i{
+    color: #8075FF;
+    padding-right: .5rem;
+}
+
+.footer .box-container .box a:hover i{
+    color: #6320EE;
+    padding-right: 2rem;
+}
+
+.footer .box-container .box .map{
+    width: 300px;
+    height: 300px;
+}
+
+.footer .share{
+    padding: 1rem 0;
+    text-align: center;
+}
+
+.footer .share a{
+    height: 5rem;
+    width: 5rem;
+    line-height: 5rem;
+    font-size: 2rem;
+    color: #ffffff;
+    background: #8075FF;
+    margin: 0 .3rem;
+    border-radius: 50%;
+}
+
+.footer .share a:hover{
+    background: #6320EE;
+}

@@ -1,0 +1,16 @@
+.pricing {
+    margin: 50px;
+    color: white;
+}
+
+.pricing-header {
+    padding-bottom: 25px;
+}
+
+.pricing-model {
+    width: 541px;
+    height: 313px;
+    border: 20px solid white;
+    border-radius: 3px;
+    padding-bottom: 25px;
+}

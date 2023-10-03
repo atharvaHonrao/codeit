@@ -1,23 +1,30 @@
 import "./editor.css"
-export default function Problem() {
-    let problemobject = {
-        name: "Stack in C",
-        discription: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis facilis, unde recusandae atque iusto vel quisquam debitis dolores hic est vitae repellat officia tempore similique ab suscipit. Repudiandae, repellat aspernatur.",
-        images: "",//path will be given
-    }
+import { collection, getDoc, doc} from "firebase/firestore";
+import {db} from '../utilities/firebase.js'
+import { useState } from "react";
 
+
+export default function Problem(props) {
     return (
-        <ProblemCode name={problemobject.name} discription={problemobject.discription} ></ProblemCode>
+        <ProblemCode name={props.title} description={props.description} ></ProblemCode>
     )
 
 
     function ProblemCode(props) {
+        console.log("hereeee")
+        console.log(props)
         return (
             <div className="problem-container">
+                {/* <h1>rhwfgvbwhihjb</h1> */}
                 <h1>{props.name}</h1>
-                <p>{props.discription}</p>
-                <p>{props.image}</p>
+                
+                <p>{props.description}</p>
+                {/* <p>{props.image}</p> */}
             </div>
         )
     }
+
+
 }
+
+

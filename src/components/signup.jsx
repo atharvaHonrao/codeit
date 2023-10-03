@@ -1,15 +1,20 @@
 import React, { useState } from 'react';
 import mainImg from '../assets/codeit-logo.png'
-import './signup.css'
+import '../styles/signup.css'
+import { register } from '../utilities/Register';
+import { useNavigate } from 'react-router-dom';
+import { auth } from "../utilities/firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 
 export default function Signup() {
     const [formData, setFormData] = useState({
-        name: '',
+        // name: '',
         email: '',
         password: '',
         confirmPassword: '',
     });
+    const navigate = useNavigate();
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -19,36 +24,66 @@ export default function Signup() {
         }));
     };
 
-    const handleSubmit = async (event) => {
-
-        event.preventDefault();
-        const { name, email, password, confirmPassword } = formData;
-
-        let postReq = await fetch("/register",
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    name, email, password, confirmPassword
-                }
-                )
+    const validatePassword = (password, confirmPassword) => {
+        let isValid = true;
+        if (password !== "" && confirmPassword !== "") {
+          if (password !== confirmPassword) {
+            isValid = false;
+            console.log("Passwords does not match");
+          //   setError("Passwords does not match");
+          }
+        }
+        return isValid;
+      };
+      
+      const register = (email, password, confirmPassword,e) => {
+      //   e.preventDefault();
+      //   setError("");
+        if (validatePassword(password, confirmPassword)) {
+          // Create a new user with email and password using firebase
+          createUserWithEmailAndPassword(auth, email, password)
+            .then((res) => {
+              console.log(res.user);
+              alert("User registered successfully!\nPlease login to continue");
+              useNavigate("/login");
             })
+            .catch((err) => alert("Registration Failed"));
+        }
+      //   setEmail("");
+      //   setPassword("");
+      //   setConfirmPassword("");
+      };
 
-        console.log("hiiii")
+    // const handleSubmit = async (event) => {
 
-        let res = await postReq.json()
+    //     event.preventDefault();
+    //     const { name, email, password, confirmPassword } = formData;
 
-        // if (res.status === 442) {
-        //     console.log("wrong")
-        // }
-        // else {
-        //     console.log("correct")
-        // }
-        // }
-        console.log('Form data submitted:', formData);
-    };
+    //     let postReq = await fetch("/register",
+    //         {
+    //             method: "POST",
+    //             headers: {
+    //                 "Content-Type": "application/json"
+    //             },
+    //             body: JSON.stringify({
+    //                 name, email, password, confirmPassword
+    //             }
+    //             )
+    //         })
+
+    //     console.log("hiiii")
+
+    //     let res = await postReq.json()
+
+    //     // if (res.status === 442) {
+    //     //     console.log("wrong")
+    //     // }
+    //     // else {
+    //     //     console.log("correct")
+    //     // }
+    //     // }
+    //     console.log('Form data submitted:', formData);
+    // };
 
     return (
         <div className='signup-mainbody flex signup-root'>
@@ -63,9 +98,13 @@ export default function Signup() {
             <div className="signup-container">
                 <h2 className='signup-title'>Create your account </h2>
                 <div className='signup-form'>
-                    <form onSubmit={handleSubmit} className="flex">
+                    <form onSubmit={() => {
+                        register(formData.email, formData.password, formData.confirmPassword)
+                        navigate('/editor')
+                    }
+                    } className="flex">
                         <div className='form-el'>
-                            <label htmlFor="name">Name:</label>
+                            {/* <label htmlFor="name">Name:</label>
                             <input
                                 placeholder='Enter Your Name'
                                 type="text"
@@ -74,7 +113,7 @@ export default function Signup() {
                                 value={formData.name}
                                 onChange={handleInputChange}
                                 required
-                            />
+                            /> */}
                         </div>
                         <div className='form-el'>
                             <label htmlFor="email">Email Address:</label>
