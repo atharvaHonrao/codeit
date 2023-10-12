@@ -16,6 +16,7 @@ import { collection, getDocs, getDoc, doc } from "firebase/firestore";
 
 
 function Editor({title, description}) {
+  
   const {id} = useParams()
   const [langcode, setLangCode] = useState(54)
   const [langextension, setLangExtension] = useState(cppLanguage)
@@ -66,7 +67,7 @@ function Editor({title, description}) {
 
   let data = JSON.stringify({
     source_code: code,
-    language_id: "71",  // should be dynamic
+    language_id: langcode,  // should be dynamic
     number_of_runs: null,
     stdin: null, // should be dynamic
     expected_output: null, // should be dynamic
@@ -145,16 +146,16 @@ function Editor({title, description}) {
       <button onClick={handleButtonClick}>Submit</button>
       <div>
         <h3>Output</h3>
-        <span style={{ "whiteSpace": "pre-wrap" }}>{output}</span>
+        <div style={{ "whiteSpace": "pre-wrap", "backgroundColor": "black", 'color': 'white',  'height': 300, 'width': 700}}>{output}</div>
       </div>
-      <button onClick={
+      {/* <button onClick={
         async () => {
           signOut(auth).then(() => {
             console.log("Signed out")
           }).catch((error) => {
             // An error happened.
           });
-      }}>Signout</button>
+      }}>Signout</button> */}
       {/* <p>{props.title}</p> */}
     </div></>
   );
