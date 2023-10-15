@@ -1,5 +1,6 @@
 // import './App.css';
 // import './components/editor.css';
+import GroupPage from './pages/groupPage';
 import Editor from './components/editor';
 import Navbar from './components/navbar/navbar';
 import Signup from './components/signup';
@@ -20,6 +21,10 @@ import {onAuthStateChanged} from 'firebase/auth'
 import Dashboard from './components/Dashboard';
 import LandingPage from './components/LandingPage';
 import SelectProblem from './components/SelectProblem';
+import Portal from './pages/Portal';
+import PostLoginDashboard from './pages/PostLoginDashboard';
+import AdminLand from './pages/AdminLand';
+import UserGroupLanding from './pages/UserGroupLanding';
 
 
 // Initialize Firebase
@@ -162,13 +167,16 @@ function App() {
             </Route>
             <Route exact path="/login" element={<Login />}>
             </Route>
-            <Route exact path="/login" element={<Login />}>
+            <Route exact path="/portal" element={<Portal />}>
             </Route>
             <Route exact path="/dashboard" element={
-              currentUser != null ? <SelectProblem/> : <Login/>
+              currentUser != null ? <PostLoginDashboard/> : <Login/>
             }>
             </Route>
             <Route path="/editor/:id" element={<Editor/>}/>
+            <Route path="/group/:id" element={<GroupPage/>}/>
+            <Route path="/user" element={<UserGroupLanding/>}/>
+            <Route path="/practice" element={<SelectProblem/>}/>
 
             {/* <Route exact path="/signin" element={<SignIn />}> */}
             {/* </Route> */}

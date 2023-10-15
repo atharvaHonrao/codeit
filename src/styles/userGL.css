@@ -1,0 +1,66 @@
+.header-container {
+    background-image: url('../images/group.png');
+    display: flex;
+    justify-content: left;
+    height: 75vh;
+}
+
+.namedesc {
+    display: flex;
+    flex-direction: column;
+    /* justify-content: start; */
+    align-items: flex-start;
+}
+
+.gname {
+    font-weight: bold;
+    font-size: 50px;
+    padding: 0 20px;
+    margin-block: 10px;
+}
+
+.main-container {
+    display: flex;
+    justify-content: space-evenly;
+} 
+
+.topic {
+    font-weight: bold;
+    font-size: 25px;
+    padding: 0 20px;
+    margin-block: 30px;   
+}
+
+.description {
+    padding: 0 20px;
+    margin-block: 10px;   
+    text-transform: none;
+}
+
+.problemrow1{
+    width:1000px;
+    border:solid black 0.1px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 50px;
+    margin:10px;
+    /* padding-inline: 50px; */
+}
+.problem-right{
+    gap:50px;
+}
+
+.submit {
+    background-color: black;
+    color: white;
+    border-radius: 20px;
+    padding: 10px 20px;
+}
+
+.action-buttons {
+    background-color: black;
+    color: white;
+    border-radius: 20px;
+    padding: 10px 20px;
+    margin: 0 15px;
+}

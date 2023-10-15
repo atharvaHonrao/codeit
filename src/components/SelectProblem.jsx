@@ -5,10 +5,12 @@ import '../styles/selectProblem.css'
 import { useAuthValue } from '../utilities/AuthContext';
 import { db } from '../utilities/firebase'
 import { collection, getDocs } from "firebase/firestore";
-
+import { signOut } from "firebase/auth";
+import { auth } from '../utilities/firebase';
 
 
 const SelectProblem = () =>  {
+    const {currentUser} = useAuthValue()
 
     const [questions, setQuestions] = useState([])
     useEffect(() => {
@@ -19,12 +21,26 @@ const SelectProblem = () =>  {
         const docs = querySnapshot.docs.map(doc => doc)
         setQuestions(docs)
     }
-    fetchQuestions()
+    return fetchQuestions
     }, [])
+
+    const logOut = () => {
+        signOut(auth).then(() => {
+          console.log("Signed out")
+          alert("Signed out")
+        }).catch((error) => {
+          alert("Error Signing out")
+        });
+        console.log("Signed out")
+    }
+    
+    console.log(currentUser)
 
     return (
         <>
             <Navbar />
+            {/* <h1>Hello {currentUser.displayName}</h1> */}
+            <button onClick={logOut}>Log Out</button>
             <div className="searchbar">
                 <input placeholder='Search for any problem here' />
             </div>

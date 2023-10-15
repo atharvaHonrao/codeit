@@ -5,11 +5,14 @@ import { register } from '../utilities/Register';
 import { useNavigate } from 'react-router-dom';
 import { auth } from "../utilities/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { db } from "../utilities/firebase";
+import { collection, addDoc } from "firebase/firestore";
+
 
 
 export default function Signup() {
     const [formData, setFormData] = useState({
-        // name: '',
+        name: '',
         email: '',
         password: '',
         confirmPassword: '',
@@ -27,32 +30,40 @@ export default function Signup() {
     const validatePassword = (password, confirmPassword) => {
         let isValid = true;
         if (password !== "" && confirmPassword !== "") {
-          if (password !== confirmPassword) {
-            isValid = false;
-            console.log("Passwords does not match");
-          //   setError("Passwords does not match");
-          }
+            if (password !== confirmPassword) {
+                isValid = false;
+                console.log("Passwords does not match");
+                //   setError("Passwords does not match");
+            }
         }
         return isValid;
-      };
-      
-      const register = (email, password, confirmPassword,e) => {
-      //   e.preventDefault();
-      //   setError("");
-        if (validatePassword(password, confirmPassword)) {
-          // Create a new user with email and password using firebase
-          createUserWithEmailAndPassword(auth, email, password)
-            .then((res) => {
-              console.log(res.user);
-              alert("User registered successfully!\nPlease login to continue");
-              useNavigate("/login");
-            })
-            .catch((err) => alert("Registration Failed"));
+    };
+
+    const register = (e) => {
+          e.preventDefault();
+        //   setError("");
+        if (validatePassword(formData.password, formData.confirmPassword)) {
+            // Create a new user with email and password using firebase
+            createUserWithEmailAndPassword(auth, formData.email, formData.password)
+                .then( async (res) => {
+                    const docRef = await addDoc(collection(db, "users"), {
+                        name: res.user.displayName,
+                        email: res.user.email,
+                        tier: "free",
+                        uid: res.user.uid,
+                    });
+                    debugger
+                    console.log("Document written with ID: ", docRef.id);
+                    console.log(res.user);
+                    alert("User Created Successfully. Please Login to continue")
+                    navigate("/login");
+                })
+                .catch((err) => alert("Registration Failed"));
         }
-      //   setEmail("");
-      //   setPassword("");
-      //   setConfirmPassword("");
-      };
+        //   setEmail("");
+        //   setPassword("");
+        //   setConfirmPassword("");
+    };
 
     // const handleSubmit = async (event) => {
 
@@ -98,11 +109,7 @@ export default function Signup() {
             <div className="signup-container">
                 <h2 className='signup-title'>Create your account </h2>
                 <div className='signup-form'>
-                    <form onSubmit={() => {
-                        register(formData.email, formData.password, formData.confirmPassword)
-                        navigate('/editor')
-                    }
-                    } className="flex">
+                    <form onSubmit={register} className="flex">
                         <div className='form-el'>
                             {/* <label htmlFor="name">Name:</label>
                             <input
@@ -114,6 +121,18 @@ export default function Signup() {
                                 onChange={handleInputChange}
                                 required
                             /> */}
+                        </div>
+                        <div className='form-el'>
+                            <label htmlFor="email">Name:</label>
+                            <input
+                                placeholder='Enter your Name'
+                                type="name"
+                                id="name"
+                                name="name"
+                                value={formData.name}
+                                onChange={handleInputChange}
+                                required
+                            />
                         </div>
                         <div className='form-el'>
                             <label htmlFor="email">Email Address:</label>
@@ -151,7 +170,7 @@ export default function Signup() {
                                 required
                             />
                         </div>
-                        <button class="signup-btn" type="submit">SignUp</button>
+                        <button className="signup-btn" type="submit">SignUp</button>
                     </form>
                     <h4 className='or'> or </h4>
                     <div className='google-btn'>

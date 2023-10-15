@@ -3,7 +3,7 @@ import {getAuth} from 'firebase/auth'
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyDCEcW8AI3hgIN3P9LN1DTAfp8H0usk-zA",
+    apiKey: import.meta.env.VITE_APP_API_KEY,
     authDomain: "codeit-bd909.firebaseapp.com",
     projectId: "codeit-bd909",
     storageBucket: "codeit-bd909.appspot.com",
