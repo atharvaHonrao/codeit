@@ -20,6 +20,7 @@ import {onAuthStateChanged} from 'firebase/auth'
 import Dashboard from './components/Dashboard';
 import LandingPage from './components/LandingPage';
 import SelectProblem from './components/SelectProblem';
+import TestForm from './pages/createTest';
 
 
 // Initialize Firebase
@@ -162,7 +163,7 @@ function App() {
             </Route>
             <Route exact path="/login" element={<Login />}>
             </Route>
-            <Route exact path="/login" element={<Login />}>
+            <Route exact path="/test" element={<TestForm/>}>
             </Route>
             <Route exact path="/dashboard" element={
               currentUser != null ? <SelectProblem/> : <Login/>

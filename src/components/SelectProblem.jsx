@@ -6,8 +6,6 @@ import { useAuthValue } from '../utilities/AuthContext';
 import { db } from '../utilities/firebase'
 import { collection, getDocs } from "firebase/firestore";
 
-
-
 const SelectProblem = () =>  {
 
     const [questions, setQuestions] = useState([])
@@ -29,13 +27,9 @@ const SelectProblem = () =>  {
                 <input placeholder='Search for any problem here' />
             </div>
             <div className='problemrow-container'>
-                {/* <ProblemInSelection classname='problemrow' title='Stack in c' difficulty='easy' description='Implement stack with using pointers and arrays' />
-                <ProblemInSelection classname='problemrow' title='Stack in c' difficulty='easy' description='Implement stack with using pointers and arrays' />
-                <ProblemInSelection classname='problemrow' title='Stack in c' difficulty='easy' description='Implement stack with using pointers and arrays' />
-                <ProblemInSelection classname='problemrow' title='Stack in c' difficulty='easy' description='Implement stack with using pointers and arrays' /> */}
 
                 {questions.map((doc) => {
-                    console.log(doc.id)
+                    // console.log(doc.id)
                                   return  <ProblemInSelection id={doc.id} classname='problemrow' title={doc.data().title} difficulty='easy' description={doc.data().description} />
                 })}
             </div>

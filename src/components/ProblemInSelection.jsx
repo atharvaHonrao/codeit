@@ -15,8 +15,8 @@ const navigate = useNavigate();
                 {/* <h3>{props.difficulty}</h3> */}
                 <button onClick={() => {
                     navigate(`/editor/${props.id}`,
-                    //  { state: { title: props.title, description: props.description, expOutput: props.expOutput, input: props.input} 
-                    // }
+                     { state: { title: props.title, description: props.description, expOutput: props.expOutput, input: props.input} 
+                    }
                     );
                 }}>Solve Now!</button>
             </div>

@@ -9,31 +9,35 @@ import Select from 'react-select';
 import { signOut } from "firebase/auth";
 import Problem from "./problem";
 import Navbar from "./navbar/navbar";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { db } from '../utilities/firebase'
-import { collection, getDocs, getDoc, doc } from "firebase/firestore";
+import { collection, getDocs, getDoc, doc,addDoc } from "firebase/firestore";
 
 
 
 function Editor({title, description}) {
-  
+
   const {id} = useParams()
   const [langcode, setLangCode] = useState(54)
   const [langextension, setLangExtension] = useState(cppLanguage)
   const [problem, setProblem] = useState({})
 
   useEffect(() => {
-      // get doc from firebase
-      const fetchQuestions = async () => {
-        const docRef = doc(db, "problems", id);
-        const docSnap = await getDoc(docRef);
-        console.log(docSnap) //
-        console.log('afhuwshfu')
-        // debugger
-        setProblem(docSnap.data())
-    }
-    fetchQuestions()
+  //     // get doc from firebase
+  //     const fetchQuestions = async () => {
+  //       const docRef = doc(db, "problems", id);
+  //       const docSnap = await getDoc(docRef);
+  //       console.log(docSnap) //
+  //       console.log('afhuwshfu')
+  //       // debugger
+  //       setProblem(docSnap.data())
+  //   }
+  //   fetchQuestions()
+  console.log(Location.state)
   }, [])
+
+  const Location = useLocation()
+
 
   const langs = [
     { value: 50, label: "C" },
@@ -55,8 +59,10 @@ function Editor({title, description}) {
     console.log(langextension)
   }
   const [code, setCode] = useState("");
-
+  const [status, setStatus] = useState("Not Submitted")
   const [output, setOutput] = useState("");
+
+  const expOutput = "Hello World"
 
   const handleChange = React.useCallback(
     (value, viewUpdate) => {
@@ -70,7 +76,7 @@ function Editor({title, description}) {
     language_id: langcode,  // should be dynamic
     number_of_runs: null,
     stdin: null, // should be dynamic
-    expected_output: null, // should be dynamic
+    expected_output: expOutput, // should be dynamic
     cpu_time_limit: null,
     cpu_extra_time: null,
     wall_time_limit: null,
@@ -101,6 +107,24 @@ function Editor({title, description}) {
 
   };
 
+  const handleSubmit = async () => {
+
+
+    console.log(options)
+    // let postRequest = fetch("http://codeit.ddns.net:2358/submissions", options)
+
+    // postRequest.then((response) => response.json()).then((json) => checkStatusAndHandleResponse(json.token))
+
+
+    // console.log("after math")
+
+
+    const docRef1 = await addDoc(collection(db, "groups", "BhGrVWAmUjxXnm6CaqtE", "test", "nAoCyOlJXcl9TvBBe6hf" , "problems","tyxBeUWHX3n8KU5WpQ8N","code"), {
+      code:code,
+  });
+
+  }
+
   function checkStatusAndHandleResponse(token) {
     console.log("hi")
 
@@ -112,6 +136,7 @@ function Editor({title, description}) {
     })
       .then((answer) => {
         console.log(answer.status.description)
+        setStatus(answer.status.description)
         if (answer.status.description == "In Queue" || answer.status.description == "Processing") {
           setTimeout(() => checkStatusAndHandleResponse(token), 1500)
         } else if (answer.status.description == "Error") {
@@ -127,7 +152,7 @@ function Editor({title, description}) {
   return (
     <>
     <Navbar/>
-    <Problem title={problem.title} description={problem.description} 
+    <Problem title={Location.state.title} description={Location.state.description} 
     // expOutput={props.expOutput} input={props.input}
     />
     <div className="editor-container">
@@ -143,10 +168,12 @@ function Editor({title, description}) {
           theme={vscodeDark}
         />
       </div>
-      <button onClick={handleButtonClick}>Submit</button>
+      <button onClick={handleButtonClick}>Run</button>
+      <button onClick={handleSubmit}>Submit</button>
       <div>
         <h3>Output</h3>
-        <div style={{ "whiteSpace": "pre-wrap", "backgroundColor": "black", 'color': 'white',  'height': 300, 'width': 700}}>{output}</div>
+        <h2>Status : {status}</h2>
+        <div style={{ "whiteSpace": "pre-wrap", "backgroundColor": "black", 'color': 'white',  'height': 100, 'width': 700}}>{output}</div>
       </div>
       {/* <button onClick={
         async () => {
