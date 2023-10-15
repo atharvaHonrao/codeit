@@ -7,13 +7,16 @@ import { getDoc, doc } from 'firebase/firestore'
 
 
 export default function GroupPage() {
-
     const {currentUser} = useAuthValue()
+    const id = useParams()
     const checkGroupAuth = async () => {
         console.log(currentUser)
         if(currentUser === null) return("Please sign in")
         debugger
-        const groupRef = await getDoc(doc(db, "groups", `${groupId}`));
+        // const groupRef = await getDoc(doc(db, "groups", `${id}`));
+        const groupDoc = doc(db, "groups", `${id}`); // Construct the document reference correctly
+
+        const groupRef = await getDoc(groupDoc);
         if(groupRef.adminId === currentUser.uid) {
           return "Admin";
         }
@@ -27,7 +30,7 @@ export default function GroupPage() {
 
 
     const [groupAuth, setGroupAuth] = useState("") // ["Admin", "Member", "Not a member"
-    const id = useParams()
+
 
     useEffect(() => {
         const fetchAuth = async () => {
