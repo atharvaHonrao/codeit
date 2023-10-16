@@ -1,7 +1,7 @@
 import React from 'react'
 import '../styles/postlogindb.css'
 import { useState } from 'react'
-import CreateGroup from './CreateGroup'
+import CreateGroup from '../components/CreateGroup'
 import { useNavigate } from 'react-router-dom'
 import { useAuthValue } from '../utilities/AuthContext'
 import { db } from '../utilities/firebase'
@@ -13,7 +13,7 @@ import { useStateWithCallbackLazy } from 'use-state-with-callback'
 
 function PostLoginDashboard() {
   const [isGroupVisible, setGroupVisible] = useState(false)
-  const [listOfGroupNames, setListOfGroupNames] = useState([])
+  const [listOfGroupNames, setListOfGroupNames] = useState([[]])
 
   const navigate = useNavigate()
   const { currentUser } = useAuthValue()
@@ -55,14 +55,13 @@ function PostLoginDashboard() {
         groupsJoined: docSnap.data().groupJoined,
         groupAdmin: docSnap.data().groupAdmin
         // ...docSnap.data()
-      }, (user) => {
+      }, (user2) => {
         console.log("state updated yayyaya")
-        console.log(user)
-        if(user.name){
-        
-          let a = Object.values(user.groupsJoined)
-          console.log(a)
-          setListOfGroupNames(a)
+        console.log(user2)
+        if(user2.name){
+          const arrayOfObjects = Object.entries(user2.groupsJoined);
+          console.log(arrayOfObjects)
+          setListOfGroupNames([...listOfGroupNames, arrayOfObjects])
         }
       })
 
@@ -125,10 +124,11 @@ function PostLoginDashboard() {
               </tr>
             </thead>
             <tbody>
-              {listOfGroupNames.map((group) => {
-                return <tr key={group}>
-                  <td>{group}</td>
-                  <td><button className="view-button" onClick={() => navigate(`/group/${group}`, { state: user })}>View</button></td>
+              {listOfGroupNames.map((group, index) => {
+                console.log(group[index])
+                return <tr key={group[index]}>
+                  <td>{group[index]}</td>
+                  <td><button className="view-button" onClick={() => navigate(`/group/${group[index]}`, { state: user })}>View</button></td>
                 </tr>
               })}
 

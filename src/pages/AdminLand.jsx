@@ -4,12 +4,19 @@ import '../styles/adminLanding.css';
 import Navbar from "../components/navbar/navbar";
 import { db } from '../utilities/firebase'
 import { doc, getDocs, getDoc } from 'firebase/firestore'
+import { useStateWithCallbackLazy } from "use-state-with-callback";
+import CreateQuestion from "../components/CreateQuestion";
+import '../styles/creategroup.css'
 
 
 export default function AdminLand() {
     const id = useParams()
-    const [, forceRender] = useState(undefined);
-    const [group, setGroup] = useState({
+    const [isGroupVisible, setGroupVisible] = useState(false)
+    const handleGroup = () => {
+        setGroupVisible(!isGroupVisible)
+      };
+    // const [, forceRender] = useState(undefined);
+    const [group, setGroup] = useStateWithCallbackLazy({
         name: "",
         description: "",
         problems: [],
@@ -30,25 +37,28 @@ export default function AdminLand() {
                 membersName: []
                 // problems: docSnap.data().problems,
                 // members: docSnap.data().members
+            }, (group2) => {
+                const fetchUsername = async () => {
+                    const names = [];
+                    for (const member of group2.members) {
+                        console.log(member)
+                        const docRef = doc(db, "users", member);
+                        const docSnap = await getDoc(docRef);
+                        console.log(docSnap.data());
+                        // debugger
+                        names.push(docSnap.data().name);
+                    }
+                    console.log(names);
+                    setGroup({...group2, membersName: names});
+        
+                }
+                
+                fetchUsername()
             })
         }
         fetchGroup()
 
-        const fetchUsername = async () => {
-            const names = [];
-            for (const member of group.members) {
-                console.log(member)
-                const docRef = doc(db, "users", member);
-                const docSnap = await getDoc(docRef);
-                console.log(docSnap.data());
-                debugger
-                names.push(docSnap.data().name);
-            }
-            console.log(names);
-            setGroup({...group, membersName: names});
-
-        }
-        fetchUsername()
+        
     }, [])
 
     useEffect(() => {
@@ -60,8 +70,10 @@ export default function AdminLand() {
 
 
 
-    return (
+    return (<>
+                {isGroupVisible && <CreateQuestion boolState={isGroupVisible} changeBoolState={setGroupVisible}/>}
         <div>
+
             <Navbar />
             <div className="header-container">
                 <div className="namedesc">
@@ -70,7 +82,7 @@ export default function AdminLand() {
                     <p className="description">{group.description}</p>
                 </div>
                 <div className="header-buttons">
-                    <button className="action-buttons">Add Problem</button>
+                    <button className="action-buttons" onClick={handleGroup}>Add Problem</button>
                     <button className="action-buttons">View Problem</button>
                 </div>
             </div>
@@ -123,7 +135,7 @@ export default function AdminLand() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {group.membersName.length == 0 && 
+                                {
                                 group.membersName.map((member) => {
                                     console.log(member)
                                     return (
@@ -140,6 +152,6 @@ export default function AdminLand() {
                     </div>
                 </div>
             </div>
-        </div>
+        </div></>
     )
 }
