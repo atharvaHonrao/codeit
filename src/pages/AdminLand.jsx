@@ -1,14 +1,73 @@
-import React, { useState, onChange } from "react";
-import { Link } from 'react-router-dom';
+import React, { useState, onChange, useEffect } from "react";
+import { Link, useLocation, useParams } from 'react-router-dom';
 import '../styles/adminLanding.css';
+import Navbar from "../components/navbar/navbar";
+import { db } from '../utilities/firebase'
+import { doc, getDocs, getDoc } from 'firebase/firestore'
+
 
 export default function AdminLand() {
-    return(
+    const id = useParams()
+    const [, forceRender] = useState(undefined);
+    const [group, setGroup] = useState({
+        name: "",
+        description: "",
+        problems: [],
+        members: [],
+        membersName: []
+    })
+
+    useEffect(() => {
+        console.log(id)
+        const fetchGroup = async () => {
+            const docRef = doc(db, "groups", `${id.id}`);
+            const docSnap = await getDoc(docRef);
+            console.log(docSnap.data())
+            setGroup({
+                name: docSnap.data().name,
+                description: docSnap.data().description,
+                members: docSnap.data().participantsUid,
+                membersName: []
+                // problems: docSnap.data().problems,
+                // members: docSnap.data().members
+            })
+        }
+        fetchGroup()
+
+        const fetchUsername = async () => {
+            const names = [];
+            for (const member of group.members) {
+                console.log(member)
+                const docRef = doc(db, "users", member);
+                const docSnap = await getDoc(docRef);
+                console.log(docSnap.data());
+                debugger
+                names.push(docSnap.data().name);
+            }
+            console.log(names);
+            setGroup({...group, membersName: names});
+
+        }
+        fetchUsername()
+    }, [])
+
+    useEffect(() => {
+        // This will show the updated user state in the console
+        console.log(group);
+    }, [group]);
+
+    
+
+
+
+    return (
         <div>
+            <Navbar />
             <div className="header-container">
                 <div className="namedesc">
-                    <p className="gname">Group Name Here</p> 
-                    <p className="description">This group is created for every student aiming to brush up their DSA</p>
+                    {/* <button onClick={fetchGroup}>ijgrviuewrhgw</button> */}
+                    <p className="gname">{group.name}</p>
+                    <p className="description">{group.description}</p>
                 </div>
                 <div className="header-buttons">
                     <button className="action-buttons">Add Problem</button>
@@ -17,7 +76,7 @@ export default function AdminLand() {
             </div>
 
             <div className="main-container">
-                <div className="problem">
+                {/* <div className="problem">
                     <p className="topic">Problems</p>
                     <div className='flex problemrow1'>
                         <div className='problem-left'>
@@ -51,33 +110,34 @@ export default function AdminLand() {
                             <button className="submit">Solve Now!</button>
                         </div>
                     </div>
-                </div>
-                
+                </div> */}
+
                 <div className="member">
                     <p className="topic">Members</p>
                     <div className="table-container">
                         <table id='members-table' border={1}>
                             <thead>
                                 <tr>
-                                    <th>ID</th>
                                     <th>Username</th>
                                     <th>Problems Submitted</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>007</td>
-                                    <td>Richarlison</td>
-                                    <td>1</td>
-                                </tr>
-                                <tr>
-                                    <td>10</td>
-                                    <td>Tatya Vinchu</td>
-                                    <td>68</td>
-                                </tr>
+                                {group.membersName.length == 0 && 
+                                group.membersName.map((member) => {
+                                    console.log(member)
+                                    return (
+                                     
+                                   <tr key={member}>
+                                        <td>{member}</td>
+                                        <td>hello</td>
+                                    </tr>
+                                )})
+                                }
+                                
                             </tbody>
                         </table>
-                    </div> 
+                    </div>
                 </div>
             </div>
         </div>

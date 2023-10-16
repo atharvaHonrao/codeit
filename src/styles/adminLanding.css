@@ -13,7 +13,7 @@
 } 
 
 .header-container {
-    background-image: url("../public/images/admin.png");
+    background-image: url("../images/coding.png");
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -103,7 +103,7 @@
 
 #members-table {
     border-collapse: collapse;
-    width: 100%;
+    width: 75vw;
 }
 
 #members-table th, #members-table td {

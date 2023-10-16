@@ -174,7 +174,7 @@ function App() {
             }>
             </Route>
             <Route path="/editor/:id" element={<Editor/>}/>
-            <Route path="/group/:id" element={<GroupPage/>}/>
+            <Route path="/group/:id" element={<AdminLand/>}/>
             <Route path="/user" element={<UserGroupLanding/>}/>
             <Route path="/practice" element={<SelectProblem/>}/>
 

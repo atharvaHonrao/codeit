@@ -23,9 +23,6 @@ export default function GroupPage() {
         else if(currentUser.uid in groupRef.participantsUid) {
           return "Member";
         }
-        else{
-          return "Not a member"
-        }
       }
 
 

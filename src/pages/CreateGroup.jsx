@@ -2,9 +2,11 @@ import React from 'react'
 import '../styles/creategroup.css'
 import { useState, useEffect } from 'react';
 import { db } from '../utilities/firebase';
-import { collection, addDoc, onSnapshot, doc, getDoc, query, setDoc } from "firebase/firestore";
+import { collection, addDoc, onSnapshot, doc, getDoc, query, setDoc, updateDoc } from "firebase/firestore";
 import { useAuthValue } from '../utilities/AuthContext';  
 import { useNavigate } from 'react-router-dom';
+import { arrayUnion } from 'firebase/firestore';
+
 
 function CreateGroup(props) {
 
@@ -83,10 +85,15 @@ function CreateGroup(props) {
     const docRef = await setDoc(doc(collection(db, "groups"), uniqueCode), {
       name: formData.name,
       description: formData.description,
-      adminId: currentUser.uid
+      adminId: currentUser.uid,
+      participantsUid: []
     }).then(() => {
       navigate(`/group/${uniqueCode}`, {state: {groupCode: uniqueCode}})
     });
+    const userDocRef = doc(db, "users", currentUser.uid);
+    await updateDoc(userDocRef, {
+      'groupAdmin': arrayUnion(uniqueCode)
+    })
     // const docRef2 = await addDoc(collection(db, "groups", docRef.id, "problems"), {
     //     name: "Test Problem",
     //   });
