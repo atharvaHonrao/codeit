@@ -13,7 +13,7 @@ import { useStateWithCallbackLazy } from 'use-state-with-callback'
 
 function PostLoginDashboard() {
   const [isGroupVisible, setGroupVisible] = useState(false)
-  const [listOfGroupNames, setListOfGroupNames] = useState([[]])
+  const [listOfGroupNames, setListOfGroupNames] = useState([{}])
 
   const navigate = useNavigate()
   const { currentUser } = useAuthValue()
@@ -28,7 +28,7 @@ function PostLoginDashboard() {
     groupAdmin: []
   })
   useEffect(() => {
-    
+    console.log(currentUser.uid)
     const fetchUser = () => {
       const docRef = doc(db, "users", currentUser.uid);
 
@@ -59,7 +59,11 @@ function PostLoginDashboard() {
         console.log("state updated yayyaya")
         console.log(user2)
         if(user2.name){
-          const arrayOfObjects = Object.entries(user2.groupsJoined);
+          const arrayOfList = Object.entries(user2.groupsJoined);
+          // object to array of objects
+          const arrayOfObjects = Object.keys(user2.groupsJoined).map(key => ({
+            [key]: user2.groupsJoined[key]
+          }));
           console.log(arrayOfObjects)
           setListOfGroupNames([...listOfGroupNames, arrayOfObjects])
         }
@@ -124,11 +128,11 @@ function PostLoginDashboard() {
               </tr>
             </thead>
             <tbody>
-              {listOfGroupNames.map((group, index) => {
-                console.log(group[index])
-                return <tr key={group[index]}>
-                  <td>{group[index]}</td>
-                  <td><button className="view-button" onClick={() => navigate(`/group/${group[index]}`, { state: user })}>View</button></td>
+              {listOfGroupNames.map((group2) => {
+                console.log(group2)
+                return <tr>
+                  <td>{}</td>
+                  <td><button className="view-button" onClick={() => navigate(`/group/${group}`, { state: user })}>View</button></td>
                 </tr>
               })}
 

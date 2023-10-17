@@ -7,10 +7,11 @@ import { doc, getDocs, getDoc } from 'firebase/firestore'
 import { useStateWithCallbackLazy } from "use-state-with-callback";
 import CreateQuestion from "../components/CreateQuestion";
 import '../styles/creategroup.css'
+import ProblemInSelection from "../components/ProblemInSelection";
+import { collection, query, where } from "firebase/firestore";
 
 
-export default function AdminLand() {
-    const id = useParams()
+export default function MemberPage(props) {
     const [isGroupVisible, setGroupVisible] = useState(false)
     const handleGroup = () => {
         setGroupVisible(!isGroupVisible)
@@ -23,11 +24,14 @@ export default function AdminLand() {
         members: [],
         membersName: []
     })
+    const [questions, setQuestions] = useState([])
 
     useEffect(() => {
-        console.log(id)
+        console.log(props.id)
+        // debugger
+    
         const fetchGroup = async () => {
-            const docRef = doc(db, "groups", `${id.id}`);
+            const docRef = doc(db, "groups", props.id);
             const docSnap = await getDoc(docRef);
             console.log(docSnap.data())
             setGroup({
@@ -35,28 +39,39 @@ export default function AdminLand() {
                 description: docSnap.data().description,
                 members: docSnap.data().participantsUid,
                 membersName: []
+            })
                 // problems: docSnap.data().problems,
                 // members: docSnap.data().members
-            }, (group2) => {
-                const fetchUsername = async () => {
-                    const names = [];
-                    for (const member of group2.members) {
-                        console.log(member)
-                        const docRef = doc(db, "users", member);
-                        const docSnap = await getDoc(docRef);
-                        console.log(docSnap.data());
-                        // debugger
-                        names.push(docSnap.data().name);
-                    }
-                    console.log(names);
-                    setGroup({...group2, membersName: names});
+            // }, (group2) => {
+            //     const fetchUsername = async () => {
+            //         const names = [];
+            //         for (const member of group2.members) {
+            //             console.log(member)
+            //             const docRef = doc(db, "users", member);
+            //             const docSnap = await getDoc(docRef);
+            //             console.log(docSnap.data());
+            //             // debugger
+            //             names.push(docSnap.data().name);
+            //         }
+            //         console.log(names);
+            //         setGroup({...group2, membersName: names});
         
-                }
+            //     }
                 
-                fetchUsername()
-            })
+            //     fetchUsername()
+           
         }
         fetchGroup()
+
+            const fetchQuestions = async () => {
+                const querySnapshot = await getDocs(collection(db, "groups", props.id, "problems"));
+                console.log(querySnapshot) //
+                // debugger
+                const docs = querySnapshot.docs.map(doc => doc)
+                setQuestions(docs)
+                console.log(docs)
+            }
+            fetchQuestions()
 
         
     }, [])
@@ -71,7 +86,7 @@ export default function AdminLand() {
 
 
     return (<>
-                {isGroupVisible && <CreateQuestion boolState={isGroupVisible} changeBoolState={setGroupVisible} id={id.id}/>}
+                {isGroupVisible && <CreateQuestion boolState={isGroupVisible} changeBoolState={setGroupVisible}/>}
         <div>
 
             <Navbar />
@@ -82,8 +97,8 @@ export default function AdminLand() {
                     <p className="description">{group.description}</p>
                 </div>
                 <div className="header-buttons">
-                    <button className="action-buttons" onClick={handleGroup}>Add Problem</button>
-                    <button className="action-buttons">View Problem</button>
+                    {/* <button className="action-buttons" onClick={handleGroup}>Add Problem</button>
+                    <button className="action-buttons">View Problem</button> */}
                 </div>
             </div>
 
@@ -125,30 +140,17 @@ export default function AdminLand() {
                 </div> */}
 
                 <div className="member">
-                    <p className="topic">Members</p>
+                    <p className="topic">Solve Problems</p>
                     <div className="table-container">
-                        <table id='members-table' border={1}>
-                            <thead>
-                                <tr>
-                                    <th>Username</th>
-                                    <th>Problems Submitted</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {
-                                group.membersName.map((member) => {
-                                    console.log(member)
-                                    return (
-                                     
-                                   <tr key={member}>
-                                        <td>{member}</td>
-                                        <td>hello</td>
-                                    </tr>
-                                )})
-                                }
-                                
-                            </tbody>
-                        </table>
+                    {/* <ProblemInSelection classname='problemrow' title='Stack in c' difficulty='easy' description='Implement stack with using pointers and arrays' />
+                <ProblemInSelection classname='problemrow' title='Stack in c' difficulty='easy' description='Implement stack with using pointers and arrays' />
+                <ProblemInSelection classname='problemrow' title='Stack in c' difficulty='easy' description='Implement stack with using pointers and arrays' />
+                <ProblemInSelection classname='problemrow' title='Stack in c' difficulty='easy' description='Implement stack with using pointers and arrays' /> */}
+
+                {questions.map((doc) => {
+                    console.log(doc.id)
+                                  return  <ProblemInSelection id={doc.id} classname='problemrow' title={doc.data().name} difficulty='easy' description={doc.data().description} testcases={doc.data().testcases}/>
+                })}
                     </div>
                 </div>
             </div>

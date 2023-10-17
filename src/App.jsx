@@ -23,9 +23,10 @@ import LandingPage from './components/LandingPage';
 import SelectProblem from './components/SelectProblem';
 import Portal from './pages/Portal';
 import PostLoginDashboard from './pages/PostLoginDashboard';
-import AdminLand from './pages/AdminLand';
 import UserGroupLanding from './pages/UserGroupLanding';
-
+import MemberPage from './pages/MemberPage';
+import RoleCheck from './components/RoleCheck';
+import CheckUser from './components/CheckUser';
 
 // Initialize Firebase
 
@@ -174,9 +175,11 @@ function App() {
             }>
             </Route>
             <Route path="/editor/:id" element={<Editor/>}/>
-            <Route path="/group/:id" element={<AdminLand/>}/>
+            <Route path="/group/:id" element={<RoleCheck user={currentUser}/>}/>
             <Route path="/user" element={<UserGroupLanding/>}/>
             <Route path="/practice" element={<SelectProblem/>}/>
+            {/* <Route path="/member/:id" element={<MemberPage/>}/> */}
+            <Route path="/profile" element={<CheckUser/>}/>
 
             {/* <Route exact path="/signin" element={<SignIn />}> */}
             {/* </Route> */}

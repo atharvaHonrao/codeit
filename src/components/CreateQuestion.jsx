@@ -1,10 +1,19 @@
 import { checkActionCode } from 'firebase/auth'
 import React, { useState, useRef } from 'react'
 import '../styles/creategroup.css'
+import { db } from '../utilities/firebase'
+import { collection, addDoc } from 'firebase/firestore'
+import { useEffect } from 'react'
+import { doc, getDocs, getDoc } from 'firebase/firestore'
+import { useStateWithCallbackLazy } from 'use-state-with-callback'
+import { useParams } from 'react-router-dom'
+
 function CreateQuestion(props) {
 
   const [questions, setQuestions] = useState(
-    { name: 'abc', description: 'xyz', testCases: [{ input: '', solution: '' }] }
+    { name: '', description: '', testCases: [{
+       input: '', solution: ''
+   }] }
   );
 
   const [testCases, setTestCases] = useState([])
@@ -30,22 +39,22 @@ function CreateQuestion(props) {
 
   const handleSubmit = async () => {
     // Handle form submission here
-    console.log({
-      testName,
-      testDescription,
-      questions,
-    });
+    // console.log({
+    //   testName,
+    //   testDescription,
+    //   questions,
+    // });
 
 
-    const docRef = await addDoc(collection(db, "groups", "BhGrVWAmUjxXnm6CaqtE", "test"), {
-      name: testName,
-      testDescription: testDescription,
-    });
-    console.log("Document written with ID: ", docRef.id);
+    // const docRef = await addDoc(collection(db, "groups", "BhGrVWAmUjxXnm6CaqtE", "test"), {
+    //   name: testName,
+    //   testDescription: testDescription,
+    // });
+    // console.log("Document written with ID: ", docRef.id);
 
 
 
-      const docRef1 = await addDoc(collection(db, "groups", "BhGrVWAmUjxXnm6CaqtE", "test", docRef.id, "problems"), {
+      const docRef = await addDoc(collection(db, "groups", props.id, "problems"), {
         name: questions.name,
         description: questions.description,
         testCases: questions.testCases,

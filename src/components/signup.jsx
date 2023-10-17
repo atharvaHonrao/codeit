@@ -52,7 +52,7 @@ export default function Signup() {
                         tier: "free",
                         uid: res.user.uid,
                     });
-                    debugger
+                    // debugger
                     console.log("Document written with ID: ", docRef.id);
                     console.log(res.user);
                     alert("User Created Successfully. Please Login to continue")

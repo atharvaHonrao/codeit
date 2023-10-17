@@ -12,7 +12,7 @@ export default function GroupPage() {
     const checkGroupAuth = async () => {
         console.log(currentUser)
         if(currentUser === null) return("Please sign in")
-        debugger
+        // debugger
         // const groupRef = await getDoc(doc(db, "groups", `${id}`));
         const groupDoc = doc(db, "groups", `${id}`); // Construct the document reference correctly
 

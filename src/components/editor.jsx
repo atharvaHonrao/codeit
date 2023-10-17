@@ -35,9 +35,9 @@ function Editor({title, description}) {
   //   fetchQuestions()
   console.log(Location.state)
   }, [])
-
   const Location = useLocation()
-
+  console.log(Location.state.testcases)
+  const testcases = Location.state.testcases
 
   const langs = [
     { value: 50, label: "C" },
@@ -75,8 +75,8 @@ function Editor({title, description}) {
     source_code: code,
     language_id: langcode,  // should be dynamic
     number_of_runs: null,
-    stdin: null, // should be dynamic
-    expected_output: expOutput, // should be dynamic
+    stdin: testcases[0].input, // should be dynamic
+    expected_output: testcases[0].output, // should be dynamic
     cpu_time_limit: null,
     cpu_extra_time: null,
     wall_time_limit: null,
