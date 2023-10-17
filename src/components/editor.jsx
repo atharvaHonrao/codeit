@@ -35,9 +35,9 @@ function Editor({title, description}) {
   //   fetchQuestions()
   console.log(Location.state)
   }, [])
-
   const Location = useLocation()
-
+  console.log(Location.state.testcases)
+  const testcases = Location.state.testcases
 
   const langs = [
     { value: 50, label: "C" },
@@ -59,8 +59,11 @@ function Editor({title, description}) {
     console.log(langextension)
   }
   const [code, setCode] = useState("");
+  // const [status, setStatus] = useState("Not Submitted")  
   const [status, setStatus] = useState("Not Submitted")
   const [output, setOutput] = useState("");
+
+  // const expOutput = "Hello World"
 
   const expOutput = "Hello World"
 
@@ -75,8 +78,8 @@ function Editor({title, description}) {
     source_code: code,
     language_id: langcode,  // should be dynamic
     number_of_runs: null,
-    stdin: null, // should be dynamic
-    expected_output: expOutput, // should be dynamic
+    stdin: testcases[0].input, // should be dynamic
+    expected_output: testcases[0].output, // should be dynamic
     cpu_time_limit: null,
     cpu_extra_time: null,
     wall_time_limit: null,
@@ -137,6 +140,7 @@ function Editor({title, description}) {
       .then((answer) => {
         console.log(answer.status.description)
         setStatus(answer.status.description)
+        setStatus(answer.status.description)
         if (answer.status.description == "In Queue" || answer.status.description == "Processing") {
           setTimeout(() => checkStatusAndHandleResponse(token), 1500)
         } else if (answer.status.description == "Error") {
@@ -172,6 +176,8 @@ function Editor({title, description}) {
       <button onClick={handleSubmit}>Submit</button>
       <div>
         <h3>Output</h3>
+        <h2>Status : {status}</h2>
+        <div style={{ "whiteSpace": "pre-wrap", "backgroundColor": "black", 'color': 'white',  'height': 100, 'width': 700}}>{output}</div>
         <h2>Status : {status}</h2>
         <div style={{ "whiteSpace": "pre-wrap", "backgroundColor": "black", 'color': 'white',  'height': 100, 'width': 700}}>{output}</div>
       </div>

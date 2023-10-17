@@ -3,7 +3,6 @@ import "../styles/problemrow.css"
 import { useNavigate } from 'react-router-dom';
 function ProblemInSelection(props) {
 const navigate = useNavigate();
-
     return (
         <div className='flex problemrow'>
             <div className='problem-left'>
@@ -15,7 +14,7 @@ const navigate = useNavigate();
                 {/* <h3>{props.difficulty}</h3> */}
                 <button onClick={() => {
                     navigate(`/editor/${props.id}`,
-                     { state: { title: props.title, description: props.description, expOutput: props.expOutput, input: props.input} 
+                     { state: { title: props.title, description: props.description, testcases: props.testcases}
                     }
                     );
                 }}>Solve Now!</button>

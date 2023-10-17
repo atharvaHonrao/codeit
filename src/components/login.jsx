@@ -64,7 +64,7 @@ export default function Login() {
             .then((res) => {
             //   debugger
               console.log(res.user);
-              debugger
+            //   debugger
               navigate('/dashboard')
             })
             .catch((err) => alert(err.message));
