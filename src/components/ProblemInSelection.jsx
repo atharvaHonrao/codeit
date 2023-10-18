@@ -3,12 +3,14 @@ import "../styles/problemrow.css"
 import { useNavigate } from 'react-router-dom';
 function ProblemInSelection(props) {
 const navigate = useNavigate();
+console.log(props.testcases)
     return (
         <div className='flex problemrow'>
             <div className='problem-left'>
                 <h2>{props.title}</h2>
                 <p>{props.description}</p>
             <p>{props.id}</p>
+            
             </div>
             <div className='problem-right flex'>
                 {/* <h3>{props.difficulty}</h3> */}

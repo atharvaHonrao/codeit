@@ -4,7 +4,7 @@ import { vscodeDark } from "@uiw/codemirror-theme-vscode";
 import { pythonLanguage } from "@codemirror/lang-python";
 import { cppLanguage } from "@codemirror/lang-cpp";
 import { javaLanguage } from "@codemirror/lang-java";
-import "./editor.css"
+import "../components/editor.css"
 import Select from 'react-select';
 import { signOut } from "firebase/auth";
 import Problem from "./problem";

@@ -180,7 +180,7 @@ function App() {
               currentUser != null ? <PostLoginDashboard/> : <Login/>
             }>
             </Route>
-            <Route path="/editor/:id" element={<Editor/>}/>
+            <Route path="/editor/:id" element={<IdePage/>}/>
             {/* <Route path="//:id" element={<Editor/>}/> */}
             <Route path="/group/:id" element={<RoleCheck user={currentUser}/>}/>
             <Route path="/user" element={<UserGroupLanding/>}/>
