@@ -6,7 +6,8 @@ import { db } from '../utilities/firebase'
 import { doc, getDocs, getDoc } from 'firebase/firestore'
 import { useStateWithCallbackLazy } from "use-state-with-callback";
 import CreateQuestion from "../components/CreateQuestion";
-import '../styles/creategroup.css'
+import '../styles/creategroup.css';
+import CreateTest from "../components/CreateTest";
 
 
 export default function AdminLand() {
@@ -14,7 +15,7 @@ export default function AdminLand() {
     const [isGroupVisible, setGroupVisible] = useState(false)
     const handleGroup = () => {
         setGroupVisible(!isGroupVisible)
-      };
+    };
     // const [, forceRender] = useState(undefined);
     const [group, setGroup] = useStateWithCallbackLazy({
         name: "",
@@ -49,16 +50,16 @@ export default function AdminLand() {
                         names.push(docSnap.data().name);
                     }
                     console.log(names);
-                    setGroup({...group2, membersName: names});
-        
+                    setGroup({ ...group2, membersName: names });
+
                 }
-                
+
                 fetchUsername()
             })
         }
         fetchGroup()
 
-        
+
     }, [])
 
     useEffect(() => {
@@ -66,14 +67,9 @@ export default function AdminLand() {
         console.log(group);
     }, [group]);
 
-    
-
-
-
     return (<>
-                {isGroupVisible && <CreateQuestion boolState={isGroupVisible} changeBoolState={setGroupVisible} id={id.id}/>}
+        {isGroupVisible && <CreateTest boolState={isGroupVisible} changeBoolState={setGroupVisible} id={id.id} />}
         <div>
-
             <Navbar />
             <div className="header-container">
                 <div className="namedesc">
@@ -136,17 +132,18 @@ export default function AdminLand() {
                             </thead>
                             <tbody>
                                 {
-                                group.membersName.map((member) => {
-                                    console.log(member)
-                                    return (
-                                     
-                                   <tr key={member}>
-                                        <td>{member}</td>
-                                        <td>hello</td>
-                                    </tr>
-                                )})
+                                    group.membersName.map((member) => {
+                                        console.log(member)
+                                        return (
+
+                                            <tr key={member}>
+                                                <td>{member}</td>
+                                                <td>hello</td>
+                                            </tr>
+                                        )
+                                    })
                                 }
-                                
+
                             </tbody>
                         </table>
                     </div>

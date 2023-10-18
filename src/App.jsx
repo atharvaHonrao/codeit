@@ -181,6 +181,7 @@ function App() {
             }>
             </Route>
             <Route path="/editor/:id" element={<Editor/>}/>
+            {/* <Route path="//:id" element={<Editor/>}/> */}
             <Route path="/group/:id" element={<RoleCheck user={currentUser}/>}/>
             <Route path="/user" element={<UserGroupLanding/>}/>
             <Route path="/practice" element={<SelectProblem/>}/>

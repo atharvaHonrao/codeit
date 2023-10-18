@@ -11,7 +11,7 @@
     align-items: center;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.3);
 }
 
 .visible {
@@ -22,18 +22,17 @@
 .cgoverlay {
     width: 100vw;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.3);
-    /* opacity: 0.5; */
+    background-color: rgba(0, 0, 0, 0.6);
     justify-content: center;
     align-items: center;
 }
 
 .cgmainbody {
     border-radius: 5px;
-    width: 70vw;
-    height: 80vh;
+    width: 75vw;
+    height: 85vh;
     background-color: #f0f0f0;
-    padding: 20px;
+    padding: 15px;  
     padding-inline: 40px;
 }
 
@@ -71,9 +70,6 @@
     text-transform: uppercase;
 }
 
-.cgmainbody h2:nth-child(5) {
-    margin-top: 30px;
-}
 
 .cgcancle-btn {
     position: relative;
@@ -99,7 +95,7 @@
 }
 
 .cgsubmit-btn {
-    background-color: rgb(0, 238, 0);
+    background-color: rgb(42, 209, 0);
     color: rgb(5, 0, 0);
 }
 
@@ -110,17 +106,253 @@
 
 
 /* From here create questions css will start */
-.cqrightdiv{
+.cqrightdiv {
     margin-left: 50px;
 }
-.completeTestCase{
-    gap:20px;
+
+.completeTestCase {
+    gap: 20px;
     flex-direction: row;
+    align-items: center;
 }
-.cqtestcases{
-    max-height: 200px;
-    overflow: scroll;
+
+.cqtestcases {
+    height: 200px;
+    overflow: auto;
 }
-.completeTestCase input{
+.cqremoveCaseBtn{
+    height:20px;
+    width: 20px;
+    background-color: rgb(180, 0, 0);
+    color:white;
+    border: none;
+    border-radius: 2px;
+}
+.completeTestCase input {
     width: 210px;
+}
+
+
+/* Create test style code */
+.cgmainbody *{
+    font-family: 'Nunito Sans', sans-serif;
+}
+
+.ctbody{
+    margin-top: 20px;
+    /* border:1px solid black; */
+    width: 100%;
+    height: 52vh;
+    overflow: auto;
+}
+.ctbodyinputs{
+    gap: 30px;
+    border-bottom: solid 1px rgb(61, 61, 61);
+    padding-bottom: 20px;
+}
+.ctbodyinputs h2{
+    font-size: 1.2rem;
+    margin-top: 5px;
+}
+.ctbodyinputs input{
+    margin-left: 10px;
+    border-radius: 5px;
+    height: 35px;
+    width: 200px;
+    margin-top: 5px;
+    padding-left: 10px;
+    font-size: 1rem;
+}
+.ctbodyinputs textarea{
+    margin-left: 15px;
+    border-radius: 5px;
+    margin-top: 5px;
+    padding-left: 10px;
+    font-size: 1rem;
+    width: 300px;
+    height: 100px;
+    resize: none;
+    padding: 10px;
+}
+.ctbodyheader{
+    margin: 15px;
+    margin-block:13px;
+    justify-content: space-between;
+    padding-inline: 0px;
+    align-items: center;
+}
+.ctbodyheader h2{
+    font-size: 1.2rem;
+}
+.ctbodyheader button{
+    /* height: 50px; */
+    /* width: 150px; */
+    padding: 10px;
+    text-transform: capitalize;
+    font-size: 1.1rem;
+    border-radius: 5px;
+    border: none;
+    background-color: rgb(0, 128, 0);
+    color: white;
+}
+.exampaperimg{
+    width: 150px;
+}
+
+.ctheader {
+    align-items: center;
+    padding-inline: 20px;
+    width: auto;
+    position: relative;
+    height: 65px;
+    color:rgb(255, 255, 255);
+    background-color: rgb(78, 78, 78);
+}
+.ctheader h1{
+    font-size: 1.5rem;
+}
+.ctheaderoptions{
+    justify-content: space-around;
+}
+.exampaperimg {
+    position: absolute;
+    top: -30px;
+    right: 30px;
+    height: 140px; /* Adjust the height as desired */
+    /* width: auto; */
+    /* Add any other styles for the image here, if needed */
+}
+.quetitle{
+    justify-content: space-evenly;
+    /* margin-block: 10px; */
+    align-items: flex-start;
+}
+.accordion-wrapper {
+    align-items: center;
+    width: 100%;
+    
+    /* border: red solid; */
+    /* background-color: white; */
+    &+* {
+        /* margin-top: 0.2em; */
+    }
+}
+
+.accordion-item {
+    border-bottom: rgb(255, 255, 255) solid 1px;
+    width: 60vw;
+    overflow: hidden;
+    transition: max-height 0.3s cubic-bezier(1, 0, 1, 0);
+    height: auto;
+    max-height: 9999px;
+    background-color: rgb(236, 236, 236);
+    transition: all 0.5s cubic-bezier(0, 1, 0, 1);
+}
+
+.accordion-item.collapsed {
+    max-height: 0;
+    transition: all 0.5s cubic-bezier(0, 1, 0, 1);
+}
+
+.accordion-title {
+    font-size: 1rem;
+    border-bottom: rgb(185, 185, 185) solid 0.2px;
+    background-color: white;
+    width: 60vw;
+    height: 50px;
+    font-weight: 600;
+    cursor: pointer;
+    color: #666;
+    padding: 0.5em 1.5em;
+    /* border: solid 1px #ccc; */
+    /* background-color: white; */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.9s;
+    &::after {
+        content: "";
+        width: 0;
+        height: 0;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-top: 5px solid currentColor;
+    }
+
+    &:hover,
+    &.open {
+        color: black;
+    }
+    
+    &.open {
+        border:none;
+        &::after {
+            content: "";
+            border-top: 0;
+            border-bottom: 5px solid;
+        }
+    }
+}
+
+.accordion-content {
+    padding: 1em 1.5em;
+    /* background-color: white; */
+}
+
+
+/* Style for selected questions */
+
+
+/* Style for unselected questions */
+.accordion-wrapper:not(.selected) {
+    /* background-color: #FFFFFF; White background color */
+    color: #000000; /* Black text color */
+}
+
+.accordion-wrapper.selected .accordion-title {
+    cursor: pointer; /* Add pointer cursor for selected questions */
+}
+
+/* Add hover effect for unselected questions */
+.accordion-wrapper:not(.selected) .accordion-title:hover {
+    /* background-color: #E1E1E1; Light gray background color on hover */
+}
+
+/* Additional styles for your existing classes */
+/* .cgoverlay, .cgmainbody, .cgcancle-btn, .ctheader, .cheader, .exampaperimg, .flex, .quetitle, .accordion-item, .queDisc, etc. */
+
+.ctSelect-btn{
+    width: 90px;
+    height: 45px;
+    padding: 10px;
+    text-transform: capitalize;
+    font-size: 0.9rem;
+    border-radius: 5px;
+    border: none;
+    color: white;
+    /* border: none; */
+}
+.ctSelect-btn-red{
+    background-color: rgb(105, 14, 14);
+}
+.ctSelect-btn-blue{
+    background-color: rgb(46, 43, 75);
+}
+.ctsubmit-btn{
+    width: 110px;
+    /* height: 30px; */
+    padding: 8px;
+    text-transform: capitalize;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: none;
+    background-color: rgb(32, 126, 3);
+    color: white;
+    margin-block: 20px;
+}
+.ctctrl-btns{
+    gap: 20px;
+}
+.ctctrl-btns button:nth-child(2){
+    background-color: rgb(158, 0, 0);
 }
