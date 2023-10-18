@@ -9,13 +9,17 @@ import CreateQuestion from "../components/CreateQuestion";
 import '../styles/creategroup.css'
 import ProblemInSelection from "../components/ProblemInSelection";
 import { collection, query, where } from "firebase/firestore";
+import { useNavigate } from 'react-router-dom';
+
 
 
 export default function MemberPage(props) {
+    const navigate = useNavigate();
+
     const [isGroupVisible, setGroupVisible] = useState(false)
     const handleGroup = () => {
         setGroupVisible(!isGroupVisible)
-      };
+    };
     // const [, forceRender] = useState(undefined);
     const [group, setGroup] = useStateWithCallbackLazy({
         name: "",
@@ -29,7 +33,7 @@ export default function MemberPage(props) {
     useEffect(() => {
         console.log(props.id)
         // debugger
-    
+
         const fetchGroup = async () => {
             const docRef = doc(db, "groups", props.id);
             const docSnap = await getDoc(docRef);
@@ -40,8 +44,8 @@ export default function MemberPage(props) {
                 members: docSnap.data().participantsUid,
                 membersName: []
             })
-                // problems: docSnap.data().problems,
-                // members: docSnap.data().members
+            // problems: docSnap.data().problems,
+            // members: docSnap.data().members
             // }, (group2) => {
             //     const fetchUsername = async () => {
             //         const names = [];
@@ -55,25 +59,30 @@ export default function MemberPage(props) {
             //         }
             //         console.log(names);
             //         setGroup({...group2, membersName: names});
-        
+
             //     }
-                
+
             //     fetchUsername()
-           
+
         }
         fetchGroup()
 
-            const fetchQuestions = async () => {
-                const querySnapshot = await getDocs(collection(db, "groups", props.id, "problems"));
-                console.log(querySnapshot) //
-                // debugger
-                const docs = querySnapshot.docs.map(doc => doc)
-                setQuestions(docs)
-                console.log(docs)
-            }
-            fetchQuestions()
+        const fetchQuestions = async () => {
+            // const querySnapshot = await getDocs(collection(db, "groups", props.id, "problems"));
+            // // console.log(querySnapshot)
+            // // debugger
+            // const docs = querySnapshot.docs.map(doc => doc)
+            // setQuestions(docs)
+            // console.log(docs)
 
-        
+            const querySnapshot = await getDocs(collection(db, "groups", props.id, "test"));
+            // console.log(querySnapshot)
+            // debugger
+            const docs = querySnapshot.docs.map(doc => doc)
+            setQuestions(docs)
+            console.log(docs)
+        }
+        fetchQuestions()
     }, [])
 
     useEffect(() => {
@@ -81,12 +90,28 @@ export default function MemberPage(props) {
         console.log(group);
     }, [group]);
 
-    
+
+    const handleTestClick = (id) => {
+
+        console.log("idddd ", id)
+        console.log(props.id)
+
+        // navigate(`/test/${id}`,{state:{groupid:props.id}})
+
+
+        navigate(`/test/${id}`,
+            {
+                state: { gid: props.id}
+            })
+
+
+    }
+
 
 
 
     return (<>
-                {isGroupVisible && <CreateQuestion boolState={isGroupVisible} changeBoolState={setGroupVisible}/>}
+        {isGroupVisible && <CreateQuestion boolState={isGroupVisible} changeBoolState={setGroupVisible} />}
         <div>
 
             <Navbar />
@@ -142,15 +167,23 @@ export default function MemberPage(props) {
                 <div className="member">
                     <p className="topic">Solve Problems</p>
                     <div className="table-container">
-                    {/* <ProblemInSelection classname='problemrow' title='Stack in c' difficulty='easy' description='Implement stack with using pointers and arrays' />
-                <ProblemInSelection classname='problemrow' title='Stack in c' difficulty='easy' description='Implement stack with using pointers and arrays' />
-                <ProblemInSelection classname='problemrow' title='Stack in c' difficulty='easy' description='Implement stack with using pointers and arrays' />
-                <ProblemInSelection classname='problemrow' title='Stack in c' difficulty='easy' description='Implement stack with using pointers and arrays' /> */}
+                        {questions.map((doc) => {
+                            // console.log(doc.id)
+                            //   return  <ProblemInSelection id={doc.id} classname='problemrow' title={doc.data().name} difficulty='easy' description={doc.data().description} testcases={doc.data().testcases}/>
 
-                {questions.map((doc) => {
-                    console.log(doc.id)
-                                  return  <ProblemInSelection id={doc.id} classname='problemrow' title={doc.data().name} difficulty='easy' description={doc.data().description} testcases={doc.data().testcases}/>
-                })}
+                            return <>
+
+                                <div>
+                                    <div>
+                                        {doc.data().name}
+                                    </div>
+                                    <div>
+                                        {doc.data().testDescription}
+                                    </div>
+                                    <button onClick={() => { handleTestClick(doc.id) }}>Give Test</button>
+                                </div>
+                            </>
+                        })}
                     </div>
                 </div>
             </div>

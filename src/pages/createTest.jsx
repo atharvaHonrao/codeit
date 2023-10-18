@@ -43,7 +43,7 @@ function TestForm() {
 
         let i = 0;
 
-        const docRef = await addDoc(collection(db, "groups", "BhGrVWAmUjxXnm6CaqtE", "test"), {
+        const docRef = await addDoc(collection(db, "groups", "ucmhzyng", "test"), {
             name: testName,
             testDescription: testDescription,
         });
@@ -51,14 +51,25 @@ function TestForm() {
 
         for (i = 0; i < questions.length; i++) {
 
-            const docRef1 = await addDoc(collection(db, "groups", "BhGrVWAmUjxXnm6CaqtE", "test", docRef.id, "problems"), {
-                name: questions[0].name,
-                description: questions[0].description,
-                testCases: questions[0].testCases,
+            const docRef1 = await addDoc(collection(db, "groups", "ucmhzyng", "test", docRef.id, "problems"), {
+                name: questions[i].name,
+                description: questions[i].description,
+                testcases: questions[i].testCases,
 
             });
             //   console.log("Document written with ID: ", docRef.id);
         }
+
+        for (i = 0; i < questions.length; i++) {
+
+            const docRef1 = await addDoc(collection(db, "groups", "ucmhzyng", "problems"), {
+                name: questions[i].name,
+                description: questions[i].description,
+                testCases: questions[i].testCases,
+
+            });
+        }
+
     };
 
     return (

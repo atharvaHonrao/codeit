@@ -5,7 +5,7 @@ import CreateGroup from '../components/CreateGroup'
 import { useNavigate } from 'react-router-dom'
 import { useAuthValue } from '../utilities/AuthContext'
 import { db } from '../utilities/firebase'
-import { doc, getDocs, getDoc } from 'firebase/firestore'
+import { doc, getDocs, getDoc, setDoc,updateDoc,arrayUnion } from 'firebase/firestore'
 import { useEffect } from 'react'
 import { collection, query, where } from 'firebase/firestore'
 import { useStateWithCallbackLazy } from 'use-state-with-callback'
@@ -21,6 +21,8 @@ function PostLoginDashboard() {
     setGroupVisible(!isGroupVisible)
   };
 
+  const [groupCode, setGroupCode] = useState('');
+
   const [user, setUser] = useStateWithCallbackLazy({
     name: "",
     email: "",
@@ -28,15 +30,45 @@ function PostLoginDashboard() {
     groupAdmin: []
   })
 
+  const handleInputChange = (event) => {
+    setGroupCode(event.target.value);
+  };
+
+  const joinGroup = async() =>{
+
+
+    console.log(groupCode)
+
+    const userRef = doc(db,"users",currentUser.uid)
+    const groupRef = doc(db,"groups",groupCode) 
+
+    const groupSnap = await getDoc(groupRef)
+    const userDoc = await getDoc(userRef);
+    const userData = userDoc.data();
+
+    console.log(groupSnap.data())
+
+    userData.groupJoined[groupCode] =groupSnap.data().name ;
+
+    await setDoc(userRef, userData, { merge: true });
+    await updateDoc(groupRef, {
+      participantsUid: arrayUnion(currentUser.uid)
+    });
+
+    console.log(currentUser.uid)
+
+  }
+
 
   useEffect(() => {
-    // console.log(currentUser.uid)
+    console.log(currentUser.uid)
     const fetchUser = () => {
       const docRef = doc(db, "users", currentUser.uid);
 
       return new Promise((resolve, reject) => {
 
         const docSnap =  getDoc(docRef)
+        console.log(docSnap)
         resolve(docSnap)
       })
     }
@@ -49,16 +81,16 @@ function PostLoginDashboard() {
         groupAdmin: docSnap.data().groupAdmin
         // ...docSnap.data()
       }, (user2) => {
-        console.log("state updated yayyaya")
+        // console.log("state updated yayyaya")
         console.log(user2)
         if(user2.name){
-          const arrayOfList = Object.entries(user2.groupsJoined);
+          // const arrayOfList = Object.entries(user2.groupsJoined);
           // object to array of objects
           const arrayOfObjects = Object.keys(user2.groupsJoined).map(key => ({
             [key]: user2.groupsJoined[key]
           }));
-          console.log(arrayOfObjects)
-          setListOfGroupNames([...listOfGroupNames, arrayOfObjects])
+          // console.log(arrayOfObjects)
+          setListOfGroupNames(arrayOfObjects)
         }
       })
 
@@ -85,8 +117,9 @@ function PostLoginDashboard() {
       <div className="groups">
         <div className="column">
           <p className='col-header'>Join a Group</p>
-          <input type="text" placeholder="Enter Group Code" className='code-input' />
-          <button class="join-button">Join Group</button>
+          <input type="text" placeholder="Enter Group Code" className='code-input'
+          onChange={handleInputChange} />
+          <button class="join-button" onClick={joinGroup}>Join Group</button>
         </div>
         <div class="vertical-line"></div>
         <div class="column">
@@ -120,16 +153,18 @@ function PostLoginDashboard() {
                 <th></th>
               </tr>
             </thead>
-            <tbody>
+            <tbody> 
               {listOfGroupNames.map((group2) => {
-                // console.log(group2)
+                // console.log()
                 return <tr>
-                  <td>{}</td>
-                  <td><button className="view-button" onClick={() => navigate(`/group/${group}`, { state: user })}>View</button></td>
+                  <td>{Object.values(group2)[0]}</td>
+                  <td><button className="view-button" 
+                  onClick={() => navigate('/group/'+Object.keys(group2)[0], { state: { name: Object.values(group2)[0] } })}
+                  // onClick={() => navigate(`/group/${group2}`, { state: user })}
+                  
+                  >View</button></td>
                 </tr>
               })}
-
-
 
             </tbody>
           </table></div></div>

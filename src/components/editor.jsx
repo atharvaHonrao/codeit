@@ -11,30 +11,30 @@ import Problem from "./problem";
 import Navbar from "./navbar/navbar";
 import { useLocation, useParams } from "react-router-dom";
 import { db } from '../utilities/firebase'
-import { collection, getDocs, getDoc, doc,addDoc } from "firebase/firestore";
+import { collection, getDocs, getDoc, doc, addDoc } from "firebase/firestore";
 
 
 
-function Editor({title, description}) {
+function Editor({ title, description }) {
 
-  const {id} = useParams()
+  const { id } = useParams()
   const [langcode, setLangCode] = useState(54)
   const [langextension, setLangExtension] = useState(cppLanguage)
   const [problem, setProblem] = useState({})
 
-  useEffect(() => {
-  //     // get doc from firebase
-  //     const fetchQuestions = async () => {
-  //       const docRef = doc(db, "problems", id);
-  //       const docSnap = await getDoc(docRef);
-  //       console.log(docSnap) //
-  //       console.log('afhuwshfu')
-  //       // debugger
-  //       setProblem(docSnap.data())
-  //   }
-  //   fetchQuestions()
-  console.log(Location.state)
-  }, [])
+  // useEffect(() => {
+  //   //     // get doc from firebase
+  //   //     const fetchQuestions = async () => {
+  //   //       const docRef = doc(db, "problems", id);
+  //   //       const docSnap = await getDoc(docRef);
+  //   //       console.log(docSnap) //
+  //   //       console.log('afhuwshfu')
+  //   //       // debugger
+  //   //       setProblem(docSnap.data())
+  //   //   }
+  //   //   fetchQuestions()
+  //   console.log(Location.state)
+  // }, [])
   const Location = useLocation()
   console.log(Location.state.testcases)
   const testcases = Location.state.testcases
@@ -79,7 +79,7 @@ function Editor({title, description}) {
     language_id: langcode,  // should be dynamic
     number_of_runs: null,
     stdin: testcases[0].input, // should be dynamic
-    expected_output: testcases[0].output, // should be dynamic
+    expected_output: testcases[0].solution, // should be dynamic  
     cpu_time_limit: null,
     cpu_extra_time: null,
     wall_time_limit: null,
@@ -103,7 +103,8 @@ function Editor({title, description}) {
   }
 
   const handleButtonClick = () => {
-    console.log(options)
+    console.log("opptitoj ",options)
+    // console.log
     let postRequest = fetch("http://codeit.ddns.net:2358/submissions", options)
 
     postRequest.then((response) => response.json()).then((json) => checkStatusAndHandleResponse(json.token))
@@ -122,12 +123,10 @@ function Editor({title, description}) {
     // console.log("after math")
 
 
-    const docRef1 = await addDoc(collection(db, "groups", "BhGrVWAmUjxXnm6CaqtE", "test", "nAoCyOlJXcl9TvBBe6hf" , "problems","tyxBeUWHX3n8KU5WpQ8N","code"), {
-      code:code,
-  });
-
+    const docRef1 = await addDoc(collection(db, "groups", "BhGrVWAmUjxXnm6CaqtE", "test", "nAoCyOlJXcl9TvBBe6hf", "problems", "tyxBeUWHX3n8KU5WpQ8N", "code"), {
+      code: code,
+    });
   }
-
   function checkStatusAndHandleResponse(token) {
     console.log("hi")
 
@@ -155,33 +154,33 @@ function Editor({title, description}) {
   console.log(title)
   return (
     <>
-    <Navbar/>
-    <Problem title={Location.state.title} description={Location.state.description} 
-    // expOutput={props.expOutput} input={props.input}
-    />
-    <div className="editor-container">
-      <div>
-        <div className="editor-options">
-          <Select className="select" options={langs} value={langs.value} onChange={handleLangChange} />
+      <Navbar />
+      <Problem title={Location.state.title} description={Location.state.description}
+      // expOutput={props.expOutput} input={props.input}
+      />
+      <div className="editor-container">
+        <div>
+          <div className="editor-options">
+            <Select className="select" options={langs} value={langs.value} onChange={handleLangChange} />
+          </div>
+          <CodeMirror
+            value={code}
+            height="70vh"
+            onChange={handleChange}
+            extensions={langextension}
+            theme={vscodeDark}
+          />
         </div>
-        <CodeMirror
-          value={code}
-          height="70vh"
-          onChange={handleChange}
-          extensions={langextension}
-          theme={vscodeDark}
-        />
-      </div>
-      <button onClick={handleButtonClick}>Run</button>
-      <button onClick={handleSubmit}>Submit</button>
-      <div>
-        <h3>Output</h3>
-        <h2>Status : {status}</h2>
-        <div style={{ "whiteSpace": "pre-wrap", "backgroundColor": "black", 'color': 'white',  'height': 100, 'width': 700}}>{output}</div>
-        <h2>Status : {status}</h2>
-        <div style={{ "whiteSpace": "pre-wrap", "backgroundColor": "black", 'color': 'white',  'height': 100, 'width': 700}}>{output}</div>
-      </div>
-      {/* <button onClick={
+        <button onClick={handleButtonClick}>Run</button>
+        <button onClick={handleSubmit}>Submit</button>
+        <div>
+          <h3>Output</h3>
+          <h2>Status : {status}</h2>
+          <div style={{ "whiteSpace": "pre-wrap", "backgroundColor": "black", 'color': 'white', 'height': 100, 'width': 700 }}>{output}</div>
+          <h2>Status : {status}</h2>
+          <div style={{ "whiteSpace": "pre-wrap", "backgroundColor": "black", 'color': 'white', 'height': 100, 'width': 700 }}>{output}</div>
+        </div>
+        {/* <button onClick={
         async () => {
           signOut(auth).then(() => {
             console.log("Signed out")
@@ -189,8 +188,8 @@ function Editor({title, description}) {
             // An error happened.
           });
       }}>Signout</button> */}
-      {/* <p>{props.title}</p> */}
-    </div></>
+        {/* <p>{props.title}</p> */}
+      </div></>
   );
 }
 

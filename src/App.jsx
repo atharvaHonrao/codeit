@@ -28,6 +28,7 @@ import MemberPage from './pages/MemberPage';
 import RoleCheck from './components/RoleCheck';
 import CheckUser from './components/CheckUser';
 import TestForm from './pages/createTest';
+import TestPage  from './pages/TestPage';
 
 
 // Initialize Firebase
@@ -182,6 +183,8 @@ function App() {
             <Route path="/practice" element={<SelectProblem/>}/>
             {/* <Route path="/member/:id" element={<MemberPage/>}/> */}
             <Route path="/profile" element={<CheckUser/>}/>
+            <Route path="/test" element={<TestForm/>}/>
+            <Route path="/test/:id" element={<TestPage/>}/>
 
             {/* <Route exact path="/signin" element={<SignIn />}> */}
             {/* </Route> */}
