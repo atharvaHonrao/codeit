@@ -22,19 +22,6 @@ function Editor({ title, description }) {
   const [langextension, setLangExtension] = useState(cppLanguage)
   const [problem, setProblem] = useState({})
 
-  // useEffect(() => {
-  //   //     // get doc from firebase
-  //   //     const fetchQuestions = async () => {
-  //   //       const docRef = doc(db, "problems", id);
-  //   //       const docSnap = await getDoc(docRef);
-  //   //       console.log(docSnap) //
-  //   //       console.log('afhuwshfu')
-  //   //       // debugger
-  //   //       setProblem(docSnap.data())
-  //   //   }
-  //   //   fetchQuestions()
-  //   console.log(Location.state)
-  // }, [])
   const Location = useLocation()
   console.log(Location.state.testcases)
   const testcases = Location.state.testcases
@@ -58,14 +45,10 @@ function Editor({ title, description }) {
     console.log(langcode)
     console.log(langextension)
   }
+
   const [code, setCode] = useState("");
-  // const [status, setStatus] = useState("Not Submitted")  
   const [status, setStatus] = useState("Not Submitted")
   const [output, setOutput] = useState("");
-
-  // const expOutput = "Hello World"
-
-  const expOutput = "Hello World"
 
   const handleChange = React.useCallback(
     (value, viewUpdate) => {
@@ -74,47 +57,70 @@ function Editor({ title, description }) {
     [code]
   );
 
-  let data = JSON.stringify({
-    source_code: code,
-    language_id: langcode,  // should be dynamic
-    number_of_runs: null,
-    stdin: testcases[0].input, // should be dynamic
-    expected_output: testcases[0].solution, // should be dynamic  
-    cpu_time_limit: null,
-    cpu_extra_time: null,
-    wall_time_limit: null,
-    memory_limit: null,
-    stack_limit: null,
-    max_processes_and_or_threads: null,
-    enable_per_process_and_thread_time_limit: null,
-    enable_per_process_and_thread_memory_limit: null,
-    max_file_size: null,
-    enable_network: null,
-  });
-
-  let options = {
-
-    method: "post",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: data,
-
-  }
-
   const handleButtonClick = () => {
-    console.log("opptitoj ",options)
-    // console.log
-    let postRequest = fetch("http://codeit.ddns.net:2358/submissions", options)
+    // console.log("opptitoj ",options)
+    let i = 0
+    let submissions = []
 
-    postRequest.then((response) => response.json()).then((json) => checkStatusAndHandleResponse(json.token))
+    for (i = 0; i < testcases.length; i++) {
+      submissions.push({
+        source_code: code,
+        language_id: langcode,  // should be dynamic
+        number_of_runs: null,
+        stdin: testcases[i].input, // should be dynamic
+        expected_output: testcases[i].solution, // should be dynamic  
+        cpu_time_limit: null,
+        cpu_extra_time: null,
+        wall_time_limit: null,
+        memory_limit: null,
+        stack_limit: null,
+        max_processes_and_or_threads: null,
+        enable_per_process_and_thread_time_limit: null,
+        enable_per_process_and_thread_memory_limit: null,
+        max_file_size: null,
+        enable_network: null,
+      })
+    }
+
+    let options = {
+
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": true
+      },
+      body: JSON.stringify({
+        "submissions": submissions
+      })
+    }
+
+    console.log(submissions)
+    let postRequest = fetch("http://codeit.ddns.net:2358/submissions/batch", options)
+
+    // console.log(postRequest)
+
+    postRequest.then((response) => response.json()).then((json) => {
+
+      console.log(json)
+      let x = 0
+      let y = ''
+      for (x = 0; x < json.length; x++) {
+        y = y + json[x].token + ','
+      }
+      console.log(y)
+
+      checkStatusAndHandleResponse(y)
+    }
+      // console.log(json)
+    ).catch((err) => console.log(err))
 
   };
 
   const handleSubmit = async () => {
 
 
-    console.log(options)
+    // console.log(options)
     // let postRequest = fetch("http://codeit.ddns.net:2358/submissions", options)
 
     // postRequest.then((response) => response.json()).then((json) => checkStatusAndHandleResponse(json.token))
@@ -128,30 +134,43 @@ function Editor({ title, description }) {
     });
   }
   function checkStatusAndHandleResponse(token) {
-    console.log("hi")
 
-    let getRequest = fetch("http://codeit.ddns.net:2358/submissions" + "/" + token)
+
+    let getRequest = fetch("http://codeit.ddns.net:2358/submissions/batch?tokens=" + token + " fields=stdout,time,memory,stderr,compile_output,message,status")
 
     getRequest.then((response) => {
-      console.log(response)
+      // console.log(response.json())
+
       return response.json()
     })
       .then((answer) => {
-        console.log(answer.status.description)
-        setStatus(answer.status.description)
-        setStatus(answer.status.description)
-        if (answer.status.description == "In Queue" || answer.status.description == "Processing") {
-          setTimeout(() => checkStatusAndHandleResponse(token), 1500)
-        } else if (answer.status.description == "Error") {
-          console.log("error")
+        // setStatus(answer.status.description)
+        let submissions = answer.submissions
+        let c = 0
+        let output = ''
+        console.log(submissions)
+
+        for (c = 0; c < submissions.length; c++) {
+
+          let state = submissions[c].status.description
+          setStatus(state)
+          if (state == "In Queue" || state == "Processing" && state!=null) {
+            setTimeout(() => checkStatusAndHandleResponse(token), 1500)
+          } else if (state == "Error") {
+            console.log("error")
+          }
+          else {
+
+            output= output + submissions[c].stdout+'\n'
+            // setOutput(submissions[c].stdout)
+            // console.log(answer.stdout)
+          }
+          setOutput(output)
+          console.log(output)
         }
-        else {
-          console.log(answer)
-          setOutput(answer.stdout)
-        }
-      })
+      }
+      )
   }
-  console.log(title)
   return (
     <>
       <Navbar />
