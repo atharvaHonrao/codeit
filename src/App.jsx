@@ -29,6 +29,9 @@ import RoleCheck from './components/RoleCheck';
 import CheckUser from './components/CheckUser';
 import TestForm from './pages/createTest';
 import TestPage  from './pages/TestPage';
+// import IdeComponent from './components/IDEComponent';
+// import IdePage from './pages/IdePage';
+import IdePage from './pages/IDEPage';
 
 
 // Initialize Firebase
@@ -185,6 +188,7 @@ function App() {
             <Route path="/profile" element={<CheckUser/>}/>
             <Route path="/test" element={<TestForm/>}/>
             <Route path="/test/:id" element={<TestPage/>}/>
+            <Route path="/ide" element={<IdePage/>}/>
 
             {/* <Route exact path="/signin" element={<SignIn />}> */}
             {/* </Route> */}

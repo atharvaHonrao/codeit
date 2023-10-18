@@ -128,9 +128,10 @@ function PostLoginDashboard() {
           <button class="create-button" onClick={handleGroup}>Create Group</button>
         </div>
       </div>
-
       <br /><br />
-
+      <button onClick={() => {
+        navigate('/ide', {state:{templates:['help'], input:['help me again'], problemId:[]}})
+      }}></button>
       <div className="practice-container">
         <div className="textual">
           <p className='col-header'>Begin your own coding journey on CodeIt today!</p>
