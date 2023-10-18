@@ -13,8 +13,6 @@ import { useLocation, useParams } from "react-router-dom";
 import { db } from '../utilities/firebase'
 import { collection, getDocs, getDoc, doc, addDoc } from "firebase/firestore";
 
-
-
 function Editor({ title, description }) {
 
   const { id } = useParams()
@@ -39,6 +37,7 @@ function Editor({ title, description }) {
     68: javaLanguage,
     71: pythonLanguage
   }
+
   function handleLangChange(event) {
     setLangCode(event.value)
     setLangExtension(langextensions[event.value])
@@ -61,7 +60,6 @@ function Editor({ title, description }) {
     // console.log("opptitoj ",options)
     let i = 0
     let submissions = []
-
     for (i = 0; i < testcases.length; i++) {
       submissions.push({
         source_code: code,
@@ -81,7 +79,6 @@ function Editor({ title, description }) {
         enable_network: null,
       })
     }
-
     let options = {
 
       method: "post",

@@ -101,7 +101,7 @@ export default function MemberPage(props) {
 
         navigate(`/test/${id}`,
             {
-                state: { gid: props.id}
+                state: { gid: props.id }
             })
 
 

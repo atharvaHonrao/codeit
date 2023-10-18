@@ -1,19 +1,10 @@
 import { checkActionCode } from 'firebase/auth'
 import React, { useState, useRef } from 'react'
 import '../styles/creategroup.css'
-import { db } from '../utilities/firebase'
-import { collection, addDoc } from 'firebase/firestore'
-import { useEffect } from 'react'
-import { doc, getDocs, getDoc } from 'firebase/firestore'
-import { useStateWithCallbackLazy } from 'use-state-with-callback'
-import { useParams } from 'react-router-dom'
-
 function CreateQuestion(props) {
 
   const [questions, setQuestions] = useState(
-    { name: '', description: '', testCases: [{
-       input: '', solution: ''
-   }] }
+    { name: 'abc', description: 'xyz', testCases: [{ input: '', solution: '' }] }
   );
 
   const [testCases, setTestCases] = useState([])
@@ -36,40 +27,6 @@ function CreateQuestion(props) {
     console.log(typeof (e.target.value));
     setCurrentTestCase(e.target.value)
   }
-
-  const handleSubmit = async () => {
-    // Handle form submission here
-    // console.log({
-    //   testName,
-    //   testDescription,
-    //   questions,
-    // });
-
-
-    // const docRef = await addDoc(collection(db, "groups", "BhGrVWAmUjxXnm6CaqtE", "test"), {
-    //   name: testName,
-    //   testDescription: testDescription,
-    // });
-    // console.log("Document written with ID: ", docRef.id);
-
-
-
-      const docRef = await addDoc(collection(db, "groups", props.id, "problems"), {
-        name: questions.name,
-        description: questions.description,
-        testCases: questions.testCases,
-
-      });
-      //   console.log("Document written with ID: ", docRef.id);
-
-    
-
-
-
-
-
-
-  };
 
   const handleNewExptCase = (e) => {
     console.log(e.value);
@@ -121,16 +78,38 @@ function CreateQuestion(props) {
     // setTestCases((prevTestCases) => [...prevTestCases, [integers1, integers2]]);
     // inputRef1.current.value=" "
     // inputRef2.current.value = " "
-    if (!currentTestCase || !currentExpt) {
-      alert('Please enter both test case and expected values.');
-      return;
-    }
+    // if (!currentTestCase || !currentExpt) {
+    //   alert('Please enter both test case and expected values.');
+    //   return;
+    // }
     setCurrentExpt("")
     setCurrentTestCase("")
-    console.log("testCases  ")
-    console.log(testCases)
-    console.log("FinalArray  ")
+    removeEmptyTestCases()
     console.log(questions)
+  }
+
+  const removeEmptyTestCases = () => {
+    const updatedQuestions = {
+      ...questions,
+      testCases: questions.testCases.filter(testCase => {
+        // Remove test cases with both empty input and solution
+        return testCase.input.trim() !== '' || testCase.solution.trim() !== '';
+      })
+    };
+  
+    // Update the state with the filtered test cases
+    setQuestions(updatedQuestions);
+  };
+
+  const handleRemoveTestCase = (index) => {
+    const updatedTestCases = [...questions.testCases];
+    updatedTestCases.splice(index, 1);
+    console.log(questions)
+    setQuestions({ ...questions, testCases: updatedTestCases });
+  };
+
+  const handleSubmit = ()=>{
+    console.log("final submit")
   }
 
   return (
@@ -148,29 +127,36 @@ function CreateQuestion(props) {
               <input placeholder='Enter question title here' onChange={(e) => {
                 setQueTitle(e.target.value)
               }}></input>
-              <h2>Question Discription</h2>
+              <h2 style={{marginTop:'20px'}}>Question Description</h2>
               <textarea placeholder='Describe your question...' onChange={(e) => {
                 setQueDisc(e.target.value)
               }} />
             </div>
             <div className="cqrightdiv">
-              <h2>Test Case</h2>
+              <h2 style={{marginBottom:'5px'}}>Test Cases</h2>
               <div className="cqtestcases">
                 <div className="flex completeTestCase">
-                  <h2>Input</h2>
-                  <h2>Solution</h2>
+                  {questions.testCases.length > 1 && (
+                    <div className="flex completeTestCase" style={{marginBottom:'10px', gap:'190px'}}>
+                      <h2>Input</h2>
+                      <h2>Solution</h2>
+                    </div>
+                  )}
+
                 </div>
                 {questions.testCases.map((testCase, testCaseIndex) => (
                   <div key={testCaseIndex} className="completeTestCase flex ">
-                    {testCase.input && (
-
-                      <input type="text" value={testCase.input} />
-                    )}
-                    {testCase.solution && (
-                      <div>
-                        <input type="text" value={testCase.solution} />
-                      </div>
-                    )}
+                    <div className='completeTestCase flex'>
+                      {testCase.input && (
+                        <input type="text" value={testCase.input} />
+                      )}
+                      {testCase.solution && (
+                        <div>
+                          <input type="text" value={testCase.solution} />
+                        </div>
+                      )}
+                    </div>
+                    {testCase.solution && (<button onClick={() => handleRemoveTestCase(testCaseIndex)} className="cqremoveCaseBtn">X</button>)}
                   </div>
                 ))}
                 {/* {testCases.map((fatherArray, fatherIndex) => (
@@ -188,21 +174,20 @@ function CreateQuestion(props) {
                   ))} */}
               </div>
               {/* ))} */}
-              <h2> Create new Test Case</h2>
+              <h2 style={{marginTop:'20px'}}> Create new Test Case</h2>
               <div className="completeTestCase flex">
                 <input ref={inputRef1} value={currentTestCase} placeholder='Enter your test cases' onChange={handleNewTestCase}></input>
                 <input ref={inputRef2} value={currentExpt} placeholder='Enter expected values' onChange={handleNewExptCase}></input>
               </div>
               <div className="cgctrl-btns flex">
-                <button className="cgsubmit-btn" onClick={handleSubmitTestCase}>Add testcase</button>
+                <button className="cgsubmit-btn" onClick={handleSubmitTestCase} style={{backgroundColor:'rgb(25, 0, 117)', color:'white'}}>Add Case</button>
+              </div>
+              <div className="cgctrl-btns flex">
+                <button className="cgsubmit-btn" onClick={handleSubmit}>Create</button>
                 <button className="cgcancel-btn">Cancel</button>
               </div>
             </div>
 
-            <div className="cgctrl-btns flex">
-              <button className="cgsubmit-btn" onClick={handleSubmit}>Create Questions</button>
-              <button className="cgcancel-btn">Cancel</button>
-            </div>
           </div>
         </div>
         {/* </div>)
