@@ -12,12 +12,18 @@ import SubmissionComponent from '../components/SubmissionComponent';
 import { addDoc } from 'firebase/firestore';
 import { db } from '../utilities/firebase';
 import { collection } from 'firebase/firestore';
+import { useLocation } from 'react-router-dom';
 
 
 import styles from '../styles/Ide.module.css';
+import { useAuthValue } from '../utilities/AuthContext';
+import { useParams } from 'react-router-dom';
 // import { runCode, submitCode } from './modules';
 
-export default function IdeComponent({ input, problemId, userId, testcases }) {
+export default function IdeComponent({ input, problemId, userId, testcases,  }) {
+  const id = useParams()
+  const location = useLocation()
+  console.log(location.state.testId)
   // editor
   const [langcode, setLangCode] = useState(54)
   const [inputString, setInputString] = useState('')
@@ -57,7 +63,10 @@ export default function IdeComponent({ input, problemId, userId, testcases }) {
   const [execTime, setExecTime] = useState(0)
 const [countPassState, setCountPassState] = useState('')
 const [testcaseSol, settestcaseSol] = useState('')
+const {currentUser} = useAuthValue()
+// const userName = currentUser.displayName
   useEffect(() => {
+    // console.log(userName)
     const formattedTestcases = testcases.map(testcase => {
       const input = testcase.input || ''; // Handle cases where input may be missing
       // const solution = testcase.solution || ''; // Handle cases where solution may be missing
@@ -293,16 +302,18 @@ const [testcaseSol, settestcaseSol] = useState('')
 
 
     console.log("after math")
+console.log(id.id)
+// console.log(testId)
 
-
-    const docRef1 = await addDoc(collection(db, "groups", "ucmhzyng", "test", "3VpZkscNuOzXAbFw6utO", "problems", "kDu6Sbxb6RCrYsTdTBEM", "submissions"), {
+    const docRef1 = await addDoc(collection(db, "groups", "ucmhzyng", "test", `${location.state.testId}`, "problems", `${id.id}`, "submissions"), {
       code: code,
       status: status,
       output: output,
       time: execTime,
-      testcasesPassed: countPassState
+      testcasesPassed: countPassState,
+      name: "Gaurav Ghade"
     });
-
+console.log(docRef1)
     // /groups/ucmhzyng/test/3VpZkscNuOzXAbFw6utO/problems/kDu6Sbxb6RCrYsTdTBEM/submissions/LdtCPw6BWSCJXE4lKZZa
   }
   function checkStatusAndHandleResponse(token) {

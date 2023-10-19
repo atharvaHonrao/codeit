@@ -48,7 +48,7 @@ function TestForm() {
             name: testName,
             testDescription: testDescription,
         });
-        console.log("Document written with ID: ", docRef.id);
+        console.log("Document written with ID: ", docRef.id);
 
         for (i = 0; i < questions.length; i++) {
 

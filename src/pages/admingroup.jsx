@@ -6,6 +6,8 @@ import { doc, getDoc } from 'firebase/firestore'
 import { db } from '../utilities/firebase'
 import { useStateWithCallbackLazy } from 'use-state-with-callback'
 import '../styles/admingroup.css'
+import CreateTest from '../components/CreateTest'
+
 function AdminGroup() {
 
   const id = useParams()
@@ -13,6 +15,8 @@ function AdminGroup() {
   const handleGroup = () => {
       setGroupVisible(!isGroupVisible)
   };
+
+  
   // const [, forceRender] = useState(undefined);
   const [group, setGroup] = useStateWithCallbackLazy({
       name: "",
@@ -65,7 +69,9 @@ function AdminGroup() {
   }, [group]);
 
   return (
-    <div><Sidebar />
+    <div>
+    {isGroupVisible ? <CreateTest boolState={isGroupVisible} changeBoolState={setGroupVisible} id={id.id} /> : <>
+      <Sidebar />
       <div className="agcontainer">
         <div className="agheader flex">
           <div>
@@ -79,7 +85,7 @@ function AdminGroup() {
         <div className='agmainbody'>
           <div className='flex agmainbodyheader'>
             <h2>Group Assignments</h2>
-            <button>+ new Assignment</button>
+            <button onClick={handleGroup}>+ new Assignment</button>
           </div>
         </div>
         {/* {
@@ -112,6 +118,7 @@ function AdminGroup() {
 })}
 
       </div>
+      </>}
     </div>
   )
 }

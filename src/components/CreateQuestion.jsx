@@ -1,7 +1,13 @@
-import { checkActionCode } from 'firebase/auth'
+import { checkActionCode, confirmPasswordReset } from 'firebase/auth'
 import React, { useState, useRef } from 'react'
 import '../styles/creategroup.css'
+import { async } from '@firebase/util';
+import { collection, addDoc } from "firebase/firestore";
+import { db } from '../utilities/firebase'
+
 function CreateQuestion(props) {
+
+    console.log(props.id)
 
   const [questions, setQuestions] = useState(
     { name: 'abc', description: 'xyz', testCases: [{ input: '', solution: '' }] }
@@ -84,11 +90,11 @@ function CreateQuestion(props) {
     // }
     setCurrentExpt("")
     setCurrentTestCase("")
-    removeEmptyTestCases()
+    // removeEmptyTestCases()
     console.log(questions)
   }
 
-  const removeEmptyTestCases = () => {
+  const removeEmptyTestCases = async () => {
     const updatedQuestions = {
       ...questions,
       testCases: questions.testCases.filter(testCase => {
@@ -108,8 +114,33 @@ function CreateQuestion(props) {
     setQuestions({ ...questions, testCases: updatedTestCases });
   };
 
-  const handleSubmit = ()=>{
-    console.log("final submit")
+  const handleSubmit = async ()=>{
+    console.log("final")
+
+
+    // removeEmptyTestCases()
+    // console.log(questions.pop)
+    
+
+    console.log("before",questions)
+
+    questions.testCases.shift()
+
+    console.log("after",questions)
+
+    // console.log(props.id)
+
+    // removeEmptyTestCases()
+
+    const docRef1 = await addDoc(collection(db, "groups", props.id, "problems"), {
+        name: questions.name,
+        description: questions.description,
+        testCases: questions.testCases,
+
+    });
+
+
+
   }
 
   return (

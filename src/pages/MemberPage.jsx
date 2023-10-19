@@ -10,7 +10,7 @@ import '../styles/creategroup.css'
 import ProblemInSelection from "../components/ProblemInSelection";
 import { collection, query, where } from "firebase/firestore";
 import { useNavigate } from 'react-router-dom';
-
+import '../styles/creategroup.css'
 
 
 export default function MemberPage(props) {
@@ -101,7 +101,7 @@ export default function MemberPage(props) {
 
         navigate(`/test/${id}`,
             {
-                state: { gid: props.id }
+                state: { gid: props.id}
             })
 
 
@@ -175,12 +175,12 @@ export default function MemberPage(props) {
 
                                 <div>
                                     <div>
-                                        {doc.data().name}
+                                        <h2>{doc.data().name}</h2>
                                     </div>
                                     <div>
                                         {doc.data().testDescription}
                                     </div>
-                                    <button onClick={() => { handleTestClick(doc.id) }}>Give Test</button>
+                                    <button onClick={() => { handleTestClick(doc.id) }} className="ctsubmit-btn">Give Test</button>
                                 </div>
                             </>
                         })}

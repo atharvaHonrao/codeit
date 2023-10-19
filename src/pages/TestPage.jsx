@@ -40,21 +40,21 @@ function TestPage() {
         fetchQuestions()
 
     }, [])
-
+console.log(id)
     return (
         <>
-            <h1>TestPage {id}</h1>
+            {/* <h1>TestPage {id}</h1> */}
             <div>
                 <div>
-                    {test.name}
+                    <h1>{test.name}</h1>
                 </div>
                 <div>
-                    {test.testDescription}
+                    <h2>{test.testDescription}</h2>
                 </div>
                 <div className="table-container">
                     {questions.map((doc) => {
                         // console.log(doc.id)
-                        return <ProblemInSelection id={doc.id} classname='problemrow' title={doc.data().name} difficulty='easy' description={doc.data().description} testcases={doc.data().testcases} />
+                        return <ProblemInSelection id={doc.id} classname='problemrow' title={doc.data().name} difficulty='easy' description={doc.data().description} testcases={doc.data().testcases} testId={id}/>
                     })}
                 </div>
             </div>
