@@ -7,6 +7,7 @@ import { db } from '../utilities/firebase'
 import AdminLand from '../pages/AdminLand'
 import MemberPage from '../pages/MemberPage'
 import { useAuthValue } from '../utilities/AuthContext'
+import AdminGroup from '../pages/admingroup'
 
 export default function RoleCheck(props) {
     const [userId, setUserId] = useState('')
@@ -38,7 +39,7 @@ export default function RoleCheck(props) {
     }, [adminId, userId])
   return (
     <div>
-        {adminId === userId ? <AdminLand /> : <MemberPage id= {`${id.id}`} />}
+        {adminId === userId ? <AdminGroup /> : <MemberPage id= {`${id.id}`} />}
     </div>
   )
 }

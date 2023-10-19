@@ -55,7 +55,8 @@ export default function IdeComponent({ input, problemId, userId, testcases }) {
 
   const [testcaseString, settestcaseString] = useState('')
   const [execTime, setExecTime] = useState(0)
-
+const [countPassState, setCountPassState] = useState('')
+const [testcaseSol, settestcaseSol] = useState('')
   useEffect(() => {
     const formattedTestcases = testcases.map(testcase => {
       const input = testcase.input || ''; // Handle cases where input may be missing
@@ -64,6 +65,13 @@ export default function IdeComponent({ input, problemId, userId, testcases }) {
   });
   
   settestcaseString(formattedTestcases.join('\n\n')); // Separate test cases with two new lines
+    const formattedTestcasesSol = testcases.map(testcase => {
+      const output = testcase.solution || ''; // Handle cases where output may be missing
+      // const solution = testcase.solution || ''; // Handle cases where solution may be missing
+      return `${output}`;
+  });
+  
+  settestcaseSol(formattedTestcasesSol.join('\n\n')); // Separate test cases with two new lines
   
   // console.log(testcaseString);
   },[])
@@ -85,6 +93,13 @@ export default function IdeComponent({ input, problemId, userId, testcases }) {
     setTheme(vscodeDark);
     setThemeButton('🌙');
   };
+
+  function removeInvalidCharacters(input) {
+    // Define a regular expression pattern to match valid ASCII characters
+    const pattern = /[ -~\t\n\r]/g;
+    // Replace any character that does not match the pattern with an empty string
+    return input.replace(/[^ -~\t\n\r]/g, '');
+  }
 
   function handleLangChange(event) {
     setLangCode(event.value)
@@ -284,7 +299,8 @@ export default function IdeComponent({ input, problemId, userId, testcases }) {
       code: code,
       status: status,
       output: output,
-      time: execTime
+      time: execTime,
+      testcasesPassed: countPassState
     });
 
     // /groups/ucmhzyng/test/3VpZkscNuOzXAbFw6utO/problems/kDu6Sbxb6RCrYsTdTBEM/submissions/LdtCPw6BWSCJXE4lKZZa
@@ -302,13 +318,15 @@ export default function IdeComponent({ input, problemId, userId, testcases }) {
       .then((answer) => {
         // setStatus(answer.status.description)
         let submissions = answer.submissions
+        setConsoleOutput(submissions[0].compile_output)
         let c = 0
         let output1 = ''
         console.log(submissions)
         setExecTime(submissions[0].time)
         let answerString=''
-        let output2=''
-        let inputString=''
+        // let output2=''
+        // let inputString=''
+        let countPass = 0
         for (c = 0; c < submissions.length; c++) {
 
           
@@ -326,7 +344,9 @@ export default function IdeComponent({ input, problemId, userId, testcases }) {
             answerString = answerString + atob(submissions[c].stdout)+'\n'
             // output2= output2 + submissions[c].stdin+'\n'
             // inputString = inputString + atob(submissions[c].stdin)+'\n'
-
+            if(submissions[c].status.description=="Accepted"){
+              countPass = countPass + 1
+            }
             console.log(output1)
 
             // setOutput(submissions[c].stdout)
@@ -334,6 +354,7 @@ export default function IdeComponent({ input, problemId, userId, testcases }) {
           }
           // setSubmission(submissions[0])
           setOutput(answerString)
+          setCountPassState(`${countPass}/${submissions.length}`)
           // setInputString(inputString)
           console.log(output1)
         }
@@ -431,7 +452,8 @@ export default function IdeComponent({ input, problemId, userId, testcases }) {
           output={output ? output:"No Output"}
           input={testcaseString}
           type={typeSubmission}
-          // consoleOutput={atob(consoleOutput)}
+          expOut={testcaseSol}
+          consoleOutput={removeInvalidCharacters(atob(consoleOutput))}
         />
     </div>
   );

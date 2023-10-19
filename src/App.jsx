@@ -32,6 +32,7 @@ import TestPage  from './pages/TestPage';
 // import IdeComponent from './components/IDEComponent';
 // import IdePage from './pages/IdePage';
 import IdePage from './pages/IDEPage';
+import UserDashboard from './pages/UserDashboard';
 
 
 // Initialize Firebase
@@ -177,7 +178,7 @@ function App() {
             <Route exact path="/portal" element={<Portal />}>
             </Route>
             <Route exact path="/dashboard" element={
-              currentUser != null ? <PostLoginDashboard/> : <Login/>
+              currentUser != null ? <UserDashboard/> : <Login/>
             }>
             </Route>
             <Route path="/editor/:id" element={<IdePage/>}/>

@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
 import styles from '../styles/Submission.module.css';
 
-export default function SubmissionComponent ({ status, input, output, type, consoleOutput}) {
+export default function SubmissionComponent ({ status, input, output, type, expOut, consoleOutput}) {
   // status -> Pending | TimeLimitedExceded | RuntimeError | WrongAnswer | Accepted | Out of Memory
   const style = status.split(' ').join('');
   // const typeSubmission = type[0].toUpperCase().concat(type.substring(1));
 useEffect(() => {
-  console.log([status, input, output, type, consoleOutput])
+  console.log([status, input, output, expOut, consoleOutput])
   typeof(output)
 })
   return (
@@ -21,8 +21,14 @@ useEffect(() => {
               <div className={styles.code}>{input.split('\n').map((str,i) => <p key={i}>{str}</p>)}</div>
             </div>
           ) : null}
+          {true ? (
+            <div>
+              <b>Expected Output</b>
+              <div className={styles.code}>{expOut.split('\n').map((str,i) => <p key={i}>{str}</p>)}</div>
+            </div>
+          ) : null}
 
-          {output ? (
+          {status !== 'Compilation Error' ? (
             <div>
               <b>Your Answer</b>
               <div className={styles.code}>{(output).split('\n').map((str,i) => <p key={i}>{str}</p>)}</div>
@@ -31,7 +37,7 @@ useEffect(() => {
           {consoleOutput ? (
             <div>
               <b>Console Output</b>
-              <div className={styles.code}>{consoleOutput.split('\n').map((str,i) => <p key={i}>{str}</p>)}</div>
+              <div className={styles.code} style={{'color': 'red'}}>{consoleOutput.split('\n').map((str,i) => <p key={i}>{str}</p>)}</div>
             </div>
           ) : null}
         </div>

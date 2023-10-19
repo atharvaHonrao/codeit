@@ -1,7 +1,9 @@
 .cgcontainer * {
     font-family: 'Nunito Sans', sans-serif;
 }
-
+.lower-index{
+    z-index:1
+}
 .cgcontainer {
     font-family: 'Nunito Sans', sans-serif;
     position: absolute;
