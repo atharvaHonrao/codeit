@@ -29,7 +29,9 @@ import RoleCheck from './components/RoleCheck';
 import CheckUser from './components/CheckUser';
 import TestForm from './pages/createTest';
 import TestPage  from './pages/TestPage';
+import { AdminTest } from './pages/AdminTest';
 
+import AdminSubmissionPage from './pages/AdminSubmissions';
 
 // Initialize Firebase
 
@@ -172,6 +174,11 @@ function App() {
             <Route exact path="/login" element={<Login />}>
             </Route>
             <Route exact path="/portal" element={<Portal />}>
+            </Route>
+
+            <Route exact path="/submissions/:id" element={<AdminSubmissionPage/>}>
+            </Route>
+            <Route exact path="/adminTest" element={<AdminTest />}>
             </Route>
             <Route exact path="/dashboard" element={
               currentUser != null ? <PostLoginDashboard/> : <Login/>

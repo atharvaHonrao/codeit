@@ -1,19 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import '../styles/creategroup.css';
 import exampaper from '../assets/exampaper.png';
 import CreateQuestion from './CreateQuestion';
+import { collection, addDoc,getDocs } from "firebase/firestore";
+import { db } from '../utilities/firebase'
 
 function CreateTest(props) {
-    const initialQuestions = [
-        { name: 'abc', description: 'xyz', testCases: [{ input: '1', solution: '1' }] },
-        { name: 'pqr', description: 'rst', testCases: [{ input: '1', solution: '1' }] },
-        { name: 'lmn', description: 'uvw', testCases: [{ input: '1', solution: '1' }] }
-    ];
+
+    const [initialQuestions, setInitialQuestions] = useState([])
+    
+    useEffect(() => {
+    const fetchQuestions = async () => {
+        const querySnapshot = await getDocs(collection(db, "problems"));
+        const querySnapshot2 = await getDocs(collection(db, "groups",props.id,"problems"));
+        console.log(querySnapshot) //
+        // debugger
+        const docs = querySnapshot.docs.map(doc => doc)
+        const docs2 = querySnapshot2.docs.map(doc => doc)
+        docs2.push(...docs)
+
+        setInitialQuestions(docs2)
+    }
+    fetchQuestions()
+    }, [])
+
     const closePop = () => {
         props.changeBoolState(!props.boolState)
     }
-
-    // Initialize an array of states, one for each accordion item
     const [openStates, setOpenStates] = useState(initialQuestions.map(() => false));
     const [selectStates, setSelectStates] = useState(initialQuestions.map(() => false));
     const [selectedIndex, setselectedIndex] = useState([])
@@ -43,50 +56,24 @@ function CreateTest(props) {
         setselectedIndex(Array.from(updatedselectedIndex));
     };
 
-    const handleFinalSubmit = () => {
-        const selectedQuestions = selectedIndex.map(queIndex => initialQuestions[queIndex]);
-        // Now, selectedQuestions will contain the selected questions from initialQuestions.
-        // You can do whatever you want with the selected questions here.
-        console.log(selectedQuestions);
-        // For example, you can send them to an API or perform any other operations.
-    };
+    const [questions, setQuestions] = useState([
+        { name: '', description: '', testCases: [{ input: '', solution: '' }] },
+    ]);
+    const handleFinalSubmit = async () => {
+        
+        selectedIndex.map(queIndex => {initialQuestions[queIndex]
 
+        setQuestions([...questions, { name: initialQuestions[queIndex].data().name, description: initialQuestions[queIndex].data().description, testCases: initialQuestions[queIndex].data().testCases }]);
+        });
+        handleSubmit()
+    };
     const [isGroupVisible, setGroupVisible] = useState(false)
     const handleGroup = () => {
         setGroupVisible(!isGroupVisible)
     };
 
-
-    // =-----------------------------------------------------------------------------------------------
-
-
     const [testName, setTestName] = useState('');
     const [testDescription, setTestDescription] = useState('');
-    const [questions, setQuestions] = useState([
-        { name: '', description: '', testCases: [{ input: '', solution: '' }] },
-    ]);
-
-    const handleAddQuestion = () => {
-        setQuestions([...questions, { name: '', description: '', testCases: [{ input: '', solution: '' }] }]);
-    };
-
-    const handleQuestionChange = (index, field, value) => {
-        const updatedQuestions = [...questions];
-        updatedQuestions[index][field] = value;
-        setQuestions(updatedQuestions);
-    };
-
-    const handleAddTestCase = (questionIndex) => {
-        const updatedQuestions = [...questions];
-        updatedQuestions[questionIndex].testCases.push({ input: '', solution: '' });
-        setQuestions(updatedQuestions);
-    };
-
-    const handleTestCaseChange = (questionIndex, testCaseIndex, field, value) => {
-        const updatedQuestions = [...questions];
-        updatedQuestions[questionIndex].testCases[testCaseIndex][field] = value;
-        setQuestions(updatedQuestions);
-    };
 
     const handleSubmit = async () => {
         // Handle form submission here
@@ -98,42 +85,25 @@ function CreateTest(props) {
 
         let i = 0;
 
-        const docRef = await addDoc(collection(db, "groups", "ucmhzyng", "test"), {
+        const docRef = await addDoc(collection(db, "groups", props.id, "test"), {
             name: testName,
             testDescription: testDescription,
         });
+        
         console.log("Document written with ID: ", docRef.id);
 
         for (i = 0; i < questions.length; i++) {
-
-            const docRef1 = await addDoc(collection(db, "groups", "ucmhzyng", "test", docRef.id, "problems"), {
+            const docRef1 = await addDoc(collection(db, "groups", props.id, "test", docRef.id, "problems"), {
                 name: questions[i].name,
                 description: questions[i].description,
                 testcases: questions[i].testCases,
             });
-            //   console.log("Document written with ID: ", docRef.id);
         }
-        for (i = 0; i < questions.length; i++) {
-            const docRef1 = await addDoc(collection(db, "groups", "ucmhzyng", "problems"), {
-                name: questions[i].name,
-                description: questions[i].description,
-                testCases: questions[i].testCases,
-
-            });
-        }
-
     };
 
     return (
         <>
-            {isGroupVisible ? <CreateQuestion boolState={isGroupVisible} changeBoolState={setGroupVisible}
-                testName={testName} setTestName={setTestName}
-                questions={questions} setQuestions={setQuestions} handleQuestionChange={handleQuestionChange}
-                handleAddQuestion={handleAddQuestion} handleTestCaseChange={handleTestCaseChange}
-                handleAddTestCase={handleAddTestCase}
-
-
-
+            {isGroupVisible ? <CreateQuestion boolState={isGroupVisible} changeBoolState={setGroupVisible} id={props.id}
             /> :
                 <div>
                     <div className='flex cgcontainer'>
@@ -169,14 +139,14 @@ function CreateTest(props) {
                                     {initialQuestions.map((question, queIndex) => {
                                         const isOpen = openStates[queIndex];
                                         const isSelect = selectStates[queIndex];
-
                                         return (
                                             <div key={queIndex} className={`accordion-wrapper ${isOpen ? 'selected' : ''}`}>
                                                 <div className={`quetitle flex`}>
                                                     <div>
-                                                        <div className={`accordion-title ${isOpen ? 'open' : ''}`} onClick={() => toggleAccordion(queIndex)}>{question.name}</div>
+                                                        <div className={`accordion-title ${isOpen ? 'open' : ''}`} onClick={() => toggleAccordion(queIndex)}>{
+                                                        question.data().name}</div>
                                                         <div className={`accordion-item ${!isOpen ? 'collapsed' : ''}`}>
-                                                            <div className="queDisc accordion-content">{question.description}</div>
+                                                            <div className="queDisc accordion-content">{question.data().description}</div>
                                                         </div>
                                                     </div>
                                                     <button onClick={() => toggleSelectQuestion(queIndex)} className={`ctSelect-btn ${isSelect ? "ctSelect-btn-red" : 'ctSelect-btn-blue'}`}>
@@ -190,7 +160,7 @@ function CreateTest(props) {
                                 </div>
                                 <div className="ctctrl-btns flex">
                                     <button className="ctsubmit-btn" onClick={handleFinalSubmit}>Final submit</button>
-                                    <button className="ctsubmit-btn" onClick={handleFinalSubmit}>Cancle</button>
+                                    {/* <button className="ctsubmit-btn" onClick={handleFinalSubmit}>Cancle</button> */}
                                 </div>
                             </div>
                         </div>
