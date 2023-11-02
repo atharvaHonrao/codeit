@@ -1,5 +1,5 @@
 import React, { useState, onChange, useEffect } from "react";
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { Link, Navigate, useLocation, useParams } from 'react-router-dom';
 import '../styles/adminLanding.css';
 import Navbar from "../components/navbar/navbar";
 import { db } from '../utilities/firebase'
@@ -8,10 +8,13 @@ import { useStateWithCallbackLazy } from "use-state-with-callback";
 import CreateQuestion from "../components/CreateQuestion";
 import '../styles/creategroup.css';
 import CreateTest from "../components/CreateTest";
+import { useNavigate } from 'react-router-dom';
 
 
 export default function AdminLand() {
     const id = useParams()
+    const navigate = useNavigate();
+
     const [isGroupVisible, setGroupVisible] = useState(false)
     const handleGroup = () => {
         setGroupVisible(!isGroupVisible)
@@ -51,16 +54,16 @@ export default function AdminLand() {
                     }
                     console.log(names);
                     setGroup({ ...group2, membersName: names });
-
                 }
-
                 fetchUsername()
             })
         }
         fetchGroup()
-
-
     }, [])
+    const showTest = ()=>{
+        navigate('/adminTest',{state:{gid:id.id}})
+    }
+
 
     useEffect(() => {
         // This will show the updated user state in the console
@@ -68,58 +71,22 @@ export default function AdminLand() {
     }, [group]);
 
     return (<>
-        {isGroupVisible && <CreateTest boolState={isGroupVisible} changeBoolState={setGroupVisible} id={id.id} />}
+        {isGroupVisible ? <CreateTest boolState={isGroupVisible} changeBoolState={setGroupVisible} id={id.id} />:
         <div>
             <Navbar />
             <div className="header-container">
                 <div className="namedesc">
                     {/* <button onClick={fetchGroup}>ijgrviuewrhgw</button> */}
-                    <p className="gname">{group.name}</p>
-                    <p className="description">{group.description}</p>
+                    {/* <p className="gname">{group.name}</p> */}
+                    {/* <p className="description">{group.description}</p> */}
                 </div>
                 <div className="header-buttons">
-                    <button className="action-buttons" onClick={handleGroup}>Add Problem</button>
-                    <button className="action-buttons">View Problem</button>
+                    <button className="action-buttons" onClick={handleGroup}>Add Tests</button>
+                    <button className="action-buttons" onClick={showTest}>View Test</button>
                 </div>
             </div>
 
             <div className="main-container">
-                {/* <div className="problem">
-                    <p className="topic">Problems</p>
-                    <div className='flex problemrow1'>
-                        <div className='problem-left'>
-                            <h2>Two number sum</h2>
-                            <p className='problem-description'>Given An Array Of Integers, Find Two Numbers Such That They Add Up To A Specific Target Number. You May Assume That Each Input Would Have Exactly One Solution And You May Not Use The Same Element Twice In The Result.</p>
-                            <p>2E3VWKv7owQXswbSf7wS</p>
-                        </div>
-                        <div className='problem-right flex'>
-                            <button className="submit">Solve Now!</button>
-                        </div>
-                    </div>
-
-                    <div className='flex problemrow1'>
-                        <div className='problem-left'>
-                            <h2>Valid Sudoku</h2>
-                            <p className='problem-description'>Determine If A 9x9 Sudoku Board Is Valid. Only The Filled Cells Need To Be Validated According To The Following Rules: Each Row Must Contain The Digits 1-9 Without Repetition. Each Column Must Contain The Digits 1-9 Without Repetition. Each Of The 9 3x3 Sub-Grids Of The Grid Must Contain The Digits 1-9 Without Repetition.</p>
-                            <p>375eRchFzcN0ruaf0vzt</p>
-                        </div>
-                        <div className='problem-right flex'>
-                            <button className="submit">Solve Now!</button>
-                        </div>
-                    </div>
-
-                    <div className='flex problemrow1'>
-                        <div className='problem-left'>
-                            <h2>Merge Sorted Lists</h2>
-                            <p className='problem-description'>Merge Two Sorted Linked Lists And Return It As A New Sorted List. The New List Should Be Made By Splicing Together The Nodes Of The First Two Lists.</p>
-                            <p>3RE84rinlItXAqS0qkqJ</p>
-                        </div>
-                        <div className='problem-right flex'>
-                            <button className="submit">Solve Now!</button>
-                        </div>
-                    </div>
-                </div> */}
-
                 <div className="member">
                     <p className="topic">Members</p>
                     <div className="table-container">
@@ -149,6 +116,6 @@ export default function AdminLand() {
                     </div>
                 </div>
             </div>
-        </div></>
+        </div>}</>
     )
 }

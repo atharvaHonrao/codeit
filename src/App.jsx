@@ -33,7 +33,9 @@ import TestPage  from './pages/TestPage';
 // import IdePage from './pages/IdePage';
 import IdePage from './pages/IDEPage';
 import UserDashboard from './pages/UserDashboard';
+import { AdminTest } from './pages/AdminTest';
 
+import AdminSubmissionPage from './pages/AdminSubmissions';
 
 // Initialize Firebase
 
@@ -176,6 +178,11 @@ function App() {
             <Route exact path="/login" element={<Login />}>
             </Route>
             <Route exact path="/portal" element={<Portal />}>
+            </Route>
+
+            <Route exact path="/submissions/:id" element={<AdminSubmissionPage/>}>
+            </Route>
+            <Route exact path="/adminTest" element={<AdminTest />}>
             </Route>
             <Route exact path="/dashboard" element={
               currentUser != null ? <UserDashboard/> : <Login/>

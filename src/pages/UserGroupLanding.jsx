@@ -6,8 +6,8 @@ function UserGroupLanding() {
     <div>
         <div className="header-container">
             <div className="namedesc">
-                <p className="gname">Group Name Here</p> 
-                <p className="description">This group is created for every student aiming to brush up their DSA</p>
+                {/* <p className="gname">Group Name Here</p>  */}
+                {/* <p className="description">This group is created for every student aiming to brush up their DSA</p> */}
             </div>
             {/* <div className="header-buttons">
                 <button className="action-buttons">Add Problem</button>

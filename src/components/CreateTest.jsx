@@ -1,11 +1,31 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState,useEffect,useEffect } from 'react';
 import '../styles/creategroup.css';
 import exampaper from '../assets/exampaper.png';
 import CreateQuestion from './CreateQuestion';
 import { collection, addDoc,getDocs } from "firebase/firestore";
 import { db } from '../utilities/firebase'
+import { collection, addDoc,getDocs } from "firebase/firestore";
+import { db } from '../utilities/firebase'
 
 function CreateTest(props) {
+
+    const [initialQuestions, setInitialQuestions] = useState([])
+    
+    useEffect(() => {
+    const fetchQuestions = async () => {
+        const querySnapshot = await getDocs(collection(db, "problems"));
+        const querySnapshot2 = await getDocs(collection(db, "groups",props.id,"problems"));
+        console.log(querySnapshot) //
+        // debugger
+        const docs = querySnapshot.docs.map(doc => doc)
+        const docs2 = querySnapshot2.docs.map(doc => doc)
+        docs2.push(...docs)
+
+        setInitialQuestions(docs2)
+    }
+    fetchQuestions()
+    }, [])
+
 
     const [initialQuestions, setInitialQuestions] = useState([])
     
@@ -66,9 +86,7 @@ function CreateTest(props) {
         setQuestions([...questions, { name: initialQuestions[queIndex].data().name, description: initialQuestions[queIndex].data().description, testCases: initialQuestions[queIndex].data().testCases }]);
         });
         handleSubmit()
-
     };
-
     const [isGroupVisible, setGroupVisible] = useState(false)
     const handleGroup = () => {
         setGroupVisible(!isGroupVisible)
@@ -91,6 +109,7 @@ function CreateTest(props) {
             name: testName,
             testDescription: testDescription,
         });
+        
         console.log("Document written with ID: ", docRef.id);
 
         for (i = 0; i < questions.length; i++) {
@@ -147,9 +166,10 @@ function CreateTest(props) {
                                                 <div className={`quetitle flex`}>
                                                     <div>
                                                         <div className={`accordion-title ${isOpen ? 'open' : ''}`} onClick={() => toggleAccordion(queIndex)}>{
-                                                        question.data().name}</div>
+                                                        
+                                                        question.data().data().name}</div>
                                                         <div className={`accordion-item ${!isOpen ? 'collapsed' : ''}`}>
-                                                            <div className="queDisc accordion-content">{question.data().description}</div>
+                                                            <div className="queDisc accordion-content">{question.data().data().description}</div>
                                                         </div>
                                                     </div>
                                                     <button onClick={() => toggleSelectQuestion(queIndex)} className={`ctSelect-btn ${isSelect ? "ctSelect-btn-red" : 'ctSelect-btn-blue'}`}>
@@ -163,7 +183,7 @@ function CreateTest(props) {
                                 </div>
                                 <div className="ctctrl-btns flex">
                                     <button className="ctsubmit-btn" onClick={handleFinalSubmit}>Final submit</button>
-                                    {/* <button className="ctsubmit-btn" onClick={handleFinalSubmit}>Cancle</button> */}
+                                    {/* {/* <button className="ctsubmit-btn" onClick={handleFinalSubmit}>Cancle</button> */} */}
                                 </div>
                             </div>
                         </div>
