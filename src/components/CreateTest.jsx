@@ -1,15 +1,14 @@
-import React, { useState,useEffect,useEffect } from 'react';
+import React, { useState,useEffect } from 'react';
 import '../styles/creategroup.css';
 import exampaper from '../assets/exampaper.png';
 import CreateQuestion from './CreateQuestion';
 import { collection, addDoc,getDocs } from "firebase/firestore";
 import { db } from '../utilities/firebase'
-import { collection, addDoc,getDocs } from "firebase/firestore";
-import { db } from '../utilities/firebase'
+import { Notyf } from 'notyf';
+import 'notyf/notyf.min.css';
 
 function CreateTest(props) {
 
-    const [initialQuestions, setInitialQuestions] = useState([])
     
     useEffect(() => {
     const fetchQuestions = async () => {
@@ -76,14 +75,13 @@ function CreateTest(props) {
         setselectedIndex(Array.from(updatedselectedIndex));
     };
 
-    const [questions, setQuestions] = useState([
-        { name: '', description: '', testCases: [{ input: '', solution: '' }] },
-    ]);
-    const handleFinalSubmit = async () => {
-        
+    let questions = [];
+    const handleFinalSubmit = () => {
         selectedIndex.map(queIndex => {initialQuestions[queIndex]
 
-        setQuestions([...questions, { name: initialQuestions[queIndex].data().name, description: initialQuestions[queIndex].data().description, testCases: initialQuestions[queIndex].data().testCases }]);
+            console.log({ name: initialQuestions[queIndex].data().name, description: initialQuestions[queIndex].data().description, testCases: initialQuestions[queIndex].data().testCases })
+
+        questions = [...questions, { name: initialQuestions[queIndex].data().name, description: initialQuestions[queIndex].data().description, testCases: initialQuestions[queIndex].data().testCases }];
         });
         handleSubmit()
     };
@@ -96,6 +94,7 @@ function CreateTest(props) {
     const [testDescription, setTestDescription] = useState('');
 
     const handleSubmit = async () => {
+        console.log(questions)
         // Handle form submission here
         console.log({
             testName,
@@ -110,7 +109,7 @@ function CreateTest(props) {
             testDescription: testDescription,
         });
         
-        console.log("Document written with ID: ", docRef.id);
+        console.log("Document written with ID:", docRef.id);
 
         for (i = 0; i < questions.length; i++) {
 
@@ -120,6 +119,15 @@ function CreateTest(props) {
                 testcases: questions[i].testCases,
             });
         }
+        const notyf = new Notyf({
+            position: {
+              x: "right",
+              y: "top"
+            }
+          });
+          // alert('Please enter both test case and expected values.');
+          notyf.success('New Question Added');
+          closePop()
     };
 
     return (
@@ -167,9 +175,9 @@ function CreateTest(props) {
                                                     <div>
                                                         <div className={`accordion-title ${isOpen ? 'open' : ''}`} onClick={() => toggleAccordion(queIndex)}>{
                                                         
-                                                        question.data().data().name}</div>
+                                                        question.data().name}</div>
                                                         <div className={`accordion-item ${!isOpen ? 'collapsed' : ''}`}>
-                                                            <div className="queDisc accordion-content">{question.data().data().description}</div>
+                                                            <div className="queDisc accordion-content">{question.data().description}</div>
                                                         </div>
                                                     </div>
                                                     <button onClick={() => toggleSelectQuestion(queIndex)} className={`ctSelect-btn ${isSelect ? "ctSelect-btn-red" : 'ctSelect-btn-blue'}`}>
@@ -183,7 +191,7 @@ function CreateTest(props) {
                                 </div>
                                 <div className="ctctrl-btns flex">
                                     <button className="ctsubmit-btn" onClick={handleFinalSubmit}>Final submit</button>
-                                    {/* {/* <button className="ctsubmit-btn" onClick={handleFinalSubmit}>Cancle</button> */} */}
+                                    {/* {/* <button className="ctsubmit-btn" onClick={handleFinalSubmit}>Cancle</button> */} 
                                 </div>
                             </div>
                         </div>

@@ -241,17 +241,16 @@
 }
 
 .accordion-item {
-    border-bottom: rgb(255, 255, 255) solid 1px;
     width: 60vw;
     overflow: hidden;
-    transition: max-height 0.3s cubic-bezier(1, 0, 1, 0);
     height: auto;
     max-height: 9999px;
     background-color: rgb(236, 236, 236);
-    transition: all 0.5s cubic-bezier(0, 1, 0, 1);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .accordion-item.collapsed {
+    border-bottom: rgb(255, 255, 255) solid 1px;
     max-height: 0;
     transition: all 0.5s cubic-bezier(0, 1, 0, 1);
 }
@@ -334,6 +333,9 @@
     color: white;
     /* border: none; */
 }
+.ctSelect-btn:active{
+    scale: 0.95;
+}
 .ctSelect-btn-red{
     background-color: rgb(105, 14, 14);
 }
@@ -357,4 +359,8 @@
 }
 .ctctrl-btns button:nth-child(2){
     background-color: rgb(158, 0, 0);
+}
+
+.maincontainer{
+    font-family: 'Nunito Sans', sans-serif;
 }

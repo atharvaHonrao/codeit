@@ -11,6 +11,7 @@ import ProblemInSelection from "../components/ProblemInSelection";
 import { collection, query, where } from "firebase/firestore";
 import { useNavigate } from 'react-router-dom';
 import '../styles/creategroup.css'
+import Sidebar from "../components/Sidebar";
 
 
 export default function MemberPage(props) {
@@ -20,6 +21,18 @@ export default function MemberPage(props) {
     const handleGroup = () => {
         setGroupVisible(!isGroupVisible)
     };
+
+    const [questions, setQuestions] = useState([])
+
+
+    const [openStates, setOpenStates] = useState(questions.map(() => false));
+
+    const toggleAccordion = (index) => {
+        // Create a copy of the openStates array and toggle the state at the specified index
+        const updatedOpenStates = [...openStates];
+        updatedOpenStates[index] = !updatedOpenStates[index];
+        setOpenStates(updatedOpenStates);
+    };
     const [group, setGroup] = useStateWithCallbackLazy({
         name: "",
         description: "",
@@ -27,7 +40,6 @@ export default function MemberPage(props) {
         members: [],
         membersName: []
     })
-    const [questions, setQuestions] = useState([])
 
     useEffect(() => {
         console.log(props.id)
@@ -66,42 +78,45 @@ export default function MemberPage(props) {
     }
 
     return (<>
-        {isGroupVisible && <CreateQuestion boolState={isGroupVisible} changeBoolState={setGroupVisible} />}
-        <div>
-            <Navbar />
-            <div className="header-container">
-                <div className="namedesc">
-                    {/* <button onClick={fetchGroup}>ijgrviuewrhgw</button> */}
-                    {/* <p className="gname">{group.name}</p> */}
-                    {/* <p className="description">{group.description}</p> */}
-                </div>
-                <div className="header-buttons">
-                    {/* <button className="action-buttons" onClick={handleGroup}>Add Problem</button>
-                    <button className="action-buttons">View Problem</button> */}
-                </div>
-            </div>
-
-            <div className="main-container">
-                <div className="member">
-                    <p className="topic">Solve Problems</p>
-                    <div className="table-container">
-                        {questions.map((doc) => {
-                            return <>
-
-                                <div>
-                                    <div>
-                                        <h2>{doc.data().name}</h2>
-                                    </div>
-                                    <div>
-                                        {doc.data().testDescription}
-                                    </div>
-                                    <button onClick={() => { handleTestClick(doc.id) }} className="ctsubmit-btn">Give Test</button>
-                                </div>
-                            </>
-                        })}
+        <>
+            <Sidebar />
+            <div className='maincontainer'>
+                <div className="dashheader flex">
+                    <h1>{group.name}</h1>
+                    <div className="dashheaderright flex">
+                        <div className='flex'>
+                            <button>Create Group</button>
+                        </div>
                     </div>
                 </div>
+                <h2 style={{ padding: '20px' }}>Challange Yourself, Be Stronger</h2>
+                <h3 style={{ paddingLeft: '20px' }}>Your Assignments</h3>
+
+                {questions.map((doc, queIndex) => {
+                    const isOpen = openStates[queIndex];
+                    return <>
+                        <div key={queIndex} className={`accordion-wrapper ${isOpen ? 'selected' : ''}`}>
+                            <div className={`quetitle flex`} style={{ paddingBlock: '10px'}}>
+                                <div>
+                                    <div className={`accordion-title ${isOpen ? 'open' : ''}`} onClick={() => toggleAccordion(queIndex)}>{doc.data().name}</div>
+                                    <div className={`accordion-item ${!isOpen ? 'collapsed' : ''}`}>
+                                        <div className="queDisc accordion-content">{doc.data().testDescription}</div>
+                                    </div>
+                                </div>
+                                <button className="ctSelect-btn ctSelect-btn-blue" onClick={() => { handleTestClick(doc.id) }}>
+                                    Attempt
+                                </button>
+                            </div>
+                        </div>
+                    </>
+                })}
+
+
+
+
+
             </div>
-        </div></>
+        </>
+        </>
     )
 }

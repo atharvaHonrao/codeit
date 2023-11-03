@@ -12,7 +12,6 @@ console.log(props.testId)
                 <h2>{props.title}</h2>
                 <p>{props.description}</p>
             {/* <p>{props.id}</p> */}
-            
             </div>
             <div className='problem-right flex'>
                 {/* <h3>{props.difficulty}</h3> */}

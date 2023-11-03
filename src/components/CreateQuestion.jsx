@@ -4,6 +4,9 @@ import '../styles/creategroup.css'
 import { async } from '@firebase/util';
 import { collection, addDoc } from "firebase/firestore";
 import { db } from '../utilities/firebase'
+import { Notyf } from 'notyf';
+import 'notyf/notyf.min.css';
+
 
 function CreateQuestion(props) {
 
@@ -84,10 +87,19 @@ function CreateQuestion(props) {
     // setTestCases((prevTestCases) => [...prevTestCases, [integers1, integers2]]);
     // inputRef1.current.value=" "
     // inputRef2.current.value = " "
-    // if (!currentTestCase || !currentExpt) {
-    //   alert('Please enter both test case and expected values.');
-    //   return;
-    // }
+    if (!currentTestCase || !currentExpt) {
+      const notyf = new Notyf({
+        position: {
+          x: "center",
+          y: "top"
+        }
+      });
+      // alert('Please enter both test case and expected values.');
+      notyf.error('Please enter both test case and expected values.');
+  
+      // alert('Please enter both test case and expected values.');
+      return;
+    }
     setCurrentExpt("")
     setCurrentTestCase("")
     // removeEmptyTestCases()
@@ -139,6 +151,15 @@ function CreateQuestion(props) {
 
     });
 
+    const notyf = new Notyf({
+      position: {
+        x: "right",
+        y: "top"
+      }
+    });
+    // alert('Please enter both test case and expected values.');
+    notyf.success('New Question Added');
+    props.changeBoolState(!props.boolState)
 
 
   }
