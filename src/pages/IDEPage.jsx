@@ -16,7 +16,7 @@ export default function IdePage({title, description}) {
     <div className={styles.container}>
         <DescriptionComponent title={Location.state.title}><ReactMarkdown>{Location.state.description}</ReactMarkdown></DescriptionComponent>
         {/* <HintsComponent hints={["help"]}/> */}
-        <IdeComponent templates={["help meee"]} input="help" problemId="help" userId="help" testcases={testcases}/>
+        <IdeComponent  testcases={testcases}/>
     </div>
   )
 }

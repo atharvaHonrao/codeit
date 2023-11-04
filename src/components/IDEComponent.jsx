@@ -20,7 +20,7 @@ import { useAuthValue } from '../utilities/AuthContext';
 import { useParams } from 'react-router-dom';
 // import { runCode, submitCode } from './modules';
 
-export default function IdeComponent({ input, problemId, userId, testcases,  }) {
+export default function IdeComponent({ input, problemId, userId, testcases, testId }) {
   const id = useParams()
   const location = useLocation()
   console.log(location.state.testId)

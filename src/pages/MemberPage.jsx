@@ -83,11 +83,11 @@ export default function MemberPage(props) {
             <div className='maincontainer'>
                 <div className="dashheader flex">
                     <h1>{group.name}</h1>
-                    <div className="dashheaderright flex">
+                    {/* <div className="dashheaderright flex">
                         <div className='flex'>
                             <button>Create Group</button>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
                 <h2 style={{ padding: '20px' }}>Challange Yourself, Be Stronger</h2>
                 <h3 style={{ paddingLeft: '20px' }}>Your Assignments</h3>

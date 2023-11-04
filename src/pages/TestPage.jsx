@@ -81,7 +81,7 @@ console.log("jwsvwbnwrb")
                                         </div>
                                     </div>
                                     <button className="ctSelect-btn ctSelect-btn-blue" onClick={() => {
-                                        navigate(`/editor/${id}`,
+                                        navigate(`/editor/${doc.id}`,
                                             {
                                                 state: { title: doc.data().name, description: doc.data().description, testcases: doc.data().testcases, testId: id }
                                             }

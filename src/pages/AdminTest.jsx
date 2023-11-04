@@ -11,6 +11,8 @@ import ProblemInSelection from "../components/ProblemInSelection";
 import { collection, query, where } from "firebase/firestore";
 import { useNavigate } from 'react-router-dom';
 import '../styles/adminLanding.css';
+import Sidebar from "../components/Sidebar";
+import "../styles/creategroup.css";
 
 export const AdminTest = () => {
     let navigate = useNavigate()
@@ -23,6 +25,16 @@ export const AdminTest = () => {
         // membersName: []
     })
     const [test,setTest] = useState([])
+
+    const [openStates, setOpenStates] = useState(test.map(() => false));
+
+    const toggleAccordion = (index) => {
+        // Create a copy of the openStates array and toggle the state at the specified index
+        const updatedOpenStates = [...openStates];
+        updatedOpenStates[index] = !updatedOpenStates[index];
+        setOpenStates(updatedOpenStates);
+    };
+
 
     useEffect(() => {
         console.log(Location.state.gid)
@@ -57,32 +69,40 @@ export const AdminTest = () => {
 //   const { id } = useParams()
   return (
     <div>
-            <div className="header-container">
-                <div className="namedesc">
-                    {/* <p className="gname">{group.name}</p>  */}
-                    {/* <p className="description">{group.description}</p> */}
-                </div>
-                <div className="header-buttons">
-                    {/* <button className="action-buttons">Add Problem</button> */}
-                    {/* <button className="action-buttons">View Problem</button> */}
+            
+            <Sidebar/>
+            <div className="maincontainer">
+                <div className="problem">
+                    <p className="topic">Submissions</p>
+
+                    {test.map((doc, queIndex)=>{
+
+const isOpen = openStates[queIndex];
+return <>
+    <div key={queIndex} className={`accordion-wrapper ${isOpen ? 'selected' : ''}`}>
+        <div className={`quetitle flex`} style={{ paddingBlock: '10px'}}>
+            <div>
+                <div className={`accordion-title ${isOpen ? 'open' : ''}`} onClick={() => toggleAccordion(queIndex)}>{doc.data().name}</div>
+                <div className={`accordion-item ${!isOpen ? 'collapsed' : ''}`}>
+                    <div className="queDisc accordion-content">{doc.data().testDescription}</div>
                 </div>
             </div>
-            <div className="main-container">
-                <div className="problem">
-                    <p className="topic">Problems</p>
+            <button className="ctSelect-btn ctSelect-btn-blue" onClick={e=>{finalSubmit(doc.id,doc.data().name,doc.data().testDescription)}}>View</button>
+                
+        </div>
+    </div>
+</>
 
-                    {test.map(doc=>{
-
-                        return <div className='flex problemrow1'>
-                        <div className='problem-left'>
-                            <h2>{doc.data().name}</h2>
-                            <p className='problem-description'>{doc.data().testDescription}</p>
-                            <p>Test id={doc.id}</p>
-                        </div>
-                        <div className='problem-right flex'>
-                            <button className="submit" onClick={e=>{finalSubmit(doc.id,doc.data().name,doc.data().testDescription)}}>View Submissions</button>
-                        </div>
-                    </div>
+                    //     return <div className='flex problemrow1'>
+                    //     <div className='problem-left'>
+                    //         <h2>{doc.data().name}</h2>
+                    //         <p className='problem-description'>{doc.data().testDescription}</p>
+                    //         {/* <p>Test id={doc.id}</p> */}
+                    //     </div>
+                    //     <div className='problem-right flex'>
+                    //         <button className="submit" onClick={e=>{finalSubmit(doc.id,doc.data().name,doc.data().testDescription)}}>View Submissions</button>
+                    //     </div>
+                    // </div>
 
                     })}
                     

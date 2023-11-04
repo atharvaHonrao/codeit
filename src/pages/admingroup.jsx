@@ -7,9 +7,10 @@ import { db } from '../utilities/firebase'
 import { useStateWithCallbackLazy } from 'use-state-with-callback'
 import '../styles/admingroup.css'
 import CreateTest from '../components/CreateTest'
+import { useNavigate } from 'react-router-dom'
 
 function AdminGroup() {
-
+const navigate = useNavigate();
   const id = useParams()
   const [isGroupVisible, setGroupVisible] = useState(false)
   const handleGroup = () => {
@@ -68,6 +69,11 @@ function AdminGroup() {
       console.log(group);
   }, [group]);
 
+  const showTest = ()=>{
+    navigate('/adminTest',{state:{gid:id.id}})
+}
+
+
   return (
     <div>
     {isGroupVisible ? <CreateTest boolState={isGroupVisible} changeBoolState={setGroupVisible} id={id.id} /> : <>
@@ -83,9 +89,11 @@ function AdminGroup() {
         <hr />
         <hr />
         <div className='agmainbody'>
-          <div className='flex agmainbodyheader'>
+          <div className='flex agmainbodyheader' style={{"alignItems": "end"}}>
             <h2>Group Assignments</h2>
             <button onClick={handleGroup}>+ new Assignment</button>
+            <button className="action-buttons" onClick={showTest}>View Test</button>
+
           </div>
         </div>
         {/* {
