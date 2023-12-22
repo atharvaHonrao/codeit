@@ -2,11 +2,31 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 // import './App.css';
 import '../styles/Sidebar.css'
-import codeitlogo from '../assets/Codeit-logo-light.png'
+import codeitlogo from '../assets/codeit-logo-light.png'
+import { signOut } from "firebase/auth";
+import { auth } from '../utilities/firebase';
+import { useNavigate } from 'react-router-dom';
+
+
+
+
 function Sidebar() {
+    const navigate = useNavigate();
     const PracticePage = () => <div>Practice Page</div>;
     const Groups = () => <div>Groups</div>;
     const SignOut = () => <div>Sign Out</div>;
+
+    const logOut = () => {
+        signOut(auth).then(() => {
+          console.log("Signed out")
+          alert("Signed out")
+            navigate('/login')
+        }).catch((error) => {
+          alert("Error Signing out")
+        });
+        console.log("Signed out")
+    }
+
     return (
         <div className="sidebar">
                 <div className='sidebarimg'>
@@ -19,8 +39,10 @@ function Sidebar() {
                 <div>
                     <Link to="/groups">Groups</Link>
                 </div>
-                <div>
-                    <Link to="/signout">Sign Out</Link>
+                <div style={{cursor: 'pointer'}} onClick={()=> {
+                    logOut()
+                }}>
+                    Log Out
                 </div>
             </div>
             

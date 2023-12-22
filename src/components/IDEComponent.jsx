@@ -183,8 +183,8 @@ const {currentUser} = useAuthValue()
     source_code: btoa(`${code}`),
     language_id: langcode,  // should be dynamic
     number_of_runs: null,
-    stdin: btoa(testcases[0].input), // should be dynamic
-    expected_output: btoa(testcases[0].solution), // should be dynamic
+    stdin: btoa(testcases[0].input || null), // should be dynamic
+    expected_output: btoa(testcases[0].solution || null), // should be dynamic
     cpu_time_limit: null,
     cpu_extra_time: null,
     wall_time_limit: null,

@@ -1,6 +1,6 @@
 // import './App.css';
 // import './components/editor.css';
-import GroupPage from './pages/groupPage';
+import GroupPage from './pages/GroupPage';
 import Editor from './components/editor';
 import Navbar from './components/navbar/navbar';
 import Signup from './components/signup';
@@ -11,7 +11,6 @@ import { getFirestore } from "firebase/firestore";
 import { collection, getDocs } from "firebase/firestore";
 import 'firebase/auth'
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
-import Homepage from './components/homepage';
 import { BrowserRouter as Router, Route, Routes, useNavigate } from "react-router-dom";
 import React, { useState, useContext } from "react";
 import { AuthProvider } from './utilities/AuthContext';
@@ -34,7 +33,7 @@ import TestPage  from './pages/TestPage';
 import IdePage from './pages/IDEPage';
 import UserDashboard from './pages/UserDashboard';
 import { AdminTest } from './pages/AdminTest';
-
+import Homepage from './pages/Homepage.jsx';
 import AdminSubmissionPage from './pages/AdminSubmissions';
 
 // Initialize Firebase
@@ -158,6 +157,23 @@ import AdminSubmissionPage from './pages/AdminSubmissions';
 //   );
 // };
 
+const isLoggedIn = () => {
+  return currentUser != null;
+};
+
+const PrivateRoute = ({ component: Component, ...rest }) => (
+  <Route
+    {...rest}
+    render={(props) =>
+      isLoggedIn() ? (
+        <Component {...props} />
+      ) : (
+        <Redirect to="/" />
+      )
+    }
+  />
+);
+
 function App() {
   const [currentUser, setCurrentUser] = useState(null)
   useEffect(() => {
@@ -173,7 +189,7 @@ function App() {
           <Routes>
             <Route exact path="/signup" element={<Signup />}>
             </Route>
-            <Route exact path="/" element={<LandingPage />}>
+            <Route exact path="/" element={<Homepage />}>
             </Route>
             <Route exact path="/login" element={<Login />}>
             </Route>

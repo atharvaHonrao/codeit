@@ -5,6 +5,7 @@ import { db } from '../utilities/firebase'
 import { useStateWithCallbackLazy } from "use-state-with-callback";
 import ProblemInSelection from '../components/ProblemInSelection';
 import '../styles/adminsubmit.css'
+import '../styles/creategroup.css'
 
 function AdminSubmissionPage() {
 

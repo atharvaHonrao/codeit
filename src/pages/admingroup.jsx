@@ -82,7 +82,7 @@ const navigate = useNavigate();
         <div className="agheader flex">
           <div>
             <h1>{group.name}</h1>
-            {/* <h4>Admin : Admin Name</h4> */}
+            <h4>Group Code: {id.id}</h4>
           </div>
           <p>{group.description}</p>
         </div>

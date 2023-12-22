@@ -9,7 +9,8 @@ import { doc, getDocs, getDoc, setDoc,updateDoc,arrayUnion } from 'firebase/fire
 import { useEffect } from 'react'
 import { collection, query, where } from 'firebase/firestore'
 import { useStateWithCallbackLazy } from 'use-state-with-callback'
-
+import { Notyf } from 'notyf';
+import 'notyf/notyf.min.css';
 
 function PostLoginDashboard() {
   const [isGroupVisible, setGroupVisible] = useState(false)
@@ -38,7 +39,15 @@ function PostLoginDashboard() {
 
 
     console.log(groupCode)
-
+    
+    const notyf = new Notyf({
+      position: {
+        x: "right",
+        y: "top"
+      }
+    });
+    // alert('Please enter both test case and expected values.');
+    notyf.success('Joined Group Successfully');
     const userRef = doc(db,"users",currentUser.uid)
     const groupRef = doc(db,"groups",groupCode) 
 
@@ -56,6 +65,7 @@ function PostLoginDashboard() {
     });
 
     console.log(currentUser.uid)
+
 
   }
 
@@ -95,7 +105,7 @@ function PostLoginDashboard() {
       })
 
     })
-  }, [])
+  }, [groupCode])
 
 
   // useEffect(() => {

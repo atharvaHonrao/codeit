@@ -7,6 +7,9 @@ import { db } from '../utilities/firebase'
 import { collection, getDocs } from "firebase/firestore";
 import { signOut } from "firebase/auth";
 import { auth } from '../utilities/firebase';
+import Sidebar from '../components/Sidebar'
+import '../styles/userdashboard.css'
+
 
 
 const SelectProblem = () =>  {
@@ -38,19 +41,20 @@ const SelectProblem = () =>  {
 
     return (
         <>
-            <Navbar />
+            <Sidebar/>
             {/* <h1>Hello {currentUser.displayName}</h1> */}
-            <button onClick={logOut}>Log Out</button>
+            <div className='maincontainer'>
+            {/* <button onClick={logOut}>Log Out</button>
             <div className="searchbar">
                 <input placeholder='Search for any problem here' />
-            </div>
+            </div> */}
             <div className='problemrow-container'>
 
                 {questions.map((doc) => {
                     // console.log(doc.id)
                                   return  <ProblemInSelection id={doc.id} classname='problemrow' title={doc.data().title} difficulty='easy' description={doc.data().description} />
                 })}
-            </div>
+            </div></div>
         </>
     )
 }

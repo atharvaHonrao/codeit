@@ -47,4 +47,5 @@ firebase.json
 firebase.indexes.json
 firebase.rules
 .env
+*.env
 .env.local

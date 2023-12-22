@@ -35,13 +35,13 @@ function UserDashboard() {
   //   setGroupCode(event.target.value);
   // };
 
-  const joinGroup = async () => {
+  const joinGroup = async() =>{
 
 
     console.log(groupCode)
 
-    const userRef = doc(db, "users", currentUser.uid)
-    const groupRef = doc(db, "groups", groupCode)
+    const userRef = doc(db,"users",currentUser.uid)
+    const groupRef = doc(db,"groups",groupCode) 
 
     const groupSnap = await getDoc(groupRef)
     const userDoc = await getDoc(userRef);
@@ -49,7 +49,7 @@ function UserDashboard() {
 
     console.log(groupSnap.data())
 
-    userData.groupJoined[groupCode] = groupSnap.data().name;
+    userData.groupJoined[groupCode] =groupSnap.data().name ;
 
     await setDoc(userRef, userData, { merge: true });
     await updateDoc(groupRef, {
@@ -59,6 +59,8 @@ function UserDashboard() {
     console.log(currentUser.uid)
 
   }
+
+
 
 
   useEffect(() => {
@@ -123,6 +125,7 @@ function UserDashboard() {
     setGroupVisible(!isGroupVisible)
   };
 
+  
   return (
     <>
       <Sidebar />
@@ -135,8 +138,8 @@ function UserDashboard() {
               <button onClick={handleGroup}>Create Group</button>
             </div>
             <div className='flex'>
-              <p>Join Group</p>
-              <input placeholder='Enter code here'></input>
+              <input placeholder='Enter code here' onChange={handleInputChange}></input>
+              <button onClick={joinGroup}>Join Group</button>
             </div>
           </div>
         </div>
