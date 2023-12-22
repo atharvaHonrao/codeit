@@ -5,10 +5,15 @@ import '../styles/selectProblem.css'
 import { useAuthValue } from '../utilities/AuthContext';
 import { db } from '../utilities/firebase'
 import { collection, getDocs } from "firebase/firestore";
+import { signOut } from "firebase/auth";
+import { auth } from '../utilities/firebase';
+import Sidebar from '../components/Sidebar'
+import '../styles/userdashboard.css'
 
 
 
 const SelectProblem = () =>  {
+    const {currentUser} = useAuthValue()
 
     const [questions, setQuestions] = useState([])
     useEffect(() => {
@@ -19,26 +24,37 @@ const SelectProblem = () =>  {
         const docs = querySnapshot.docs.map(doc => doc)
         setQuestions(docs)
     }
-    fetchQuestions()
+    return fetchQuestions
     }, [])
+
+    const logOut = () => {
+        signOut(auth).then(() => {
+          console.log("Signed out")
+          alert("Signed out")
+        }).catch((error) => {
+          alert("Error Signing out")
+        });
+        console.log("Signed out")
+    }
+    
+    console.log(currentUser)
 
     return (
         <>
-            <Navbar />
+            <Sidebar/>
+            {/* <h1>Hello {currentUser.displayName}</h1> */}
+            <div className='maincontainer'>
+            {/* <button onClick={logOut}>Log Out</button>
             <div className="searchbar">
                 <input placeholder='Search for any problem here' />
-            </div>
+            </div> */}
             <div className='problemrow-container'>
-                {/* <ProblemInSelection classname='problemrow' title='Stack in c' difficulty='easy' description='Implement stack with using pointers and arrays' />
-                <ProblemInSelection classname='problemrow' title='Stack in c' difficulty='easy' description='Implement stack with using pointers and arrays' />
-                <ProblemInSelection classname='problemrow' title='Stack in c' difficulty='easy' description='Implement stack with using pointers and arrays' />
-                <ProblemInSelection classname='problemrow' title='Stack in c' difficulty='easy' description='Implement stack with using pointers and arrays' /> */}
 
                 {questions.map((doc) => {
-                    console.log(doc.id)
+                    // console.log(doc.id)
                                   return  <ProblemInSelection id={doc.id} classname='problemrow' title={doc.data().title} difficulty='easy' description={doc.data().description} />
                 })}
-            </div>
+            </div></div>
         </>
     )
 }

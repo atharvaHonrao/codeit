@@ -1,0 +1,87 @@
+.maincontainer *{
+    /* font-family: 'nunito sans'; */
+}
+.maincontainer{
+    margin-left: 250px;
+}
+.dashheader{
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 20px;
+    border-bottom: solid 2px black;
+}
+.dashheader *{
+    align-items: center;
+}
+.dashheader button{
+    /* width: 110px; */
+    /* height: 30px; */
+    padding: 10px;
+    text-transform: capitalize;
+    font-size: 1rem;
+    border-radius: 10px;
+    border: none;
+    color: white;
+    background-color: black;
+    margin-block: 20px;
+}
+
+.dashheader p{
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 1rem;
+    border: none;
+    color: black;
+    background-color: white;
+    border: 1px solid black;
+    margin-block: 20px;
+}
+
+.dashheader input{
+    margin-left: 10px;
+    width:100px;
+    border-radius: 10px;
+    padding: 10px;
+    /* font-size: 1rem; */
+    border: none;
+    color: black;
+    border: 1px solid black;
+    margin-block: 20px;
+}
+
+.dashheaderright{
+    gap:10px;
+}
+
+.cardbody{
+    /* background-color: rgb(90, 90, 90); */
+    border: 1px black solid;
+    border-radius: 10px;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+    max-width: 25%;
+    flex-basis: 23%;
+    gap: 20px;
+    flex-shrink :0;
+    align-items: center;
+    height: 250px;
+}
+.cardbody img{
+    border: solid 1px;
+    width:70px;
+    margin-top:20px;
+    /* height: 50px; */
+    border-radius: 100px;
+}
+.cardbody:hover{
+    box-shadow: 0 0 10px black;
+}
+.feature-cards{
+    margin-inline: 20px;
+    margin-top: 40px;
+    flex-wrap: wrap;
+    gap:20px;
+    justify-content: flex-start;
+    flex-shrink: 0;
+}
