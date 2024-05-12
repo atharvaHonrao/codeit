@@ -23,15 +23,15 @@
 //   const containerClass = boolState ? 'cgcontainer visible' : 'cgcontainer';
 
 //   const handleNewTestCase = (e) => {
-//     console.log(e.target.value);
-//     console.log(typeof (e.target.value));
+//     // console.log(e.target.value);
+//     // console.log(typeof (e.target.value));
 //     setCurrentTestCase(e.target.value)
 //     handleAddTestCase(questionIndex)
 //   }
 
 //   const handleNewExptCase = (e) => {
-//     console.log(e.value);
-//     console.log(typeof (e.value));
+//     // console.log(e.value);
+//     // console.log(typeof (e.value));
 //     setCurrentExpt(e.target.value)
 //   }
 
@@ -44,23 +44,23 @@
 //     // let numberStrings = currentTestCase.split(',');
 //     // let integers = numberStrings.map((numberString) => parseInt(numberString, 10));
 //     // setdummyChild1(integers);
-//     // console.log("dummyChild1")
-//     // console.log(dummyChild1)
+//     // // console.log("dummyChild1")
+//     // // console.log(dummyChild1)
 //     // numberStrings = currentExpt.split(',');
 //     // integers = numberStrings.map((numberString) => parseInt(numberString, 10));
 //     // setdummyChild2(integers);
-//     // console.log("dummyChild2")
-//     // console.log(dummyChild2)
+//     // // console.log("dummyChild2")
+//     // // console.log(dummyChild2)
 //     // let mergedArray = [dummyChild1,dummyChild2];
-//     // console.log("merged array")
-//     // console.log(mergedArray)
+//     // // console.log("merged array")
+//     // // console.log(mergedArray)
 //     // setdummyFather([dummyChild1,dummyChild2]);
-//     // console.log("dummyFather")
-//     // console.log(dummyFather)
+//     // // console.log("dummyFather")
+//     // // console.log(dummyFather)
 //     // mergedArray = [...testCases, dummyFather]
 //     // setTestCases(mergedArray)
-//     // console.log("testCases  ")
-//     // console.log(testCases)
+//     // // console.log("testCases  ")
+//     // // console.log(testCases)
 //     // final array = [[[1, 2], [3, 4]], [[5, 6], [7, 8]]]
 //     // final array = [
 //     //   {
@@ -90,16 +90,16 @@
 //     }
 //     setCurrentExpt("")
 //     setCurrentTestCase("")
-//     console.log("testCases  ")
-//     console.log(testCases)
-//     console.log("FinalArray  ")
-//     console.log(questions)
+//     // console.log("testCases  ")
+//     // console.log(testCases)
+//     // console.log("FinalArray  ")
+//     // console.log(questions)
 //   }
 
 //   const handleRemoveTestCase = (index) => {
 //     const updatedTestCases = [...questions.testCases];
 //     updatedTestCases.splice(index, 1);
-//     console.log(questions)
+//     // console.log(questions)
 //     setQuestions({ ...questions, testCases: updatedTestCases });
 //   };
 

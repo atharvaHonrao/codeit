@@ -24,7 +24,7 @@ export const AdminTest = () => {
         // members: [],
         // membersName: []
     })
-    const [test,setTest] = useState([])
+    const [test, setTest] = useState([])
 
     const [openStates, setOpenStates] = useState(test.map(() => false));
 
@@ -37,12 +37,12 @@ export const AdminTest = () => {
 
 
     useEffect(() => {
-        console.log(Location.state.gid)
-        
+        // console.log(Location.state.gid)
+
         const fetchGroup = async () => {
             const docRef = doc(db, "groups", Location.state.gid);
             const docSnap = await getDoc(docRef);
-            console.log(docSnap.data())
+            // console.log(docSnap.data())
             setGroup({
                 name: docSnap.data().name,
                 description: docSnap.data().description,
@@ -56,56 +56,56 @@ export const AdminTest = () => {
             const querySnapshot = await getDocs(collection(db, "groups", Location.state.gid, "test"));
             const docs = querySnapshot.docs.map(doc => doc)
             setTest(docs)
-            console.log(docs)
+            // console.log(docs)
         }
         fetchQuestions()
     }, [])
 
-    const finalSubmit = (id,name,description) =>{
-        navigate(`/submissions/${id}`,{state:{gid:Location.state.gid}})
+    const finalSubmit = (id, name, description) => {
+        navigate(`/submissions/${id}`, { state: { gid: Location.state.gid } })
     }
 
 
-//   const { id } = useParams()
-  return (
-    <div>
-            
-            <Sidebar/>
+    //   const { id } = useParams()
+    return (
+        <div>
+
+            <Sidebar />
             <div className="maincontainer">
                 <div className="problem">
                     <p className="topic">Submissions</p>
 
-                    {test.map((doc, queIndex)=>{
+                    {test.map((doc, queIndex) => {
 
-const isOpen = openStates[queIndex];
-return <>
-    <div key={queIndex} className={`accordion-wrapper ${isOpen ? 'selected' : ''}`}>
-        <div className={`quetitle flex`} style={{ paddingBlock: '10px'}}>
-            <div>
-                <div className={`accordion-title ${isOpen ? 'open' : ''}`} onClick={() => toggleAccordion(queIndex)}>{doc.data().name}</div>
-                <div className={`accordion-item ${!isOpen ? 'collapsed' : ''}`}>
-                    <div className="queDisc accordion-content">{doc.data().testDescription}</div>
-                </div>
-            </div>
-            <button className="ctSelect-btn ctSelect-btn-blue" onClick={e=>{finalSubmit(doc.id,doc.data().name,doc.data().testDescription)}}>View</button>
-                
-        </div>
-    </div>
-</>
+                        const isOpen = openStates[queIndex];
+                        return <>
+                            <div key={queIndex} className={`accordion-wrapper ${isOpen ? 'selected' : ''}`}>
+                                <div className={`quetitle flex`} style={{ paddingBlock: '10px' }}>
+                                    <div>
+                                        <div className={`accordion-title ${isOpen ? 'open' : ''}`} onClick={() => toggleAccordion(queIndex)}>{doc.data().name}</div>
+                                        <div className={`accordion-item ${!isOpen ? 'collapsed' : ''}`}>
+                                            <div className="queDisc accordion-content">{doc.data().testDescription}</div>
+                                        </div>
+                                    </div>
+                                    <button className="ctSelect-btn ctSelect-btn-blue" onClick={e => { finalSubmit(doc.id, doc.data().name, doc.data().testDescription) }}>View</button>
 
-                    //     return <div className='flex problemrow1'>
-                    //     <div className='problem-left'>
-                    //         <h2>{doc.data().name}</h2>
-                    //         <p className='problem-description'>{doc.data().testDescription}</p>
-                    //         {/* <p>Test id={doc.id}</p> */}
-                    //     </div>
-                    //     <div className='problem-right flex'>
-                    //         <button className="submit" onClick={e=>{finalSubmit(doc.id,doc.data().name,doc.data().testDescription)}}>View Submissions</button>
-                    //     </div>
-                    // </div>
+                                </div>
+                            </div>
+                        </>
+
+                        //     return <div className='flex problemrow1'>
+                        //     <div className='problem-left'>
+                        //         <h2>{doc.data().name}</h2>
+                        //         <p className='problem-description'>{doc.data().testDescription}</p>
+                        //         {/* <p>Test id={doc.id}</p> */}
+                        //     </div>
+                        //     <div className='problem-right flex'>
+                        //         <button className="submit" onClick={e=>{finalSubmit(doc.id,doc.data().name,doc.data().testDescription)}}>View Submissions</button>
+                        //     </div>
+                        // </div>
 
                     })}
-                    
+
 
                     {/* <div className='flex problemrow1'>
                         <div className='problem-left'>
@@ -128,8 +128,8 @@ return <>
                             <button className="submit">Start Test</button>
                         </div>
                     </div> */}
-                </div> 
+                </div>
             </div>
         </div>
-  )
+    )
 }

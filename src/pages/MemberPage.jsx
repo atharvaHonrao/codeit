@@ -42,12 +42,12 @@ export default function MemberPage(props) {
     })
 
     useEffect(() => {
-        console.log(props.id)
-        
+        // console.log(props.id)
+
         const fetchGroup = async () => {
             const docRef = doc(db, "groups", props.id);
             const docSnap = await getDoc(docRef);
-            console.log(docSnap.data())
+            // console.log(docSnap.data())
             setGroup({
                 name: docSnap.data().name,
                 description: docSnap.data().description,
@@ -71,7 +71,7 @@ export default function MemberPage(props) {
     const handleTestClick = (id) => {
         navigate(`/test/${id}`,
             {
-                state: { gid: props.id}
+                state: { gid: props.id }
             })
 
 
@@ -96,7 +96,7 @@ export default function MemberPage(props) {
                     const isOpen = openStates[queIndex];
                     return <>
                         <div key={queIndex} className={`accordion-wrapper ${isOpen ? 'selected' : ''}`}>
-                            <div className={`quetitle flex`} style={{ paddingBlock: '10px'}}>
+                            <div className={`quetitle flex`} style={{ paddingBlock: '10px' }}>
                                 <div>
                                     <div className={`accordion-title ${isOpen ? 'open' : ''}`} onClick={() => toggleAccordion(queIndex)}>{doc.data().name}</div>
                                     <div className={`accordion-item ${!isOpen ? 'collapsed' : ''}`}>
@@ -117,6 +117,6 @@ export default function MemberPage(props) {
 
             </div>
         </>
-        </>
+    </>
     )
 }

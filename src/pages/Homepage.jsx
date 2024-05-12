@@ -15,8 +15,8 @@ export default function Homepage() {
         <div style={{ width: 822, height: 272, left: 309, top: 174, position: 'absolute' }} />
         <img style={{ width: 244, left: 90, top: 40, position: 'absolute' }} src={logo} />
         <div style={{ width: 774, height: 170, left: 567, top: 182, position: 'absolute', color: '#2B2B2B', fontSize: 72, fontFamily: 'K2D', fontWeight: '700', wordWrap: 'break-word' }}>Start Scripting Your Success Story with CodeIT</div>
-        <div style={{ width: 235, height: 68, left: 567, top: 512, position: 'absolute', background: '#3321FF', borderRadius: 63, border: '1px black solid', padding: 'auto', cursor: 'pointer' }} onClick={()=> navigate('/signup')}><div style={{  margin: '15px',textAlign: 'center', color: 'white', fontSize: 32, fontFamily: 'Inter', fontWeight: '400', wordWrap: 'break-word' }} >Sign Up</div></div>
-        <div style={{ width: 235, height: 68, left: 886, top: 512, position: 'absolute', background: '#3321FF', borderRadius: 63, border: '1px black solid', cursor: 'pointer' }} onClick={() => navigate('/login')}><div style={{ margin: '15px', textAlign: 'center', color: 'white', fontSize: 32, fontFamily: 'Inter', fontWeight: '400', wordWrap: 'break-word' }}>Login</div></div>
+        <div style={{ width: 235, height: 68, left: 567, top: 512, position: 'absolute', background: '#FFFFFF', borderRadius: 63, border: '1px black solid', padding: 'auto', cursor: 'pointer' }} onClick={()=> navigate('/signup')}><div style={{  margin: '15px',textAlign: 'center', color: '#2B2B2B', fontSize: 32, fontFamily: 'Inter', fontWeight: '400', wordWrap: 'break-word' }} >Sign Up</div></div>
+        <div style={{ width: 235, height: 68, left: 886, top: 512, position: 'absolute', background: '#FFFFFF', borderRadius: 63, border: '1px black solid', cursor: 'pointer' }} onClick={() => navigate('/login')}><div style={{ margin: '15px', textAlign: 'center', color: '#2B2B2B', fontSize: 32, fontFamily: 'Inter', fontWeight: '400', wordWrap: 'break-word' }}>Login</div></div>
 
     </div>
 }

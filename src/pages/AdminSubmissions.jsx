@@ -24,7 +24,7 @@ function AdminSubmissionPage() {
       const docRef = doc(db, "groups", Location.state.gid, "test", id);
       const docSnap = await getDoc(docRef);
 
-      // console.log(docSnap.data())
+      // // console.log(docSnap.data())
       setTest({
         name: docSnap.data().name,
         testDescription: docSnap.data().testDescription,
@@ -66,12 +66,12 @@ function AdminSubmissionPage() {
       //     }
       //     // x.push(data)
       //     setSubmission([...submission,data])
-      //     console.log(data)
+      //     // console.log(data)
 
       //   })
       // }
       // setSubmission(x)
-      // console.log("xxxxxxxxxx",x)
+      // // console.log("xxxxxxxxxx",x)
     }
 
     const fetchSubmission = async (idc) => {
@@ -85,7 +85,7 @@ function AdminSubmissionPage() {
 
   }, [])
 
-  console.log("sssssssssssss", submission)
+  // console.log("sssssssssssss", submission)
 
   return (
     <>
@@ -99,7 +99,7 @@ function AdminSubmissionPage() {
         </h3>
         <div className="table-container">
           {/* {questions.map((doc) => {
-                        // console.log(doc.id)
+                        // // console.log(doc.id)
                         return <ProblemInSelection id={doc.id} classname='problemrow' title={doc.data().name} difficulty='easy' description={doc.data().description} testcases={doc.data().testcases} />
                     })} */}
         </div>
@@ -152,26 +152,26 @@ function AdminSubmissionPage() {
             </tr>
           </thead>
 
-            {submission.map((submissionData, index) => (
+          {submission.map((submissionData, index) => (
 
 
-              <tbody className='tbodys'>
-                {submissionData.map((submissionData, index) => (
-                  <tr key={index}>
-                    <td>{submissionData.name}</td>
-                    <td>{submissionData.testcasesPassed}</td>
-                    <td>{submissionData.time}</td>
-                    <td>{submissionData.code}</td>
-                  </tr>
-                ))}
-              </tbody>
-              // <tr key={index}>
-              //   <td>{submissionData[0].name}</td>
-              //   <td>{submissionData[0].tescasesPassed}</td>
-              //   <td>{submissionData[0].time}</td>
-              //   <td>{submissionData[0].code}</td>
-              // </tr>
-            ))}
+            <tbody className='tbodys'>
+              {submissionData.map((submissionData, index) => (
+                <tr key={index}>
+                  <td>{submissionData.name}</td>
+                  <td>{submissionData.testcasesPassed}</td>
+                  <td>{submissionData.time}</td>
+                  <td>{submissionData.code}</td>
+                </tr>
+              ))}
+            </tbody>
+            // <tr key={index}>
+            //   <td>{submissionData[0].name}</td>
+            //   <td>{submissionData[0].tescasesPassed}</td>
+            //   <td>{submissionData[0].time}</td>
+            //   <td>{submissionData[0].code}</td>
+            // </tr>
+          ))}
 
         </table>
 

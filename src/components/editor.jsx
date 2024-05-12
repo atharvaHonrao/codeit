@@ -21,7 +21,7 @@ function Editor({ title, description }) {
   const [problem, setProblem] = useState({})
 
   const Location = useLocation()
-  console.log(Location.state.testcases)
+  // console.log(Location.state.testcases)
   const testcases = Location.state.testcases
 
   const langs = [
@@ -41,8 +41,8 @@ function Editor({ title, description }) {
   function handleLangChange(event) {
     setLangCode(event.value)
     setLangExtension(langextensions[event.value])
-    console.log(langcode)
-    console.log(langextension)
+    // console.log(langcode)
+    // console.log(langextension)
   }
 
   const [code, setCode] = useState("");
@@ -57,7 +57,7 @@ function Editor({ title, description }) {
   );
 
   const handleButtonClick = () => {
-    // console.log("opptitoj ",options)
+    // // console.log("opptitoj ",options)
     let i = 0
     let submissions = []
     for (i = 0; i < testcases.length; i++) {
@@ -92,38 +92,38 @@ function Editor({ title, description }) {
       })
     }
 
-    console.log(submissions)
+    // console.log(submissions)
     let postRequest = fetch("http://codeit.ddns.net:2358/submissions/batch", options)
 
-    // console.log(postRequest)
+    // // console.log(postRequest)
 
     postRequest.then((response) => response.json()).then((json) => {
 
-      console.log(json)
+      // console.log(json)
       let x = 0
       let y = ''
       for (x = 0; x < json.length; x++) {
         y = y + json[x].token + ','
       }
-      console.log(y)
+      // console.log(y)
 
       checkStatusAndHandleResponse(y)
     }
-      // console.log(json)
-    ).catch((err) => console.log(err))
+      // // console.log(json)
+  ).catch((err) =>  console.log(err))
 
   };
 
   const handleSubmit = async () => {
 
 
-    // console.log(options)
+    // // console.log(options)
     // let postRequest = fetch("http://codeit.ddns.net:2358/submissions", options)
 
     // postRequest.then((response) => response.json()).then((json) => checkStatusAndHandleResponse(json.token))
 
 
-    // console.log("after math")
+    // // console.log("after math")
 
 
     const docRef1 = await addDoc(collection(db, "groups", "BhGrVWAmUjxXnm6CaqtE", "test", "nAoCyOlJXcl9TvBBe6hf", "problems", "tyxBeUWHX3n8KU5WpQ8N", "code"), {
@@ -136,7 +136,7 @@ function Editor({ title, description }) {
     let getRequest = fetch("http://codeit.ddns.net:2358/submissions/batch?tokens=" + token + " fields=stdout,time,memory,stderr,compile_output,message,status")
 
     getRequest.then((response) => {
-      // console.log(response.json())
+      // // console.log(response.json())
 
       return response.json()
     })
@@ -145,25 +145,25 @@ function Editor({ title, description }) {
         let submissions = answer.submissions
         let c = 0
         let output = ''
-        console.log(submissions)
+        // console.log(submissions)
 
         for (c = 0; c < submissions.length; c++) {
 
           let state = submissions[c].status.description
           setStatus(state)
-          if (state == "In Queue" || state == "Processing" && state!=null) {
+          if (state == "In Queue" || state == "Processing" && state != null) {
             setTimeout(() => checkStatusAndHandleResponse(token), 1500)
           } else if (state == "Error") {
-            console.log("error")
+            // console.log("error")
           }
           else {
 
-            output= output + submissions[c].stdout+'\n'
+            output = output + submissions[c].stdout + '\n'
             // setOutput(submissions[c].stdout)
-            // console.log(answer.stdout)
+            // // console.log(answer.stdout)
           }
           setOutput(output)
-          console.log(output)
+          // console.log(output)
         }
       }
       )
@@ -199,7 +199,7 @@ function Editor({ title, description }) {
         {/* <button onClick={
         async () => {
           signOut(auth).then(() => {
-            console.log("Signed out")
+            // console.log("Signed out")
           }).catch((error) => {
             // An error happened.
           });

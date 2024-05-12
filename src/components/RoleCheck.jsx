@@ -10,36 +10,36 @@ import { useAuthValue } from '../utilities/AuthContext'
 import AdminGroup from '../pages/admingroup'
 
 export default function RoleCheck(props) {
-    const [userId, setUserId] = useState('')
-    const { currentUser } = useAuthValue()
-    const id = useParams()
-    const [adminId, setAdminId] = useState('')
-    useEffect(() => {
-        if (currentUser) {
-            setUserId(currentUser.uid);
-      
-            const fetchGroup = async () => {
-              const docRef = doc(db, "groups", `${id.id}`);
-              const docSnap = await getDoc(docRef);
-              return docSnap.data().adminId;
-            };
-      
-            const setAdminIdAsync = async () => {
-              const fetchedAdminId = await fetchGroup();
-              setAdminId(fetchedAdminId);
-            };
-      
-            setAdminIdAsync();
-          }
-        }, [currentUser]);
+  const [userId, setUserId] = useState('')
+  const { currentUser } = useAuthValue()
+  const id = useParams()
+  const [adminId, setAdminId] = useState('')
+  useEffect(() => {
+    if (currentUser) {
+      setUserId(currentUser.uid);
 
-    useEffect(() => {
-        console.log(adminId)
-        console.log(userId)
-    }, [adminId, userId])
+      const fetchGroup = async () => {
+        const docRef = doc(db, "groups", `${id.id}`);
+        const docSnap = await getDoc(docRef);
+        return docSnap.data().adminId;
+      };
+
+      const setAdminIdAsync = async () => {
+        const fetchedAdminId = await fetchGroup();
+        setAdminId(fetchedAdminId);
+      };
+
+      setAdminIdAsync();
+    }
+  }, [currentUser]);
+
+  useEffect(() => {
+    // console.log(adminId)
+    // console.log(userId)
+  }, [adminId, userId])
   return (
     <div>
-        {adminId === userId ? <AdminGroup /> : <MemberPage id= {`${id.id}`} />}
+      {adminId === userId ? <AdminGroup /> : <MemberPage id={`${id.id}`} />}
     </div>
   )
 }

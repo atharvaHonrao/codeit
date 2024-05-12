@@ -18,20 +18,20 @@ function Sidebar() {
 
     const logOut = () => {
         signOut(auth).then(() => {
-          console.log("Signed out")
-          alert("Signed out")
+            // console.log("Signed out")
+            alert("Signed out")
             navigate('/login')
         }).catch((error) => {
-          alert("Error Signing out")
+            alert("Error Signing out")
         });
-        console.log("Signed out")
+        // console.log("Signed out")
     }
 
     return (
         <div className="sidebar">
-                <div className='sidebarimg'>
-                    <img src={codeitlogo} alt="" className='codeitlogo' />
-                </div>
+            <div className='sidebarimg'>
+                <img src={codeitlogo} alt="" className='codeitlogo' />
+            </div>
             <div className='sidebartop flex'>
                 <div>
                     <Link to="/practice">Practice Page</Link>
@@ -39,13 +39,13 @@ function Sidebar() {
                 <div>
                     <Link to="/groups">Groups</Link>
                 </div>
-                <div style={{cursor: 'pointer'}} onClick={()=> {
+                <div style={{ cursor: 'pointer' }} onClick={() => {
                     logOut()
                 }}>
                     Log Out
                 </div>
             </div>
-            
+
         </div>
     );
 }

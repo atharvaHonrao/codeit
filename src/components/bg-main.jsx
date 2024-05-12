@@ -29,7 +29,7 @@ export default function BgMain() {
             return;
         }
 
-        console.log('Form data submitted:', formData);
+        // console.log('Form data submitted:', formData);
         setFormData({
             name: '',
             email: '',
@@ -89,7 +89,7 @@ export default function BgMain() {
                             required
                         />
                     </div>
-                    {formMode === 'signup' && ( 
+                    {formMode === 'signup' && (
                         <div className='form-el'>
                             <label htmlFor="confirmPassword">Confirm Password:</label>
                             <input
@@ -131,7 +131,7 @@ export default function BgMain() {
 //     });
 
 //     const [formMode, setFormMode] = useState('signup');
-    
+
 //     const handleInputChange = (event) => {
 //         const { name, value } = event.target;
 //         setFormData((prevData) => ({
@@ -142,13 +142,13 @@ export default function BgMain() {
 
 //     const handleSubmit = (event) => {
 //         event.preventDefault();
-        
+
 //         if (formData.password !== formData.confirmPassword) {
 //           alert("Passwords do not match. Please try again.");
 //           return;
 //         }
 
-//         console.log('Form data submitted:', formData);
+//         // console.log('Form data submitted:', formData);
 //         setFormData({
 //           name: '',
 //           email: '',
@@ -223,7 +223,7 @@ export default function BgMain() {
 //     )
 // }
 
-                {/* <form onSubmit={handleSubmit}>
+{/* <form onSubmit={handleSubmit}>
                 <div className='form-el'>
                     <label htmlFor="name">Enter your name:</label>
                     <input
@@ -265,14 +265,14 @@ export default function BgMain() {
                 </div>
                 </form> */}
 
-                    // const handleSubmit = (event) => {
-                    //     event.preventDefault();
-                    //     // Perform form submission logic here, e.g., send data to a server
-                    //     console.log('Form data submitted:', formData);
-                    //     // Reset the form after submission
-                    //     setFormData({
-                    //       name: '',
-                    //       email: '',
-                    //       password: '',
-                    //     });
-                    // };
+// const handleSubmit = (event) => {
+//     event.preventDefault();
+//     // Perform form submission logic here, e.g., send data to a server
+//     // console.log('Form data submitted:', formData);
+//     // Reset the form after submission
+//     setFormData({
+//       name: '',
+//       email: '',
+//       password: '',
+//     });
+// };

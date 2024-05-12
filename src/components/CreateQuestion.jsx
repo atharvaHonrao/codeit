@@ -10,7 +10,7 @@ import 'notyf/notyf.min.css';
 
 function CreateQuestion(props) {
 
-    console.log(props.id)
+  // console.log(props.id)
 
   const [questions, setQuestions] = useState(
     { name: 'abc', description: 'xyz', testCases: [{ input: '', solution: '' }] }
@@ -32,14 +32,14 @@ function CreateQuestion(props) {
   const containerClass = props.boolState ? 'cgcontainer visible' : 'cgcontainer';
 
   const handleNewTestCase = (e) => {
-    console.log(e.target.value);
-    console.log(typeof (e.target.value));
+    // console.log(e.target.value);
+    // console.log(typeof (e.target.value));
     setCurrentTestCase(e.target.value)
   }
 
   const handleNewExptCase = (e) => {
-    console.log(e.value);
-    console.log(typeof (e.value));
+    // console.log(e.value);
+    // console.log(typeof (e.value));
     setCurrentExpt(e.target.value)
   }
 
@@ -47,23 +47,23 @@ function CreateQuestion(props) {
     // let numberStrings = currentTestCase.split(',');
     // let integers = numberStrings.map((numberString) => parseInt(numberString, 10));
     // setdummyChild1(integers);
-    // console.log("dummyChild1")
-    // console.log(dummyChild1)
+    // // console.log("dummyChild1")
+    // // console.log(dummyChild1)
     // numberStrings = currentExpt.split(',');
     // integers = numberStrings.map((numberString) => parseInt(numberString, 10));
     // setdummyChild2(integers);
-    // console.log("dummyChild2")
-    // console.log(dummyChild2)
+    // // console.log("dummyChild2")
+    // // console.log(dummyChild2)
     // let mergedArray = [dummyChild1,dummyChild2];
-    // console.log("merged array")
-    // console.log(mergedArray)
+    // // console.log("merged array")
+    // // console.log(mergedArray)
     // setdummyFather([dummyChild1,dummyChild2]);
-    // console.log("dummyFather")
-    // console.log(dummyFather)
+    // // console.log("dummyFather")
+    // // console.log(dummyFather)
     // mergedArray = [...testCases, dummyFather]
     // setTestCases(mergedArray)
-    // console.log("testCases  ")
-    // console.log(testCases)
+    // // console.log("testCases  ")
+    // // console.log(testCases)
     // final array = [[[1, 2], [3, 4]], [[5, 6], [7, 8]]]
     // final array = [
     //   {
@@ -96,14 +96,14 @@ function CreateQuestion(props) {
       });
       // alert('Please enter both test case and expected values.');
       notyf.error('Please enter both test case and expected values.');
-  
+
       // alert('Please enter both test case and expected values.');
       return;
     }
     setCurrentExpt("")
     setCurrentTestCase("")
     // removeEmptyTestCases()
-    console.log(questions)
+    // console.log(questions)
   }
 
   const removeEmptyTestCases = async () => {
@@ -114,7 +114,7 @@ function CreateQuestion(props) {
         return testCase.input.trim() !== '' || testCase.solution.trim() !== '';
       })
     };
-  
+
     // Update the state with the filtered test cases
     setQuestions(updatedQuestions);
   };
@@ -122,32 +122,32 @@ function CreateQuestion(props) {
   const handleRemoveTestCase = (index) => {
     const updatedTestCases = [...questions.testCases];
     updatedTestCases.splice(index, 1);
-    console.log(questions)
+    // console.log(questions)
     setQuestions({ ...questions, testCases: updatedTestCases });
   };
 
-  const handleSubmit = async ()=>{
-    console.log("final")
+  const handleSubmit = async () => {
+    // console.log("final")
 
 
     // removeEmptyTestCases()
-    // console.log(questions.pop)
-    
+    // // console.log(questions.pop)
 
-    console.log("before",questions)
+
+    // console.log("before",questions)
 
     questions.testCases.shift()
 
-    console.log("after",questions)
+    // console.log("after",questions)
 
-    // console.log(props.id)
+    // // console.log(props.id)
 
     // removeEmptyTestCases()
 
     const docRef1 = await addDoc(collection(db, "groups", props.id, "problems"), {
-        name: questions.name,
-        description: questions.description,
-        testCases: questions.testCases,
+      name: questions.name,
+      description: questions.description,
+      testCases: questions.testCases,
 
     });
 
@@ -179,17 +179,17 @@ function CreateQuestion(props) {
               <input placeholder='Enter question title here' onChange={(e) => {
                 setQueTitle(e.target.value)
               }}></input>
-              <h2 style={{marginTop:'20px'}}>Question Description</h2>
+              <h2 style={{ marginTop: '20px' }}>Question Description</h2>
               <textarea placeholder='Describe your question...' onChange={(e) => {
                 setQueDisc(e.target.value)
               }} />
             </div>
             <div className="cqrightdiv">
-              <h2 style={{marginBottom:'5px'}}>Test Cases</h2>
+              <h2 style={{ marginBottom: '5px' }}>Test Cases</h2>
               <div className="cqtestcases">
                 <div className="flex completeTestCase">
                   {questions.testCases.length > 1 && (
-                    <div className="flex completeTestCase" style={{marginBottom:'10px', gap:'190px'}}>
+                    <div className="flex completeTestCase" style={{ marginBottom: '10px', gap: '190px' }}>
                       <h2>Input</h2>
                       <h2>Solution</h2>
                     </div>
@@ -226,13 +226,13 @@ function CreateQuestion(props) {
                   ))} */}
               </div>
               {/* ))} */}
-              <h2 style={{marginTop:'20px'}}> Create new Test Case</h2>
+              <h2 style={{ marginTop: '20px' }}> Create new Test Case</h2>
               <div className="completeTestCase flex">
                 <input ref={inputRef1} value={currentTestCase} placeholder='Enter your test cases' onChange={handleNewTestCase}></input>
                 <input ref={inputRef2} value={currentExpt} placeholder='Enter expected values' onChange={handleNewExptCase}></input>
               </div>
               <div className="cgctrl-btns flex">
-                <button className="cgsubmit-btn" onClick={handleSubmitTestCase} style={{backgroundColor:'rgb(25, 0, 117)', color:'white'}}>Add Case</button>
+                <button className="cgsubmit-btn" onClick={handleSubmitTestCase} style={{ backgroundColor: 'rgb(25, 0, 117)', color: 'white' }}>Add Case</button>
               </div>
               <div className="cgctrl-btns flex">
                 <button className="cgsubmit-btn" onClick={handleSubmit}>Create</button>

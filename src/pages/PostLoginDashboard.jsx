@@ -5,7 +5,7 @@ import CreateGroup from '../components/CreateGroup'
 import { useNavigate } from 'react-router-dom'
 import { useAuthValue } from '../utilities/AuthContext'
 import { db } from '../utilities/firebase'
-import { doc, getDocs, getDoc, setDoc,updateDoc,arrayUnion } from 'firebase/firestore'
+import { doc, getDocs, getDoc, setDoc, updateDoc, arrayUnion } from 'firebase/firestore'
 import { useEffect } from 'react'
 import { collection, query, where } from 'firebase/firestore'
 import { useStateWithCallbackLazy } from 'use-state-with-callback'
@@ -35,11 +35,11 @@ function PostLoginDashboard() {
     setGroupCode(event.target.value);
   };
 
-  const joinGroup = async() =>{
+  const joinGroup = async () => {
 
 
-    console.log(groupCode)
-    
+    // console.log(groupCode)
+
     const notyf = new Notyf({
       position: {
         x: "right",
@@ -48,37 +48,37 @@ function PostLoginDashboard() {
     });
     // alert('Please enter both test case and expected values.');
     notyf.success('Joined Group Successfully');
-    const userRef = doc(db,"users",currentUser.uid)
-    const groupRef = doc(db,"groups",groupCode) 
+    const userRef = doc(db, "users", currentUser.uid)
+    const groupRef = doc(db, "groups", groupCode)
 
     const groupSnap = await getDoc(groupRef)
     const userDoc = await getDoc(userRef);
     const userData = userDoc.data();
 
-    console.log(groupSnap.data())
+    // console.log(groupSnap.data())
 
-    userData.groupJoined[groupCode] =groupSnap.data().name ;
+    userData.groupJoined[groupCode] = groupSnap.data().name;
 
     await setDoc(userRef, userData, { merge: true });
     await updateDoc(groupRef, {
       participantsUid: arrayUnion(currentUser.uid)
     });
 
-    console.log(currentUser.uid)
+    // console.log(currentUser.uid)
 
 
   }
 
 
   useEffect(() => {
-    console.log(currentUser.uid)
+    // console.log(currentUser.uid)
     const fetchUser = () => {
       const docRef = doc(db, "users", currentUser.uid);
 
       return new Promise((resolve, reject) => {
 
-        const docSnap =  getDoc(docRef)
-        console.log(docSnap)
+        const docSnap = getDoc(docRef)
+        // console.log(docSnap)
         resolve(docSnap)
       })
     }
@@ -91,15 +91,15 @@ function PostLoginDashboard() {
         groupAdmin: docSnap.data().groupAdmin
         // ...docSnap.data()
       }, (user2) => {
-        // console.log("state updated yayyaya")
-        console.log(user2)
-        if(user2.name){
+        // // console.log("state updated yayyaya")
+        // console.log(user2)
+        if (user2.name) {
           // const arrayOfList = Object.entries(user2.groupsJoined);
           // object to array of objects
           const arrayOfObjects = Object.keys(user2.groupsJoined).map(key => ({
             [key]: user2.groupsJoined[key]
           }));
-          // console.log(arrayOfObjects)
+          // // console.log(arrayOfObjects)
           setListOfGroupNames(arrayOfObjects)
         }
       })
@@ -110,9 +110,9 @@ function PostLoginDashboard() {
 
   // useEffect(() => {
   //   // This will show the updated user state in the console
-  //   // console.log(user)
-  //     // console.log("state updated yayyaya")
-  //     // console.log(user)
+  //   // // console.log(user)
+  //     // // console.log("state updated yayyaya")
+  //     // // console.log(user)
   // }, [user]);
 
   return (<>
@@ -128,7 +128,7 @@ function PostLoginDashboard() {
         <div className="column">
           <p className='col-header'>Join a Group</p>
           <input type="text" placeholder="Enter Group Code" className='code-input'
-          onChange={handleInputChange} />
+            onChange={handleInputChange} />
           <button class="join-button" onClick={joinGroup}>Join Group</button>
         </div>
         <div class="vertical-line"></div>
@@ -140,7 +140,7 @@ function PostLoginDashboard() {
       </div>
       <br /><br />
       <button onClick={() => {
-        navigate('/ide', {state:{templates:['help'], input:['help me again'], problemId:[]}})
+        navigate('/ide', { state: { templates: ['help'], input: ['help me again'], problemId: [] } })
       }}></button>
       <div className="practice-container">
         <div className="textual">
@@ -164,15 +164,15 @@ function PostLoginDashboard() {
                 <th></th>
               </tr>
             </thead>
-            <tbody> 
+            <tbody>
               {listOfGroupNames.map((group2) => {
-                // console.log()
+                // // console.log()
                 return <tr>
                   <td>{Object.values(group2)[0]}</td>
-                  <td><button className="view-button" 
-                  onClick={() => navigate('/group/'+Object.keys(group2)[0], { state: { name: Object.values(group2)[0] } })}
+                  <td><button className="view-button"
+                    onClick={() => navigate('/group/' + Object.keys(group2)[0], { state: { name: Object.values(group2)[0] } })}
                   // onClick={() => navigate(`/group/${group2}`, { state: user })}
-                  
+
                   >View</button></td>
                 </tr>
               })}

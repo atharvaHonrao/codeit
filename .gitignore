@@ -49,3 +49,4 @@ firebase.rules
 .env
 *.env
 .env.local
+firebase.js

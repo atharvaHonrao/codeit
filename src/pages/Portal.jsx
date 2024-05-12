@@ -4,15 +4,15 @@ import { collection, addDoc, onSnapshot, doc, getDocs, query } from "firebase/fi
 
 function Portal() {
     const handlePracticeClick = () => {
-        console.log('Practice button clicked');
+        // console.log('Practice button clicked');
     };
 
     const handleCreateGroupClick = () => {
-        console.log('Create Group button clicked');
+        // console.log('Create Group button clicked');
     };
 
     const handleJoinGroupClick = () => {
-        console.log('Join Group button clicked');
+        // console.log('Join Group button clicked');
     };
 
     const [groupList, setGroupList] = useState([]);
@@ -30,10 +30,10 @@ function Portal() {
         const fetchGroups = onSnapshot(snap, (querySnapshot) => {
             const updatedGroupList = [];
             querySnapshot.forEach((doc) => {
-                console.log(doc.data().name);
-                console.log("Current data: ", doc.data());
+                // console.log(doc.data().name);
+                // console.log("Current data: ", doc.data());
                 updatedGroupList.push(doc.data().name);
-                console.log(groupList);
+                // console.log(groupList);
             })
             setGroupList(updatedGroupList);
         });
@@ -49,7 +49,7 @@ function Portal() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         // You can handle the form submission here, e.g., sending data to an API or performing other actions.
-        console.log(formData);
+        // console.log(formData);
         const docRef = await addDoc(collection(db, "groups"), {
             name: formData.name,
             description: formData.description,
@@ -57,7 +57,7 @@ function Portal() {
         // const docRef2 = await addDoc(collection(db, "groups", docRef.id, "problems"), {
         //     name: "Test Problem",
         //   });
-        console.log("Document written with ID: ", docRef.id);
+        // console.log("Document written with ID: ", docRef.id);
     };
 
     return (

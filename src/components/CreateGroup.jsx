@@ -3,7 +3,7 @@ import '../styles/creategroup.css'
 import { useState, useEffect } from 'react';
 import { db } from '../utilities/firebase';
 import { collection, addDoc, onSnapshot, doc, getDoc, query, setDoc, updateDoc } from "firebase/firestore";
-import { useAuthValue } from '../utilities/AuthContext';  
+import { useAuthValue } from '../utilities/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { arrayUnion } from 'firebase/firestore';
 
@@ -16,13 +16,13 @@ function CreateGroup(props) {
     let isUnique = false;
     const alphabet = 'abcdefghijklmnopqrstuvwxyz';
     // while (!isUnique) {
-      let randomString = '';
+    let randomString = '';
 
 
-      for (let i = 0; i < 8; i++) {
-        const randomIndex = Math.floor(Math.random() * alphabet.length);
-        randomString += alphabet.charAt(randomIndex);
-      }
+    for (let i = 0; i < 8; i++) {
+      const randomIndex = Math.floor(Math.random() * alphabet.length);
+      randomString += alphabet.charAt(randomIndex);
+    }
 
     //   const docRef = doc(db, "groups", randomString);
     //   debugger
@@ -60,27 +60,27 @@ function CreateGroup(props) {
 
 
   // useEffect(() => {
-    // const snap = query(collection(db, "groups"));
-    // const fetchGroups = onSnapshot(snap, (querySnapshot) => {
-    //   const updatedGroupList = [];
-    //   querySnapshot.forEach((doc) => {
-    //     console.log(doc.data().name);
-    //     console.log("Current data: ", doc.data());
-    //     updatedGroupList.push(doc.data().name);
-    //     console.log(groupList);
-    //   })
-    //   setGroupList(updatedGroupList);
-    // });
-    // return fetchGroups
+  // const snap = query(collection(db, "groups"));
+  // const fetchGroups = onSnapshot(snap, (querySnapshot) => {
+  //   const updatedGroupList = [];
+  //   querySnapshot.forEach((doc) => {
+  //     // console.log(doc.data().name);
+  //     // console.log("Current data: ", doc.data());
+  //     updatedGroupList.push(doc.data().name);
+  //     // console.log(groupList);
+  //   })
+  //   setGroupList(updatedGroupList);
+  // });
+  // return fetchGroups
 
   // }, []);
 
-  const {currentUser} = useAuthValue()
+  const { currentUser } = useAuthValue()
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     // You can handle the form submission here, e.g., sending data to an API or performing other actions.
-    console.log(formData);
+    // console.log(formData);
     const uniqueCode = await generateRandomString();
     const docRef = await setDoc(doc(collection(db, "groups"), uniqueCode), {
       name: formData.name,
@@ -88,7 +88,7 @@ function CreateGroup(props) {
       adminId: currentUser.uid,
       participantsUid: []
     }).then(() => {
-      navigate(`/group/${uniqueCode}`, {state: {groupCode: uniqueCode}})
+      navigate(`/group/${uniqueCode}`, { state: { groupCode: uniqueCode } })
     });
     const userDocRef = doc(db, "users", currentUser.uid);
     await updateDoc(userDocRef, {
@@ -97,7 +97,7 @@ function CreateGroup(props) {
     // const docRef2 = await addDoc(collection(db, "groups", docRef.id, "problems"), {
     //     name: "Test Problem",
     //   });
-    // console.log("Document written with ID: ", docRef.id);
+    // // console.log("Document written with ID: ", docRef.id);
   };
 
   const handleChange = (e) => {

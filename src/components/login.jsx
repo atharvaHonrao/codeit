@@ -3,12 +3,12 @@ import '../App.css';
 import mainImg from '../assets/codeit-logo.png'
 // import './bg-main.css'
 import '../styles/signup.css'
-import {login} from '../utilities/Login'
+import { login } from '../utilities/Login'
 import { useNavigate } from 'react-router-dom';
-import {useAuthValue} from '../utilities/AuthContext'
+import { useAuthValue } from '../utilities/AuthContext'
 import { auth, db } from "../utilities/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import {redirect} from 'react-router-dom'
+import { redirect } from 'react-router-dom'
 import { writeBatch, doc, addDoc, collection } from 'firebase/firestore';
 
 export default function Login() {
@@ -21,32 +21,32 @@ export default function Login() {
     //         addDoc(collection(db, collectionName), jsonObject);
     //         // batch.set(newDocRef, jsonObject);
     //       });
-      
+
     //       // Commit the batch
     //     //   await batch.commit();
-      
-    //       console.log('Import completed successfully.');
+
+    //       // console.log('Import completed successfully.');
     //     } catch (error) {
     //       console.error('Error importing data to Firestore:', error);
     //     }
     //   }
-      
-      // Example usage
-      
-      
-      
-      
-      const collectionName = 'problems'; // Replace with your desired collection name
-      
-      
+
+    // Example usage
+
+
+
+
+    const collectionName = 'problems'; // Replace with your desired collection name
+
+
 
     const [loginData, setLoginData] = useState({
         email: '',
         password: '',
     });
     const navigate = useNavigate();
-    const {currentUser} = useAuthValue()
-    // console.log(loginData.email)
+    const { currentUser } = useAuthValue()
+    // // console.log(loginData.email)
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -58,21 +58,21 @@ export default function Login() {
 
     const login = async (email, password, e) => {
         // e.preventDefault();
-      //   setError("");
+        //   setError("");
         //   debugger
-          signInWithEmailAndPassword(auth, email, password)
+        signInWithEmailAndPassword(auth, email, password)
             .then((res) => {
-            //   debugger
-              console.log(res.user);
-            //   debugger
-              navigate('/dashboard')
+                //   debugger
+                // console.log(res.user);
+                //   debugger
+                navigate('/dashboard')
             })
             .catch((err) => alert(err.message));
-        
-      //   setEmail("");
-      //   setPassword("");
-      //   setConfirmPassword("");
-      };
+
+        //   setEmail("");
+        //   setPassword("");
+        //   setConfirmPassword("");
+    };
 
     // const handleSubmit = async (event) => {
     //     event.preventDefault();
@@ -86,9 +86,9 @@ export default function Login() {
     //     const url = `register?${params}`;
 
     //     let postReq = await fetch(url)
-    //     console.log("hiiii")
+    //     // console.log("hiiii")
     //     let res = await postReq.json()
-    //     console.log('Logged in with', res.body);
+    //     // console.log('Logged in with', res.body);
     // };
 
     return (
@@ -103,7 +103,7 @@ export default function Login() {
             </div>
             <div className="signup-container">
                 <h2 className='signup-title'>Login Now</h2>
-                <div  className="flex login-form">
+                <div className="flex login-form">
                     <div className='form-el'>
                         <label htmlFor="email">Email Address:</label>
                         <input
@@ -130,11 +130,11 @@ export default function Login() {
                     </div>
                     <div className="btn-container">
                         <div>
-                            <button className='signup-btn' onClick={ (e) => {
-                    // debugger
-                    login(loginData.email, loginData.password)
-                    // debugger
-                }}>Login</button>
+                            <button className='signup-btn' onClick={(e) => {
+                                // debugger
+                                login(loginData.email, loginData.password)
+                                // debugger
+                            }}>Login</button>
                         </div>
                     </div>
                 </div>

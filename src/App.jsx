@@ -14,9 +14,9 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } f
 import { BrowserRouter as Router, Route, Routes, useNavigate } from "react-router-dom";
 import React, { useState, useContext } from "react";
 import { AuthProvider } from './utilities/AuthContext';
-import {useEffect} from 'react'
-import {auth} from './utilities/firebase.js'
-import {onAuthStateChanged} from 'firebase/auth'
+import { useEffect } from 'react'
+import { auth } from './utilities/firebase.js'
+import { onAuthStateChanged } from 'firebase/auth'
 import Dashboard from './components/Dashboard';
 import LandingPage from './components/LandingPage';
 import SelectProblem from './components/SelectProblem';
@@ -27,7 +27,7 @@ import MemberPage from './pages/MemberPage';
 import RoleCheck from './components/RoleCheck';
 import CheckUser from './components/CheckUser';
 import TestForm from './pages/createTest';
-import TestPage  from './pages/TestPage';
+import TestPage from './pages/TestPage';
 // import IdeComponent from './components/IDEComponent';
 // import IdePage from './pages/IdePage';
 import IdePage from './pages/IDEPage';
@@ -35,7 +35,7 @@ import UserDashboard from './pages/UserDashboard';
 import { AdminTest } from './pages/AdminTest';
 import Homepage from './pages/Homepage.jsx';
 import AdminSubmissionPage from './pages/AdminSubmissions';
-
+import PracticeIdePage from './pages/PracticeIdePage.jsx';
 // Initialize Firebase
 
 
@@ -73,7 +73,7 @@ import AdminSubmissionPage from './pages/AdminSubmissions';
 //   // Create a function to sign out the current user
 //   const signOut = async () => {
 //     signOut(auth).then(() => {
-//       console.log("Signed out")
+//       // console.log("Signed out")
 //     }).catch((error) => {
 //       // An error happened.
 //     });
@@ -179,12 +179,12 @@ function App() {
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       setCurrentUser(user)
-     })
+    })
   }, [])
   // const navigate = useNavigate();
   return (
     <div className="App">
-      <AuthProvider value={{currentUser}}>
+      <AuthProvider value={{ currentUser }}>
         <Router>
           <Routes>
             <Route exact path="/signup" element={<Signup />}>
@@ -196,24 +196,26 @@ function App() {
             <Route exact path="/portal" element={<Portal />}>
             </Route>
 
-            <Route exact path="/submissions/:id" element={<AdminSubmissionPage/>}>
+            <Route exact path="/submissions/:id" element={<AdminSubmissionPage />}>
             </Route>
             <Route exact path="/adminTest" element={<AdminTest />}>
             </Route>
             <Route exact path="/dashboard" element={
-              currentUser != null ? <UserDashboard/> : <Login/>
+              currentUser != null ? <UserDashboard /> : <Login />
             }>
             </Route>
-            <Route path="/editor/:id" element={<IdePage/>}/>
+            <Route path="/practice/editor/:id" element={<PracticeIdePage />} />
+
+            <Route path="/editor/:id" element={<IdePage />} />
             {/* <Route path="//:id" element={<Editor/>}/> */}
-            <Route path="/group/:id" element={<RoleCheck user={currentUser}/>}/>
-            <Route path="/user" element={<UserGroupLanding/>}/>
-            <Route path="/practice" element={<SelectProblem/>}/>
+            <Route path="/group/:id" element={<RoleCheck user={currentUser} />} />
+            <Route path="/user" element={<UserGroupLanding />} />
+            <Route path="/practice" element={<SelectProblem />} />
             {/* <Route path="/member/:id" element={<MemberPage/>}/> */}
-            <Route path="/profile" element={<CheckUser/>}/>
-            <Route path="/test" element={<TestForm/>}/>
-            <Route path="/test/:id" element={<TestPage/>}/>
-            <Route path="/ide" element={<IdePage/>}/>
+            <Route path="/profile" element={<CheckUser />} />
+            <Route path="/test" element={<TestForm />} />
+            <Route path="/test/:id" element={<TestPage />} />
+            <Route path="/ide" element={<IdePage />} />
 
             {/* <Route exact path="/signin" element={<SignIn />}> */}
             {/* </Route> */}

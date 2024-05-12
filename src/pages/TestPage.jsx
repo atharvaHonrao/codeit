@@ -33,7 +33,7 @@ function TestPage() {
             const docRef = doc(db, "groups", Location.state.gid, "test", id);
             const docSnap = await getDoc(docRef);
 
-            console.log(docSnap.data())
+            // console.log(docSnap.data())
             setTest({
                 name: docSnap.data().name,
                 testDescription: docSnap.data().testDescription,
@@ -44,8 +44,8 @@ function TestPage() {
         const fetchQuestions = async () => {
             const querySnapshot = await getDocs(collection(db, "groups", Location.state.gid, "test", id, "problems"));
 
-console.log("jwsvwbnwrb")
-            // console.log(questionSnap)
+            // console.log("jwsvwbnwrb")
+            // // console.log(questionSnap)
             const docs = querySnapshot.docs.map(doc => doc)
             setQuestions(docs)
         }
@@ -53,21 +53,21 @@ console.log("jwsvwbnwrb")
         fetchQuestions()
 
     }, [])
-    console.log(id)
+    // console.log(id)
     return (
         <>
             {/* <h1>TestPage {id}</h1> */}
-            <Sidebar/>
+            <Sidebar />
             <div className='maincontainer'>
                 <div className="dashheader flex">
                     <h1>{test.name}</h1>
                 </div>
                 <div>
-                    <h2 style={{ padding: '20px'}}>{test.testDescription}</h2>
+                    <h2 style={{ padding: '20px' }}>{test.testDescription}</h2>
                 </div>
                 <div className="table-container">
                     {questions.map((doc, queIndex) => {
-                        // console.log(doc.id)
+                        // // console.log(doc.id)
                         // return <ProblemInSelection id={doc.id} classname='problemrow' title={doc.data().name} difficulty='easy' description={doc.data().description} testcases={doc.data().testcases} testId={id}/>
 
                         const isOpen = openStates[queIndex];

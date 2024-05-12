@@ -12,49 +12,49 @@ import '../styles/userdashboard.css'
 
 
 
-const SelectProblem = () =>  {
-    const {currentUser} = useAuthValue()
+const SelectProblem = () => {
+    const { currentUser } = useAuthValue()
 
     const [questions, setQuestions] = useState([])
     useEffect(() => {
-    const fetchQuestions = async () => {
-        const querySnapshot = await getDocs(collection(db, "problems"));
-        console.log(querySnapshot) //
-        // debugger
-        const docs = querySnapshot.docs.map(doc => doc)
-        setQuestions(docs)
-    }
-    return fetchQuestions
+        const fetchQuestions = async () => {
+            const querySnapshot = await getDocs(collection(db, "problems"));
+            // console.log(querySnapshot) //
+            // debugger
+            const docs = querySnapshot.docs.map(doc => doc)
+            setQuestions(docs)
+        }
+        return fetchQuestions
     }, [])
 
     const logOut = () => {
         signOut(auth).then(() => {
-          console.log("Signed out")
-          alert("Signed out")
+            // console.log("Signed out")
+            alert("Signed out")
         }).catch((error) => {
-          alert("Error Signing out")
+            alert("Error Signing out")
         });
-        console.log("Signed out")
+        // console.log("Signed out")
     }
-    
-    console.log(currentUser)
+
+    // console.log(currentUser)
 
     return (
         <>
-            <Sidebar/>
+            <Sidebar />
             {/* <h1>Hello {currentUser.displayName}</h1> */}
             <div className='maincontainer'>
-            {/* <button onClick={logOut}>Log Out</button>
+                {/* <button onClick={logOut}>Log Out</button>
             <div className="searchbar">
                 <input placeholder='Search for any problem here' />
             </div> */}
-            <div className='problemrow-container'>
+                <div className='problemrow-container'>
 
-                {questions.map((doc) => {
-                    // console.log(doc.id)
-                                  return  <ProblemInSelection id={doc.id} classname='problemrow' title={doc.data().title} difficulty='easy' description={doc.data().description} />
-                })}
-            </div></div>
+                    {questions.map((doc) => {
+                        // // console.log(doc.id)
+                        return <ProblemInSelection id={doc.id} classname='problemrow' title={doc.data().title} difficulty='easy' description={doc.data().description} />
+                    })}
+                </div></div>
         </>
     )
 }

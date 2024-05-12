@@ -8,7 +8,7 @@ const validatePassword = (password, confirmPassword) => {
   if (password !== "" && confirmPassword !== "") {
     if (password !== confirmPassword) {
       isValid = false;
-      console.log("Passwords does not match");
+      // console.log("Passwords does not match");
     //   setError("Passwords does not match");
     }
   }
@@ -29,8 +29,8 @@ export const register = async (email, password, confirmPassword,e) => {
           tier: "free",
           uid: res.user.uid,
         });
-        console.log("Document written with ID: ", docRef.id);
-        console.log(res.user);
+        // console.log("Document written with ID: ", docRef.id);
+        // console.log(res.user);
         alert("User Created Successfully. Please Login to continue")
         useNavigate("/login");
       })

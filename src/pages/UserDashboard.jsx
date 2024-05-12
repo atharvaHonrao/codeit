@@ -35,28 +35,28 @@ function UserDashboard() {
   //   setGroupCode(event.target.value);
   // };
 
-  const joinGroup = async() =>{
+  const joinGroup = async () => {
 
 
-    console.log(groupCode)
+    // console.log(groupCode)
 
-    const userRef = doc(db,"users",currentUser.uid)
-    const groupRef = doc(db,"groups",groupCode) 
+    const userRef = doc(db, "users", currentUser.uid)
+    const groupRef = doc(db, "groups", groupCode)
 
     const groupSnap = await getDoc(groupRef)
     const userDoc = await getDoc(userRef);
     const userData = userDoc.data();
 
-    console.log(groupSnap.data())
+    // console.log(groupSnap.data())
 
-    userData.groupJoined[groupCode] =groupSnap.data().name ;
+    userData.groupJoined[groupCode] = groupSnap.data().name;
 
     await setDoc(userRef, userData, { merge: true });
     await updateDoc(groupRef, {
       participantsUid: arrayUnion(currentUser.uid)
     });
 
-    console.log(currentUser.uid)
+    // console.log(currentUser.uid)
 
   }
 
@@ -64,14 +64,14 @@ function UserDashboard() {
 
 
   useEffect(() => {
-    console.log(currentUser)
+    // console.log(currentUser)
     const fetchUser = () => {
       const docRef = doc(db, "users", currentUser.uid);
 
       return new Promise((resolve, reject) => {
 
         const docSnap = getDoc(docRef)
-        console.log(docSnap)
+        // console.log(docSnap)
         resolve(docSnap)
       })
     }
@@ -84,15 +84,15 @@ function UserDashboard() {
         groupAdmin: docSnap.data().groupAdmin
         // ...docSnap.data()
       }, (user2) => {
-        // console.log("state updated yayyaya")
-        console.log(user2)
+        // // console.log("state updated yayyaya")
+        // console.log(user2)
         if (user2.name) {
           // const arrayOfList = Object.entries(user2.groupsJoined);
           // object to array of objects
           const arrayOfObjects = Object.keys(user2.groupsJoined).map(key => ({
             [key]: user2.groupsJoined[key]
           }));
-          // console.log(arrayOfObjects)
+          // // console.log(arrayOfObjects)
           setListOfGroupNames(arrayOfObjects)
         }
       })
@@ -125,12 +125,12 @@ function UserDashboard() {
     setGroupVisible(!isGroupVisible)
   };
 
-  
+
   return (
     <>
       <Sidebar />
       {isGroupVisible && <CreateGroup boolState={isGroupVisible} changeBoolState={setGroupVisible} />}
-      <div className='maincontainer' style={{'padding': '20px'}}>
+      <div className='maincontainer' style={{ 'padding': '20px' }}>
         <div className="dashheader flex">
           <h1>Namaste {user.name}</h1>
           <div className="dashheaderright flex">
@@ -143,10 +143,10 @@ function UserDashboard() {
             </div>
           </div>
         </div>
-        <h2 style={{'padding': '20px'}}>Your Groups. Compete Learn and Grow together!</h2>
+        <h2 style={{ 'padding': '20px' }}>Your Groups. Compete Learn and Grow together!</h2>
         <div className="feature-cards flex">
           {listOfGroupNames.map((group2) => {
-            // console.log()
+            // // console.log()
             return (
               <div className="cardbody flex" onClick={() => navigate('/group/' + Object.keys(group2)[0], { state: { name: Object.values(group2)[0] } })}>
                 <img src={grpimg} alt="" />
@@ -154,7 +154,7 @@ function UserDashboard() {
                 <p></p>
               </div>
               // {listOfGroupNames.map((group2) => {
-              //   // console.log()
+              //   // // console.log()
               //   return <tr>
               //     <td>{Object.values(group2)[0]}</td>
               //     <td><button className="view-button" 

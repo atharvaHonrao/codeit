@@ -32,7 +32,7 @@ export default function Signup() {
         if (password !== "" && confirmPassword !== "") {
             if (password !== confirmPassword) {
                 isValid = false;
-                console.log("Passwords does not match");
+                // console.log("Passwords does not match");
                 //   setError("Passwords does not match");
             }
         }
@@ -40,12 +40,12 @@ export default function Signup() {
     };
 
     const register = (e) => {
-          e.preventDefault();
+        e.preventDefault();
         //   setError("");
         if (validatePassword(formData.password, formData.confirmPassword)) {
             // Create a new user with email and password using firebase
             createUserWithEmailAndPassword(auth, formData.email, formData.password)
-                .then( async (res) => {
+                .then(async (res) => {
                     const docRef = await addDoc(collection(db, "users"), {
                         name: res.user.displayName,
                         email: res.user.email,
@@ -53,8 +53,8 @@ export default function Signup() {
                         uid: res.user.uid,
                     });
                     // debugger
-                    console.log("Document written with ID: ", docRef.id);
-                    console.log(res.user);
+                    // console.log("Document written with ID: ", docRef.id);
+                    // console.log(res.user);
                     alert("User Created Successfully. Please Login to continue")
                     navigate("/login");
                 })
@@ -82,18 +82,18 @@ export default function Signup() {
     //             )
     //         })
 
-    //     console.log("hiiii")
+    //     // console.log("hiiii")
 
     //     let res = await postReq.json()
 
     //     // if (res.status === 442) {
-    //     //     console.log("wrong")
+    //     //     // console.log("wrong")
     //     // }
     //     // else {
-    //     //     console.log("correct")
+    //     //     // console.log("correct")
     //     // }
     //     // }
-    //     console.log('Form data submitted:', formData);
+    //     // console.log('Form data submitted:', formData);
     // };
 
     return (
