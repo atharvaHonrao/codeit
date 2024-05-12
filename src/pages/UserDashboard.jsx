@@ -71,7 +71,7 @@ function UserDashboard() {
       return new Promise((resolve, reject) => {
 
         const docSnap = getDoc(docRef)
-        // console.log(docSnap)
+        console.log(docSnap)
         resolve(docSnap)
       })
     }
