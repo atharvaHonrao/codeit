@@ -20,6 +20,8 @@ import { useAuthValue } from '../utilities/AuthContext';
 import { useParams } from 'react-router-dom';
 // import { runCode, submitCode } from './modules';
 
+const judge0BaseUrl = import.meta.env.VITE_APP_JUDGE0_BASE_URL;
+
 export default function IdeComponent({ input, problemId, userId, testcases, testId }) {
   const id = useParams()
   const location = useLocation()
@@ -207,64 +209,94 @@ export default function IdeComponent({ input, problemId, userId, testcases, test
 
   }
 
+  // const handleRunCode = () => {
+
+  //   let i = 0
+  //   let submissions = []
+  //   for (i = 0; i < testcases.length; i++) {
+  //     // debugger
+  //     // console.log(testcases[i].input)
+  //     submissions.push({
+  //       source_code: btoa(`${code}`),
+  //       language_id: langcode,  // should be dynamic
+  //       number_of_runs: null,
+  //       stdin: btoa(testcases[i].input), // should be dynamic
+  //       expected_output: btoa(testcases[i].solution), // should be dynamic  
+  //       cpu_time_limit: null,
+  //       cpu_extra_time: null,
+  //       wall_time_limit: null,
+  //       memory_limit: null,
+  //       stack_limit: null,
+  //       max_processes_and_or_threads: null,
+  //       enable_per_process_and_thread_time_limit: null,
+  //       enable_per_process_and_thread_memory_limit: null,
+  //       max_file_size: null,
+  //       enable_network: null,
+  //     })
+  //   }
+  //   let options = {
+
+  //     method: "post",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       // "Access-Control-Allow-Origin": "*",
+  //       // "Access-Control-Allow-Credentials": true,
+  //     },
+  //     body: JSON.stringify({
+  //       "submissions": submissions
+  //     })
+  //   }
+
+  //   // console.log(submissions)
+  //   let postRequest = fetch("https://ce.judge0.com/submissions/batch?base64_encoded=true", options)
+
+  //   // postRequest.then((response) => response.json()).then((json) => checkStatusAndHandleResponse(json.token))
+  //   postRequest.then((response) => response.json()).then((json) => {
+
+  //     // console.log(json)
+  //     let x = 0
+  //     let y = ''
+  //     for (x = 0; x < json.length; x++) {
+  //       y = y + json[x].token + ','
+  //     }
+  //     // console.log("yyyyyyyyy"+y)
+
+  //     checkStatusAndHandleResponse(y)
+  //   }
+  //     // // console.log(json)
+  //   ).catch((err) => console.log(err))
+
+  // };
+
   const handleRunCode = () => {
+    let submissions = testcases.map(testcase => ({
+      input: testcase.input || '',
+      solution: testcase.solution || ''
+    }));
 
-    let i = 0
-    let submissions = []
-    for (i = 0; i < testcases.length; i++) {
-      // debugger
-      // console.log(testcases[i].input)
-      submissions.push({
-        source_code: btoa(`${code}`),
-        language_id: langcode,  // should be dynamic
-        number_of_runs: null,
-        stdin: btoa(testcases[i].input), // should be dynamic
-        expected_output: btoa(testcases[i].solution), // should be dynamic  
-        cpu_time_limit: null,
-        cpu_extra_time: null,
-        wall_time_limit: null,
-        memory_limit: null,
-        stack_limit: null,
-        max_processes_and_or_threads: null,
-        enable_per_process_and_thread_time_limit: null,
-        enable_per_process_and_thread_memory_limit: null,
-        max_file_size: null,
-        enable_network: null,
-      })
-    }
+    let data = {
+      code: code,
+      langcode: langcode,  // should be dynamic
+      testcases: submissions
+    };
+
     let options = {
-
       method: "post",
       headers: {
         "Content-Type": "application/json",
-        // "Access-Control-Allow-Origin": "*",
-        // "Access-Control-Allow-Credentials": true,
       },
-      body: JSON.stringify({
-        "submissions": submissions
+      body: JSON.stringify(data),
+    };
+
+    fetch(`${judge0BaseUrl}/submit`, options)
+      .then(response => response.json())
+      .then(json => {
+        let tokens = json.map(submission => submission.token).join(',');
+        checkStatusAndHandleResponse(tokens);
       })
-    }
-
-    // console.log(submissions)
-    let postRequest = fetch("https://ce.judge0.com/submissions/batch?base64_encoded=true", options)
-
-    // postRequest.then((response) => response.json()).then((json) => checkStatusAndHandleResponse(json.token))
-    postRequest.then((response) => response.json()).then((json) => {
-
-      // console.log(json)
-      let x = 0
-      let y = ''
-      for (x = 0; x < json.length; x++) {
-        y = y + json[x].token + ','
-      }
-      // console.log("yyyyyyyyy"+y)
-
-      checkStatusAndHandleResponse(y)
-    }
-      // // console.log(json)
-    ).catch((err) => console.log(err))
-
+      .catch(err => console.error(err));
   };
+
 
   // function checkStatusAndHandleResponse(token) {
   //   // console.log("hi")
@@ -316,64 +348,94 @@ export default function IdeComponent({ input, problemId, userId, testcases, test
     // console.log(docRef1)
     // /groups/ucmhzyng/test/3VpZkscNuOzXAbFw6utO/problems/kDu6Sbxb6RCrYsTdTBEM/submissions/LdtCPw6BWSCJXE4lKZZa
   }
-  function checkStatusAndHandleResponse(token) {
+  // function checkStatusAndHandleResponse(token) {
 
 
-    let getRequest = fetch("https://ce.judge0.com/submissions/batch?tokens=" + token + "&base64_encoded=true")
+  //   let getRequest = fetch("https://ce.judge0.com/submissions/batch?tokens=" + token + "&base64_encoded=true")
 
-    getRequest.then((response) => {
-      // // console.log(response.json())
+  //   getRequest.then((response) => {
+  //     // // console.log(response.json())
 
-      return response.json()
-    })
-      .then((answer) => {
-        // setStatus(answer.status.description)
-        let submissions = answer.submissions
-        setConsoleOutput(submissions[0].compile_output)
-        let c = 0
-        let output1 = ''
-        // console.log(submissions)
-        setExecTime(submissions[0].time)
-        let answerString = ''
-        // let output2=''
-        // let inputString=''
-        let countPass = 0
-        for (c = 0; c < submissions.length; c++) {
+  //     return response.json()
+  //   })
+  //     .then((answer) => {
+  //       // setStatus(answer.status.description)
+  //       let submissions = answer.submissions
+  //       setConsoleOutput(submissions[0].compile_output)
+  //       let c = 0
+  //       let output1 = ''
+  //       // console.log(submissions)
+  //       setExecTime(submissions[0].time)
+  //       let answerString = ''
+  //       // let output2=''
+  //       // let inputString=''
+  //       let countPass = 0
+  //       for (c = 0; c < submissions.length; c++) {
 
 
-          let state = submissions[c].status.description
+  //         let state = submissions[c].status.description
 
-          setStatus(state)
-          if (state == "In Queue" || state == "Processing" && state != null) {
-            setTimeout(() => checkStatusAndHandleResponse(token), 1500)
-          } else if (state == "Error") {
-            // console.log("error")
-          }
-          else {
+  //         setStatus(state)
+  //         if (state == "In Queue" || state == "Processing" && state != null) {
+  //           setTimeout(() => checkStatusAndHandleResponse(token), 1500)
+  //         } else if (state == "Error") {
+  //           // console.log("error")
+  //         }
+  //         else {
 
-            output1 = output1 + submissions[c].stdout + '\n'
-            answerString = answerString + atob(submissions[c].stdout) + '\n'
-            // output2= output2 + submissions[c].stdin+'\n'
-            // inputString = inputString + atob(submissions[c].stdin)+'\n'
-            if (submissions[c].status.description == "Accepted") {
-              countPass = countPass + 1
+  //           output1 = output1 + submissions[c].stdout + '\n'
+  //           answerString = answerString + atob(submissions[c].stdout) + '\n'
+  //           // output2= output2 + submissions[c].stdin+'\n'
+  //           // inputString = inputString + atob(submissions[c].stdin)+'\n'
+  //           if (submissions[c].status.description == "Accepted") {
+  //             countPass = countPass + 1
+  //           }
+  //           // console.log(output1)
+
+  //           // setOutput(submissions[c].stdout)
+  //           // // console.log(answer.stdout)
+  //         }
+  //         // setSubmission(submissions[0])
+  //         setOutput(answerString)
+  //         setCountPassState(`${countPass}/${submissions.length}`)
+  //         // setInputString(inputString)
+  //         // console.log(output1)
+  //       }
+  //       // setOutput(output)
+
+  //     }
+  //     )
+  // }
+
+  function checkStatusAndHandleResponse(tokens) {
+    let getRequest = fetch(`${judge0BaseUrl}/check_status?tokens=${tokens}`);
+
+    getRequest.then(response => response.json())
+      .then(answer => {
+        let submissions = answer.submissions;
+        setConsoleOutput(submissions[0].compile_output);
+        let output = '';
+        let countPass = 0;
+        submissions.forEach(submission => {
+          let state = submission.status.description;
+          setStatus(state);
+          if (state === "In Queue" || state === "Processing") {
+            setTimeout(() => checkStatusAndHandleResponse(tokens), 1500);
+          } else if (state === "Error") {
+            console.error("Error in submission");
+          } else {
+            output += atob(submission.stdout) + '\n';
+            if (submission.status.description === "Accepted") {
+              countPass += 1;
             }
-            // console.log(output1)
-
-            // setOutput(submissions[c].stdout)
-            // // console.log(answer.stdout)
           }
-          // setSubmission(submissions[0])
-          setOutput(answerString)
-          setCountPassState(`${countPass}/${submissions.length}`)
-          // setInputString(inputString)
-          // console.log(output1)
-        }
-        // setOutput(output)
-
-      }
-      )
+        });
+        setOutput(output);
+        setCountPassState(`${countPass}/${submissions.length}`);
+      })
+      .catch(err => console.error(err));
   }
+
 
   const handleChange = React.useCallback(
     (value, viewUpdate) => {
